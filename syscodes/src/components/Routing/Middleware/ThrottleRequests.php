@@ -65,8 +65,7 @@ class ThrottleRequests
      * @param  \Closure(\Syscodes\Components\Http\Request): (\Syscodes\Components\Http\Response)  $next
      * @param  int|string  $maxAttempts
      * @param  float|int  $decayMinutes
-     * @param  string  $prefix
-     * 
+     * @param  string  $prefix 
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @throws \Syscodes\Components\Http\Exceptions\ThrottleRequestsException
@@ -89,8 +88,7 @@ class ThrottleRequests
                     'decayMinutes' => $decayMinutes,
                     'responseCallback' => null,
                 ],
-            ]
-        );
+            ]);
     }
 
     /**
@@ -99,8 +97,7 @@ class ThrottleRequests
      * @param  \Syscodes\Components\Http\Request  $request
      * @param  \Closure  $next
      * @param  string  $limiterName
-     * @param  \Closure  $limiter
-     * 
+     * @param  \Closure  $limiter 
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @throws \Syscodes\Components\Http\Exceptions\ThrottleRequestsException
@@ -134,8 +131,7 @@ class ThrottleRequests
      *
      * @param  \Syscodes\Components\Http\Request  $request
      * @param  \Closure  $next
-     * @param  array  $limits
-     * 
+     * @param  array  $limits 
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @throws \Syscodes\Components\Http\Exceptions\ThrottleRequestsException
@@ -167,8 +163,7 @@ class ThrottleRequests
      * Resolve the number of attempts if the user is authenticated or not.
      *
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  int|string  $maxAttempts
-     * 
+     * @param  int|string  $maxAttempts 
      * @return int
      */
     protected function resolveMaxAttempts($request, $maxAttempts): int
@@ -187,8 +182,7 @@ class ThrottleRequests
     /**
      * Resolve request signature.
      *
-     * @param  \Syscodes\Components\Http\Request  $request
-     * 
+     * @param  \Syscodes\Components\Http\Request  $request 
      * @return string
      *
      * @throws \RuntimeException
@@ -210,8 +204,7 @@ class ThrottleRequests
      * @param  \Syscodes\Components\Http\Request  $request
      * @param  string  $key
      * @param  int  $maxAttempts
-     * @param  callable|null  $responseCallback
-     * 
+     * @param  callable|null  $responseCallback 
      * @return \Syscodes\Components\Http\Exceptions\ThrottleRequestsException
      */
     protected function buildException($request, $key, $maxAttempts, $responseCallback = null)
@@ -232,8 +225,7 @@ class ThrottleRequests
     /**
      * Get the number of seconds until the next retry.
      *
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return int
      */
     protected function getTimeUntilNextRetry($key): int
@@ -247,8 +239,7 @@ class ThrottleRequests
      * @param  \Symfony\Component\HttpFoundation\Response  $response
      * @param  int  $maxAttempts
      * @param  int  $remainingAttempts
-     * @param  int|null  $retryAfter
-     * 
+     * @param  int|null  $retryAfter 
      * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function addHeaders(Response $response, $maxAttempts, $remainingAttempts, $retryAfter = null)
@@ -266,8 +257,7 @@ class ThrottleRequests
      * @param  int  $maxAttempts
      * @param  int  $remainingAttempts
      * @param  int|null  $retryAfter
-     * @param  \Symfony\Component\HttpFoundation\Response|null  $response
-     * 
+     * @param  \Symfony\Component\HttpFoundation\Response|null  $response 
      * @return array
      */
     protected function getHeaders(
@@ -300,8 +290,7 @@ class ThrottleRequests
      *
      * @param  string  $key
      * @param  int  $maxAttempts
-     * @param  int|null  $retryAfter
-     * 
+     * @param  int|null  $retryAfter 
      * @return int
      */
     protected function calculateRemainingAttempts($key, $maxAttempts, $retryAfter = null): int

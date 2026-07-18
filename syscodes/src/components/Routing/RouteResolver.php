@@ -76,7 +76,6 @@ class RouteResolver
 	 * @param  \Syscodes\Components\Routing\Router  $router
 	 * @param  \Syscodes\Components\Routing\Collections\RouteCollection $routes
 	 * @param  \Syscodes\Components\Container\Container|null  $container
-	 * 
 	 * @return void
 	 */
 	public function __construct(Router $router, RouteCollection $routes, ?Container $container = null)
@@ -90,7 +89,6 @@ class RouteResolver
 	 * Resolve the given route and call the method that belongs to the route.
 	 *
 	 * @param  \Syscodes\Components\Http\Request  $request
-	 *
 	 * @return \Syscodes\Components\Http\Response
 	 */
 	public function resolve(Request $request): Response
@@ -102,7 +100,6 @@ class RouteResolver
 	 * Dispatch the request to a route and return the response.
 	 * 
 	 * @param  \Syscodes\Components\Http\Request  $request
-	 *
 	 * @return \Syscodes\Components\Http\Response
 	 */
 	protected function dispatchToRoute(Request $request): Response
@@ -113,8 +110,7 @@ class RouteResolver
 	/**
 	 * Find the route matching a given request.
 	 * 
-	 * @param  \Syscodes\Components\Http\Request  $request
-	 * 
+	 * @param  \Syscodes\Components\Http\Request  $request 
 	 * @return \Syscodes\Components\Routing\Route
 	 */
 	protected function findRoute($request): Route
@@ -133,8 +129,7 @@ class RouteResolver
 	 * Return the response for the given route.
 	 * 
 	 * @param  \Syscodes\Components\Http\Request  $request
-	 * @param  \Syscodes\Components\Routing\Route  $route
-	 * 
+	 * @param  \Syscodes\Components\Routing\Route  $route 
 	 * @return \Syscodes\Components\Http\Response
 	 */
 	protected function runRoute(Request $request, Route $route): Response
@@ -150,8 +145,7 @@ class RouteResolver
 	 * Run the given route through a stack response instance.
 	 * 
 	 * @param  \Syscodes\Components\Routing\Route  $route
-	 * @param  \Syscodes\Components\Http\Request  $request
-	 * 
+	 * @param  \Syscodes\Components\Http\Request  $request 
 	 * @return mixed
 	 */
 	protected function runRouteStack(Route $route, Request $request)
@@ -172,8 +166,7 @@ class RouteResolver
 	 * Create a response instance from the given value.
 	 * 
 	 * @param  \Syscodes\Components\Http\Request  $request
-	 * @param  mixed  $response
-	 * 
+	 * @param  mixed  $response 
 	 * @return \Syscodes\Components\Http\Response
 	 */
 	public function callResponse($request, $response): Response
@@ -185,8 +178,7 @@ class RouteResolver
 	 * Static version of callResponse.
 	 * 
 	 * @param  \Symfony\Component\HttpFoundation\Request  $request
-	 * @param  mixed  $response
-	 * 
+	 * @param  mixed  $response 
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public static function toResponse($request, $response): Response

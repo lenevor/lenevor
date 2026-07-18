@@ -47,8 +47,7 @@ class RouteUri
      * Constructor. Create a new route URI class instance.
      * 
      * @param  string  $uri
-     * @param  array  $bindingFields
-     * 
+     * @param  array  $bindingFields 
      * @return void
      */
     public function __construct(string $uri, array $bindingFields = [])
@@ -61,7 +60,6 @@ class RouteUri
 	 * Parse the given URI.
 	 * 
 	 * @param  string  $uri
-	 * 
 	 * @return static
 	 */
 	public static function parse(string $uri): static

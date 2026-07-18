@@ -51,8 +51,7 @@ class AuthenticateSession implements AuthenticateSessionContract
     /**
      * Constructor. Create a new Authenticate session instance class.
      * 
-     * @param  \Syscodes\Components\Contracts\Auth\Factory  $auth
-     * 
+     * @param  \Syscodes\Components\Contracts\Auth\Factory  $auth 
      * @return void
      */
     public function __construct(AuthFactory $auth)
@@ -64,8 +63,7 @@ class AuthenticateSession implements AuthenticateSessionContract
      * Handle an incoming request.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  \Closure  $next
-     * 
+     * @param  \Closure  $next 
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -103,8 +101,7 @@ class AuthenticateSession implements AuthenticateSessionContract
     /**
      * Store the user's current password hash in the session.
      * 
-     * @param  \Syscodes\Components\Http\Request  $request
-     * 
+     * @param  \Syscodes\Components\Http\Request  $request 
      * @return void
      */
     protected function storePasswordHashInSession($request): void
@@ -122,8 +119,7 @@ class AuthenticateSession implements AuthenticateSessionContract
      * Validate the password hash against the stored value.
      *
      * @param  string  $passwordHash
-     * @param  string  $storedValue
-     * 
+     * @param  string  $storedValue 
      * @return bool
      */
     protected function validatePasswordHash($passwordHash, $storedValue): bool
@@ -140,8 +136,7 @@ class AuthenticateSession implements AuthenticateSessionContract
     /**
      * Log the user out of the application.
      * 
-     * @param  \Syscodes\Components\Http\Request  $request
-     * 
+     * @param  \Syscodes\Components\Http\Request  $request 
      * @return void
      * 
      * @throws \Syscodes\Components\Auth\Exceptions\AuthenticationException
@@ -170,8 +165,7 @@ class AuthenticateSession implements AuthenticateSessionContract
     /**
      * Get the path the user should be redirected to when their session is not authenticated.
      * 
-     * @param  \Syscodes\Components\Http\Request  $request
-     * 
+     * @param  \Syscodes\Components\Http\Request  $request 
      * @return string|null
      */
     protected function redirectTo(Request $request)
@@ -184,8 +178,7 @@ class AuthenticateSession implements AuthenticateSessionContract
     /**
      * Specify the callback that should be used to generate the redirect path.
      * 
-     * @param  callable  $redirectToCallback
-     * 
+     * @param  callable  $redirectToCallback 
      * @return void
      */
     public static function redirectUsing(callable $redirectToCallback): void

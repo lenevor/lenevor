@@ -63,8 +63,7 @@ trait UserRoutesCondition
     /**
      * Sets the host from a route chosen by the user.
      * 
-     * @param  string  $host
-     * 
+     * @param  string  $host 
      * @return static
      */
     public function setHost(string $host): static
@@ -77,8 +76,7 @@ trait UserRoutesCondition
     /**
      * Alias to call the host name from a route.
      * 
-     * @param  string  $host
-     * 
+     * @param  string  $host 
      * @return static
      */
     public function host(string $host): static
@@ -99,8 +97,7 @@ trait UserRoutesCondition
     /**
      * Sets the port from a route chosen by the user.
      * 
-     * @param  int  $port
-     * 
+     * @param  int  $port 
      * @return static
      */
     public function setPort(int $port): static
@@ -113,8 +110,7 @@ trait UserRoutesCondition
     /**
      * Alias to call the port from a route.
      * 
-     * @param  int  $port
-     * 
+     * @param  int  $port 
      * @return static
      */
     public function port(int $port): static
@@ -135,8 +131,7 @@ trait UserRoutesCondition
     /**
      * Sets the scheme from a route chosen by the user.
      * 
-     * @param  string  $scheme
-     * 
+     * @param  string  $scheme 
      * @return static
      */
     public function setScheme(string $scheme): static
@@ -149,8 +144,7 @@ trait UserRoutesCondition
     /**
      * Alias to call the scheme from a route.
      * 
-     * @param  string  $scheme
-     * 
+     * @param  string  $scheme 
      * @return static
      */
     public function scheme(string $scheme): static

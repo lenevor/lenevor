@@ -44,8 +44,7 @@ abstract class BaseRouteCollection implements Countable, IteratorAggregate
      * Handle the matched route.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  \Syscodes\Components\Routing\Route|array|null  $route
-     * 
+     * @param  \Syscodes\Components\Routing\Route|array|null  $route 
      * @return \Syscodes\Components\Routing\Route
      * 
      * @throws \Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException
@@ -67,8 +66,7 @@ abstract class BaseRouteCollection implements Countable, IteratorAggregate
      * 
      * @param  array  $routes
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  bool  $method
-     * 
+     * @param  bool  $method 
      * @return \Syscodes\Components\Routing\Route
      */
     protected function getMatchedRoutes(array $routes, Request $request, bool $method = true)
@@ -111,8 +109,7 @@ abstract class BaseRouteCollection implements Countable, IteratorAggregate
      * Check the regex if exist options of route for add conditionals.
      * 
      * @param  array  $routes
-     * @param  \Syscodes\Components\Http\Request  $request
-     * 
+     * @param  \Syscodes\Components\Http\Request  $request 
      * @return \Syscodes\Components\Routing\Route
      */
     private function getMatchedToRegex(array $routes, Request $request, bool $method = true)

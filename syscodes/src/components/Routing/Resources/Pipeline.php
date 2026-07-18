@@ -36,8 +36,7 @@ class Pipeline extends BasePipeline
      * Handle the given exception.
      * 
      * @param  mixed  $passable
-     * @param  \Throwable  $e
-     * 
+     * @param  \Throwable  $e 
      * @return mixed
      * 
      * @throws \Throwable

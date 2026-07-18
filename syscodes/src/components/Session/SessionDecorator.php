@@ -43,8 +43,7 @@ class SessionDecorator implements SessionInterface
     /**
      * Constructor. The new Session class instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Session\Session  $store
-     * 
+     * @param  \Syscodes\Components\Contracts\Session\Session  $store 
      * @return void
      */
     public function __construct(Session $store)

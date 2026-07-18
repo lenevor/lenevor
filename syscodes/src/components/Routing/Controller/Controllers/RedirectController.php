@@ -40,8 +40,7 @@ class RedirectController extends Controller
      * Invoke the controller method.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  \Syscodes\Components\Routing\Generators\UrlGenerator  $url
-     * 
+     * @param  \Syscodes\Components\Routing\Generators\UrlGenerator  $url 
      * @return \Syscodes\Components\Http\Response
      */
     public function __invoke(Request $request, UrlGenerator $url)

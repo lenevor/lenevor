@@ -101,8 +101,7 @@ class RouteRegister
     /**
      * Constructor. Create a new route registrar instance.
      * 
-     * @param  \Syscodes\Components\Routing\Router  $router
-     * 
+     * @param  \Syscodes\Components\Routing\Router  $router 
      * @return void
      */
     public function __construct(Router $router)
@@ -114,8 +113,7 @@ class RouteRegister
      * Set the value for a given attribute.
      * 
      * @param  string  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return static
      * 
      * @throws \InvalidArgumentException
@@ -138,8 +136,7 @@ class RouteRegister
      * 
      * @param  string  $name
      * @param  string  $controller
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return \Syscodes\Components\Routing\Resources\ResourceRegister
      */
     public function resource($name, $controller, array $options = [])
@@ -152,8 +149,7 @@ class RouteRegister
      * 
      * @param  string  $name
      * @param  string  $controller
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return \Syscodes\Components\Routing\Resources\ResourceRegister
      */
     public function apiResource($name, $controller, array $options = [])
@@ -164,8 +160,7 @@ class RouteRegister
     /**
      * Create a route group with shared attributes.
      * 
-     * @param  \Closure|string  $callback
-     * 
+     * @param  \Closure|string  $callback 
      * @return void
      */
     public function group($callback): void
@@ -178,8 +173,7 @@ class RouteRegister
      * 
      * @param  array|string  $methods
      * @param  string  $uri
-     * @param  \Closure|array|string|null  $action
-     * 
+     * @param  \Closure|array|string|null  $action 
      * @return \Syscodes\Components\Routing\Route
      */
     public function match($methods, $uri, $action = null)
@@ -192,8 +186,7 @@ class RouteRegister
      * 
      * @param  string  $method
      * @param  string  $uri
-     * @param  \Closure|array|string|null  $action
-     * 
+     * @param  \Closure|array|string|null  $action 
      * @return \Syscodes\Components\Routing\Route
      */
     protected function registerRoute($method, $uri, $action = null): Route
@@ -208,8 +201,7 @@ class RouteRegister
     /**
      * Compile the action into an array including the attributes.
      * 
-     * @param  \Closure|array|string|null  $action
-     * 
+     * @param  \Closure|array|string|null  $action 
      * @return array
      */
     protected function compileAction($action): array
@@ -242,8 +234,7 @@ class RouteRegister
      * Dynamically handle calls into the route register.
      * 
      * @param  string  $method
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return \Syscodes\Components\Routing\Route|$this
      * 
      * @throws \BadMethodCallException

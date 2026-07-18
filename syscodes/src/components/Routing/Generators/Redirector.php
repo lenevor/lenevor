@@ -47,8 +47,7 @@ class Redirector
     /**
      * Constructor. The Redirector class instance.
      * 
-     * @param  \Syscodes\Components\Routing\Generators\UrlGenerator  $generator
-     * 
+     * @param  \Syscodes\Components\Routing\Generators\UrlGenerator  $generator 
      * @return void
      */
     public function __construct(UrlGenerator $generator)
@@ -59,8 +58,7 @@ class Redirector
     /**
      * Create a new redirect response to the "home" route.
      * 
-     * @param  int  $status  
-     * 
+     * @param  int  $status 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
     public function home($status = 302)
@@ -73,8 +71,7 @@ class Redirector
      * 
      * @param  int  $status  
      * @param  array  $headers
-     * @param  mixed  $fallback
-     * 
+     * @param  mixed  $fallback 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
     public function back($status = 302, $headers = [], $fallback = false)
@@ -86,8 +83,7 @@ class Redirector
      * Create a new redirect response to the current URI.
      * 
      * @param  int  $status  
-     * @param  array  $headers
-     * 
+     * @param  array  $headers 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
     public function refresh($status = 302, $headers = [])
@@ -102,7 +98,6 @@ class Redirector
      * @param  int  $status
      * @param  array  $headers
      * @param  bool|null  $secure
-     * 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
     public function guest(
@@ -130,8 +125,7 @@ class Redirector
      * @param  mixed  $default
      * @param  int  $status
      * @param  array  $headers
-     * @param  bool|null  $secure
-     * 
+     * @param  bool|null  $secure 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
     public function intended(
@@ -151,8 +145,7 @@ class Redirector
      * @param  string  $path
      * @param  int  $status  
      * @param  array  $headers
-     * @param  bool|null  $secure  
-     * 
+     * @param  bool|null  $secure 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
     public function to(
@@ -169,8 +162,7 @@ class Redirector
      * 
      * @param  string  $path
      * @param  int  $status  
-     * @param  array  $headers
-     * 
+     * @param  array  $headers 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
     public function away($path, $status = 302, $headers = [])
@@ -183,8 +175,7 @@ class Redirector
      * 
      * @param  string  $path
      * @param  int  $status  
-     * @param  array  $headers
-     * 
+     * @param  array  $headers 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
     public function secure($path, $status = 302, $headers = [])
@@ -198,8 +189,7 @@ class Redirector
      * @param  string  $route
      * @param  array  $parameters
      * @param  int  $status  
-     * @param  array  $headers
-     * 
+     * @param  array  $headers 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
     public function route(
@@ -219,8 +209,7 @@ class Redirector
      * @param  string|array  $route
      * @param  array  $parameters
      * @param  int  $status  
-     * @param  array  $headers
-     * 
+     * @param  array  $headers 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
     public function action(
@@ -239,8 +228,7 @@ class Redirector
      * 
      * @param  string  $path
      * @param  int  $status
-     * @param  array  $headers
-     * 
+     * @param  array  $headers 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
     protected function createRedirect($path, $status, $headers)
@@ -267,8 +255,7 @@ class Redirector
     /**
      * Set the active session store.
      * 
-     * @param  \Syscodes\Components\Session\Store  $session
-     * 
+     * @param  \Syscodes\Components\Session\Store  $session 
      * @return void
      */
     public function setSession(SessionStore $session): void
@@ -289,8 +276,7 @@ class Redirector
     /**
      * Set the intended url.
      * 
-     * @param  string  $url
-     * 
+     * @param  string  $url 
      * @return static
      */
     public function setIntendedUrl($url): static

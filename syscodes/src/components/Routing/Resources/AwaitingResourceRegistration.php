@@ -70,8 +70,7 @@ class AwaitingResourceRegistration
      * @param  \Syscodes\Components\Routing\Resources\ResourceRegister  $register
      * @param  string  $name
      * @param  string  $controller
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return void
      */
     public function __construct(
@@ -89,8 +88,7 @@ class AwaitingResourceRegistration
     /**
      * Set the methods the controller should apply to.
      * 
-     * @param  array|string  $methods
-     * 
+     * @param  array|string  $methods 
      * @return static
      */
     public function only($methods): static
@@ -103,8 +101,7 @@ class AwaitingResourceRegistration
     /**
      * Set the methods the controller should exclude.
      * 
-     * @param  array|string  $methods
-     * 
+     * @param  array|string  $methods 
      * @return static
      */
     public function except($methods): static
@@ -117,8 +114,7 @@ class AwaitingResourceRegistration
     /**
      * Set the route names for controller actions.
      * 
-     * @param  array|string  $names
-     * 
+     * @param  array|string  $names 
      * @return static
      */
     public function names($names): static
@@ -132,8 +128,7 @@ class AwaitingResourceRegistration
      * Set the route names for a controller action.
      * 
      * @param  string  $method
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return static
      */
     public function name($method, $name): static
@@ -146,8 +141,7 @@ class AwaitingResourceRegistration
     /**
      * Override the route parameter names.
      * 
-     * @param  array|string  $parameters
-     * 
+     * @param  array|string  $parameters 
      * @return static
      */
     public function parameters($parameters): static
@@ -161,8 +155,7 @@ class AwaitingResourceRegistration
      * Override the route parameter's name.
      * 
      * @param  string  $previous
-     * @param  string  $parameter
-     * 
+     * @param  string  $parameter 
      * @return static
      */
     public function parameter($previous, $parameter): static
@@ -175,8 +168,7 @@ class AwaitingResourceRegistration
     /**
      * Add middleware to the resource routes.
      * 
-     * @param  mixed  $middleware
-     * 
+     * @param  mixed  $middleware 
      * @return \Syscodes\Components\Routing\Resources\AwaitingResourceRegistration
      */
     public function middleware($middleware)

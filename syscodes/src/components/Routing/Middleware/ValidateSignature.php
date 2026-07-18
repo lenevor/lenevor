@@ -52,8 +52,7 @@ class ValidateSignature
      *
      * @param  \Syscodes\Components\Http\Request  $request
      * @param  \Closure  $next
-     * @param  array|null  $args
-     * 
+     * @param  array|null  $args 
      * @return \Syscodes\Components\Http\Response
      *
      * @throws \Syscodes\Components\Routing\Exceptions\InvalidSignatureException
@@ -72,8 +71,7 @@ class ValidateSignature
     /**
      * Parse the additional arguments given to the middleware.
      *
-     * @param  array  $args
-     * 
+     * @param  array  $args 
      * @return array
      */
     protected function parseArguments(array $args): array
@@ -95,8 +93,7 @@ class ValidateSignature
     /**
      * Indicate that the given parameters should be ignored during signature validation.
      *
-     * @param  array|string  $parameters
-     * 
+     * @param  array|string  $parameters 
      * @return void
      */
     public static function except($parameters): void

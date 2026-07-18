@@ -52,8 +52,7 @@ class RouteResponse implements ResponseContract
      * Constructor. Create a new RouteResponse instance.
      * 
      * @param  \Syscodes\Components\Contracts\View\Factory  $factory
-     * @param  \Syscodes\Components\Routing\Generators\Redirector  $redirector
-     * 
+     * @param  \Syscodes\Components\Routing\Generators\Redirector  $redirector 
      * @return void  
      */
     public function __construct(Factory $factory, Redirector $redirector)
@@ -67,8 +66,7 @@ class RouteResponse implements ResponseContract
      *
      * @param  string  $body
      * @param  int  $status
-     * @param  array  $headers
-     * 
+     * @param  array  $headers 
      * @return \Syscodes\Components\Http\Response
      */
     public function make($body = '', $status = 200, array $headers = []): Response
@@ -80,8 +78,7 @@ class RouteResponse implements ResponseContract
      * Creates a new 'no content' response.
      * 
      * @param  int  $status
-     * @param  array  $headers
-     * 
+     * @param  array  $headers 
      * @return \Syscodes\Components\Http\Response
      */
     public function noContent($status = 204, array $headers = []): Response
@@ -95,8 +92,7 @@ class RouteResponse implements ResponseContract
      * @param  string  $view
      * @param  array  $data
      * @param  int  $status
-     * @param  array  $headers
-     * 
+     * @param  array  $headers 
      * @return  \Syscodes\Components\Http\Response
      */
     public function view(
@@ -116,8 +112,7 @@ class RouteResponse implements ResponseContract
      * @param  mixed  $data
      * @param  int  $status
      * @param  array  $headers
-     * @param  int  $options
-     * 
+     * @param  int  $options 
      * @return \Syscodes\Components\Http\JsonResponse
      */
     public function json(
@@ -135,8 +130,7 @@ class RouteResponse implements ResponseContract
      * @param  string  $path
      * @param  int  $status
      * @param  array  $headers
-     * @param  bool|null  $secure
-     * 
+     * @param  bool|null  $secure 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
     public function redirectTo(
@@ -154,8 +148,7 @@ class RouteResponse implements ResponseContract
      * @param  string  $route
      * @param  mixed  $parameters
      * @param  int  $status
-     * @param  array  $headers
-     * 
+     * @param  array  $headers 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
     public function redirectToRoute(
@@ -173,8 +166,7 @@ class RouteResponse implements ResponseContract
      * @param  string  $action
      * @param  mixed  $parameters
      * @param  int  $status
-     * @param  array  $headers
-     * 
+     * @param  array  $headers 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
     public function redirectToAction(
@@ -192,8 +184,7 @@ class RouteResponse implements ResponseContract
      * @param  string  $path
      * @param  int  $status
      * @param  array  $headers
-     * @param  bool|null  $secure
-     * 
+     * @param  bool|null  $secure 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
     public function redirectGuest(
@@ -211,8 +202,7 @@ class RouteResponse implements ResponseContract
      * @param  string  $default
      * @param  int  $status
      * @param  array  $headers
-     * @param  bool|null  $secure
-     * 
+     * @param  bool|null  $secure 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
     public function redirectToIntended(

@@ -34,8 +34,7 @@ class RouteMiddlewareResolver
      * 
      * @param  \Closure|string  $name
      * @param  array  $map
-     * @param  array  $middlewareGroups
-     * 
+     * @param  array  $middlewareGroups 
      * @return \Closure|string|array
      */
     public static function resolve($name, $map, $middlewareGroups)
@@ -62,8 +61,7 @@ class RouteMiddlewareResolver
      * 
      * @param  string  $name
      * @param  array  $map
-     * @param  array  $middlewareGroups
-     * 
+     * @param  array  $middlewareGroups 
      * @return array
      */
     protected static function parseMiddlewareGroup($name, $map, $middlewareGroups): array

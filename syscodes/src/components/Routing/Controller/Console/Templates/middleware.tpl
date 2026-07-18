@@ -13,7 +13,6 @@ class {{ class }}
      *
      * @param  \Syscodes\Components\Http\Request  $request
      * @param  \Closure(\Syscodes\Components\Http\Request): (\Syscodes\Components\Http\Response)  $next
-     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handle(Request $request, Closure $next): Response

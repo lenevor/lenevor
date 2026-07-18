@@ -117,8 +117,7 @@ class Router implements Routable
 	/**
 	 * Constructor. Create a new Router instance.
 	 *
-	 * @param  \Syscodes\Components\Container\Container|null  $container
-	 * 
+	 * @param  \Syscodes\Components\Container\Container|null  $container 
 	 * @return void
 	 */
 	public function __construct(?Container $container = null)
@@ -160,7 +159,6 @@ class Router implements Routable
 	 *
 	 * @param  array  $attributes
 	 * @param  \Closure|array|string  $routes
-	 *
 	 * @return void
 	 */
 	public function group(array $attributes, $routes): void
@@ -177,8 +175,7 @@ class Router implements Routable
 	/**
 	 * Update the group stack with the given attributes.
 	 * 
-	 * @param  array  $attributes
-	 * 
+	 * @param  array  $attributes 
 	 * @return void
 	 */
 	protected function updateGroupStack(array $attributes): void
@@ -194,8 +191,7 @@ class Router implements Routable
 	 * Merge the given group attributes.
 	 * 
 	 * @param  array  $new
-	 * @param  bool  $existsPrefix
-	 * 
+	 * @param  bool  $existsPrefix 
 	 * @return array
 	 */
 	public function mergeLastGroup($new, bool $existsPrefix = true): array
@@ -206,8 +202,7 @@ class Router implements Routable
 	/**
 	 * Load the provided routes.
 	 * 
-	 * @param  \Closure|string  $callback
-	 * 
+	 * @param  \Closure|string  $callback 
 	 * @return void
 	 */
 	protected function loadRoutes($callback): void
@@ -225,7 +220,6 @@ class Router implements Routable
 	 * @param  array|string  $method
 	 * @param  string  $route
 	 * @param  mixed  $action
-	 *
 	 * @return \Syscodes\Components\Routing\Route
 	 */
 	public function addRoute($method, $route, $action)
@@ -236,8 +230,7 @@ class Router implements Routable
 	/**
 	 * Register a new fallback route with the router.
 	 * 
-	 * @param  array|string|callable|null  $action
-	 * 
+	 * @param  array|string|callable|null  $action 
 	 * @return \Syscodes\Components\Routing\Route
 	 */
 	public function fallback($action)
@@ -254,8 +247,7 @@ class Router implements Routable
 	 * 
 	 * @param  string  $uri
 	 * @param  string  $destination
-	 * @param  int  $status
-	 * 
+	 * @param  int  $status 
 	 * @return \Syscodes\Components\Routing\Route
 	 */
 	public function redirect($uri, $destination, $status = 302)
@@ -269,8 +261,7 @@ class Router implements Routable
 	 * Create a permanent redirect from one URI to another.
 	 * 
 	 * @param  string  $uri
-	 * @param  string  $destination
-	 * 
+	 * @param  string  $destination 
 	 * @return \Syscodes\Components\Routing\Route
 	 */
 	public function permanentRedirect($uri, $destination)
@@ -285,8 +276,7 @@ class Router implements Routable
 	 * @param  string  $view
 	 * @param  array  $data
 	 * @param  int|array  $status
-	 * @param  array  $headers
-	 * 
+	 * @param  array  $headers 
 	 * @return \Syscodes\Components\Routing\Route
 	 */
 	public function view($uri, $view, $data = [], $status = 200, array $headers = [])
@@ -306,7 +296,6 @@ class Router implements Routable
 	 * @param  array|string  $method
 	 * @param  string  $route
 	 * @param  mixed  $action
-	 *
 	 * @return \Syscodes\Components\Routing\Route
 	 * 
 	 * @throws \InvalidArgumentException
@@ -335,8 +324,7 @@ class Router implements Routable
 	/**
 	 * Determine if the action is routing to a controller.
 	 * 
-	 * @param  array  $action
-	 * 
+	 * @param  array  $action 
 	 * @return bool
 	 */
 	protected function actionReferencesController($action): bool
@@ -351,8 +339,7 @@ class Router implements Routable
 	/**
 	 * Add a controller based route action to the action array.
 	 * 
-	 * @param  array|string  $action
-	 * 
+	 * @param  array|string  $action 
 	 * @return array
 	 */
 	protected function convertToControllerAction($action): array
@@ -374,8 +361,7 @@ class Router implements Routable
 	/**
 	 * Prepend the last group namespaces onto the use clause.
 	 * 
-	 * @param  string  $class
-	 * 
+	 * @param  string  $class 
 	 * @return string
 	 */
 	protected function prependGroupNamespace($class): string
@@ -390,8 +376,7 @@ class Router implements Routable
 	/**
 	 * Prepend the last group controller onto the use clause.
 	 * 
-	 * @param  string  $class
-	 * 
+	 * @param  string  $class 
 	 * @return string
 	 */
 	protected function prependGroupController($class): string
@@ -418,8 +403,7 @@ class Router implements Routable
 	 * 
 	 * @param  array|string  $method
 	 * @param  string  $uri
-	 * @param  mixed  $action
-	 * 
+	 * @param  mixed  $action 
 	 * @return \Syscodes\Components\Routing\Route
 	 */
 	public function newRoute($method, $uri, $action): route
@@ -441,8 +425,7 @@ class Router implements Routable
 	/**
 	 * Merge the group stack with the controller action.
 	 * 
-	 * @param  \Syscodes\Components\Routing\Route  $route
-	 * 
+	 * @param  \Syscodes\Components\Routing\Route  $route 
 	 * @return void
 	 */
 	protected function mergeGroupAttributesIntoRoute($route): void
@@ -458,8 +441,7 @@ class Router implements Routable
 	/**
 	 * Add the necessary where clauses to the route based on its initial registration.
 	 * 
-	 * @param  \Syscodes\Components\Routing\Route  $route
-	 * 
+	 * @param  \Syscodes\Components\Routing\Route  $route 
 	 * @return \Syscodes\Components\Routing\Route
 	 */
 	protected function addWhereClausesToRoute($route): Route
@@ -475,7 +457,6 @@ class Router implements Routable
 	 * Add a prefix to the route URI.
 	 *
 	 * @param  string  $uri
-	 *
 	 * @return string
 	 */
 	protected function prefix($uri): string
@@ -487,8 +468,7 @@ class Router implements Routable
 	 * Set a global where pattern on all routes.
 	 * 
 	 * @param  string  $name
-	 * @param  string  $pattern
-	 * 
+	 * @param  string  $pattern 
 	 * @return void
 	 */
 	public function pattern($name, $pattern): void
@@ -499,8 +479,7 @@ class Router implements Routable
 	/**
 	 * Set a group of global where patterns on all routes.
 	 * 
-	 * @param  array  $patterns
-	 * 
+	 * @param  array  $patterns 
 	 * @return void
 	 */
 	public function patterns($patterns): void
@@ -528,7 +507,6 @@ class Router implements Routable
 	 * Dispatches the given url and call the method that belongs to the route.
 	 *
 	 * @param  \Syscodes\Components\Http\Request  $request
-	 *
 	 * @return mixed
 	 */
 	public function dispatch(Request $request)
@@ -539,8 +517,7 @@ class Router implements Routable
 	/**
 	 * Gather the middleware for the given route.
 	 * 
-	 * @param  \Syscodes\Components\Routing\Route  $route
-	 * 
+	 * @param  \Syscodes\Components\Routing\Route  $route 
 	 * @return array
 	 */
 	public function gatherRouteMiddleware(Route $route): array
@@ -567,8 +544,7 @@ class Router implements Routable
 	 * Register a short-hand name for a middleware.
 	 * 
 	 * @param  string  $name
-	 * @param  string  $class
-	 * 
+	 * @param  string  $class 
 	 * @return static
 	 */
 	public function aliasMiddleware($name, $class): static
@@ -592,8 +568,7 @@ class Router implements Routable
 	 * Register a group of middleware.
 	 * 
 	 * @param  string  $name
-	 * @param  array  $middleware
-	 * 
+	 * @param  array  $middleware 
 	 * @return static
 	 */
 	public function middlewareGroup($name, array $middleware): static
@@ -618,8 +593,7 @@ class Router implements Routable
 	/**
 	 * Check if a route with the given name exists.
 	 * 
-	 * @param  string  $name
-	 * 
+	 * @param  string  $name 
 	 * @return bool
 	 */
 	public function has($name): bool
@@ -638,8 +612,7 @@ class Router implements Routable
 	/**
 	 * Determine if the current route matches a pattern.
 	 * 
-	 * @param  mixed  ...$patterns
-	 * 
+	 * @param  mixed  ...$patterns 
 	 * @return bool
 	 */
 	public function is(...$patterns): bool
@@ -650,8 +623,7 @@ class Router implements Routable
 	/**
 	 * Determine if the current route matches a pattern.
 	 * 
-	 * @param  mixed  ...$patterns
-	 * 
+	 * @param  mixed  ...$patterns 
 	 * @return bool
 	 */
 	public function currentRouteNamed(...$patterns): bool
@@ -663,8 +635,7 @@ class Router implements Routable
 	 * Register an array of resource controllers.
 	 * 
 	 * @param  array  $resources
-	 * @param  array  $options
-	 * 
+	 * @param  array  $options 
 	 * @return void
 	 */
 	public function resources(array $resources, array $options = []): void
@@ -679,8 +650,7 @@ class Router implements Routable
 	 * 
 	 * @param  string  $name
 	 * @param  string  $controller
-	 * @param  array  $options
-	 * 
+	 * @param  array  $options 
 	 * @return \Syscodes\Components\Routing\Resources\AwaitingResourceRegistration
 	 */
 	public function resource($name, $controller, array $options = []) 
@@ -700,8 +670,7 @@ class Router implements Routable
 	 * Register an array of API resource controllers.
 	 * 
 	 * @param  array  $resources
-	 * @param  array  $options
-	 * 
+	 * @param  array  $options 
 	 * @return void
 	 */
 	public function apiResources(array $resources, array $options = [])
@@ -716,8 +685,7 @@ class Router implements Routable
 	 * 
 	 * @param  string  $name
 	 * @param  string  $controller
-	 * @param  array  $options
-	 * 
+	 * @param  array  $options 
 	 * @return \Syscodes\Components\Routing\Resources\AwaitingResourceRegistration
 	 */
 	public function apiResource($name, $controller, array $options = [])
@@ -746,8 +714,7 @@ class Router implements Routable
 	/**
 	 * Get or set the verbs used in the resource URIs.
 	 * 
-	 * @param  array  $verbs
-	 * 
+	 * @param  array  $verbs 
 	 * @return array|null
 	 */
 	public function resourceVerbs(array $verbs = [])
@@ -758,8 +725,7 @@ class Router implements Routable
 	/**
 	 * Remove any duplicate middleware from the given array.
 	 * 
-	 * @param  array  $middleware
-	 * 
+	 * @param  array  $middleware 
 	 * @return array
 	 */
 	public static function uniqueMiddleware(array $middleware): array
@@ -773,8 +739,7 @@ class Router implements Routable
 	 * Dynamically handle calls into the router instance.
 	 * 
 	 * @param  string  $method
-	 * @param  array  $parameters
-	 * 
+	 * @param  array  $parameters 
 	 * @return mixed
 	 */
 	public function __call($method, $parameters)

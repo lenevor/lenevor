@@ -67,8 +67,7 @@ class CookieSessionHandler implements SessionHandlerInterface
      * 
      * @param  \Syscodes\Components\Contracts\Cookie\QueueingFactory  $cookie
      * @param  int  $minutes
-     * @param  bool  $expireOnClose
-     * 
+     * @param  bool  $expireOnClose 
      * @return void
      */
     public function __construct(Cookie $cookie, int $minutes, bool $expireOnClose = false)
@@ -82,8 +81,7 @@ class CookieSessionHandler implements SessionHandlerInterface
      * Initialize session.
      * 
      * @param  string  $savePath
-     * @param  string  $sessionName
-     * 
+     * @param  string  $sessionName 
      * @return bool
      */
     public function open($savePath, $sessionName): bool
@@ -104,8 +102,7 @@ class CookieSessionHandler implements SessionHandlerInterface
     /**
      * Reads the session data from the session storage, and returns the results.
      * 
-     * @param  string  $sessionId
-     * 
+     * @param  string  $sessionId 
      * @return string
      */
     public function read($sessionId): string
@@ -125,7 +122,6 @@ class CookieSessionHandler implements SessionHandlerInterface
      * 
      * @param  string  $sessionId
      * @param  string  $data
-     * 
      * @return bool
      */
     public function write($sessionId, $data): bool
@@ -141,8 +137,7 @@ class CookieSessionHandler implements SessionHandlerInterface
     /**
      * Destroys the current session.
      * 
-     * @param  string  $sessionId
-     * 
+     * @param  string  $sessionId 
      * @return bool
      */
     public function destroy($sessionId): bool
@@ -165,8 +160,7 @@ class CookieSessionHandler implements SessionHandlerInterface
     /**
      * Set the Request instance.
      * 
-     * @param  \Symfony\Component\HttpFoundation\Request  $request
-     * 
+     * @param  \Symfony\Component\HttpFoundation\Request  $request 
      * @return void
      */
     public function setRequest(Request $request): void

@@ -39,8 +39,7 @@ class RouteParameter
     /**
      * Constructor. Create a new Route parameter binder instance.
      * 
-     * @param  \Syscodes\Components\Routing\Route  $route
-     * 
+     * @param  \Syscodes\Components\Routing\Route  $route 
      * @return void
      */
     public function __construct($route)
@@ -51,8 +50,7 @@ class RouteParameter
     /**
      * Get the parameter for the route.
      * 
-     * @param  \Syscodes\Components\Http\Request  $request
-     * 
+     * @param  \Syscodes\Components\Http\Request  $request 
      * @return array
      */
     public function parameters($request): array
@@ -73,8 +71,7 @@ class RouteParameter
     /**
      * Get the parameter matches for the path portion of the URI.
      * 
-     * @param  \Syscodes\Components\Http\Request  $request
-     * 
+     * @param  \Syscodes\Components\Http\Request  $request 
      * @return array
      */
     protected function bindParameters($request): array
@@ -90,8 +87,7 @@ class RouteParameter
      * Get the parameter list from the host part of the request.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return array
      */
     protected function bindHostParameters($request, $parameters): array
@@ -104,8 +100,7 @@ class RouteParameter
     /**
      * Combine a set of parameter matches with the route's keys.
      * 
-     * @param  array  $matches
-     * 
+     * @param  array  $matches 
      * @return array
      */
     protected function matchToKeys(array $matches): array
@@ -125,8 +120,7 @@ class RouteParameter
     /**
      * Replace null parameters with their defaults.
      * 
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return array
      */
     protected function replaceDefaults(array $parameters): array

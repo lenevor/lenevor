@@ -31,8 +31,7 @@ trait FiltersControllerMiddleware
      * Determine if the given options exclude a particular method.
      * 
      * @param  string  $method
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return bool
      */
     protected function methodExcludedByOptions($method, array $options): bool

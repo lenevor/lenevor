@@ -41,8 +41,7 @@ class ViewController extends Controller
     /**
      * Constructor. Create a new ViewController class instance.
      * 
-     * @param  \Syscodes\Components\Routing\RouteResponse  $response
-     * 
+     * @param  \Syscodes\Components\Routing\RouteResponse  $response 
      * @return void
      */
     public function __construct(RouteResponse $response)
@@ -53,8 +52,7 @@ class ViewController extends Controller
     /**
      * Invoke the controller method.
      * 
-     * @param  mixed  ...$args
-     * 
+     * @param  mixed  ...$args 
      * @return \Syscodes\Components\Http\Response
      */
     public function __invoke(...$args)
@@ -77,8 +75,7 @@ class ViewController extends Controller
      * Execute an action on the controller.
      * 
      * @param  string  $method
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function callAction($method, $parameters)

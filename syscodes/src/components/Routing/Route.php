@@ -152,8 +152,7 @@ class Route
 	 *
 	 * @param  array|string  $method  
 	 * @param  string  $uri  
-	 * @param  \Closure|array  $action  
-	 *
+	 * @param  \Closure|array  $action
 	 * @return void
 	 */
 	public function __construct($method, $uri, $action)
@@ -202,8 +201,7 @@ class Route
 	/**
 	 * Get or set the domain for the route.
 	 * 
-	 * @param  string|null  $domain  
-	 * 
+	 * @param  string|null  $domain 
 	 * @return mixed
 	 */
 	public function domain($domain = null)
@@ -317,8 +315,7 @@ class Route
 	 * Determine if the route matches a given request.
 	 * 
 	 * @param  \Syscodes\Components\Http\Request  $request
-	 * @param  bool  $method
-	 * 
+	 * @param  bool  $method 
 	 * @return bool
 	 */
 	public function matches(Request $request, bool $method = true): bool
@@ -359,7 +356,6 @@ class Route
 	 * Parse the route action.
 	 *
 	 * @param  callable|array|null  $action
-	 *
 	 * @return array
 	 *
 	 * @throws \InvalidArgumentException
@@ -377,7 +373,6 @@ class Route
 	 * Set the method of the current route.
 	 *
 	 * @param  array  $method
-	 *
 	 * @return array
 	 * 
 	 * @throws \InvalidArgumentException
@@ -401,7 +396,6 @@ class Route
 	 * Set the URI that the route responds to.
 	 *
 	 * @param  string|null  $uri
-	 *
 	 * @return static
 	 *
 	 * @throws  \InvalidArgumentException
@@ -420,8 +414,7 @@ class Route
 	/**
 	 * Parse the route URI and normalize.
 	 * 
-	 * @param  string  $uri
-	 * 
+	 * @param  string  $uri 
 	 * @return string
 	 */
 	protected function parseUri($uri): string
@@ -437,7 +430,6 @@ class Route
 	 * Add a prefix to the route URI.
 	 * 
 	 * @param  string  $prefix
-	 * 
 	 * @return static
 	 */
 	public function prefix($prefix): static
@@ -456,8 +448,7 @@ class Route
 	/**
 	 * Set the action array for the route.
 	 * 
-	 * @param  array  $action
-	 * 
+	 * @param  array  $action 
 	 * @return mixed
 	 */
 	public function setAction(array $action)
@@ -475,7 +466,6 @@ class Route
 	 * Set the name.
 	 *
 	 * @param  string  $name
-	 *
 	 * @return static
 	 */
 	public function name($name): static
@@ -488,8 +478,7 @@ class Route
 	/**
 	 * Determine whether the route's name matches the given patterns.
 	 * 
-	 * @param  mixed  ...$patterns
-	 * 
+	 * @param  mixed  ...$patterns 
 	 * @return bool
 	 */
 	public function named(...$patterns): bool
@@ -511,8 +500,7 @@ class Route
 	 * Set a default value for the route.
 	 * 
 	 * @param  string  $key
-	 * @param  mixed   $value
-	 * 
+	 * @param  mixed   $value 
 	 * @return static
 	 */
 	public function defaults($key, $value): static
@@ -525,8 +513,7 @@ class Route
 	/**
 	 * Set a default values for the route.
 	 * 
-	 * @param  array  $defaults
-	 * 
+	 * @param  array  $defaults 
 	 * @return static
 	 */
 	public function setDefaults(array $defaults): static
@@ -551,8 +538,7 @@ class Route
 	/**
 	 * Set the facllback value.
 	 * 
-	 * @param  bool  $fallback
-	 * 
+	 * @param  bool  $fallback 
 	 * @return static
 	 */
 	public function setFallback(bool $fallback): static
@@ -566,8 +552,7 @@ class Route
 	 * Set the where.
 	 *
 	 * @param  array|string  $name
-	 * @param  string|null  $expression  
-	 *
+	 * @param  string|null  $expression
 	 * @return static
 	 */
 	public function where($name, $expression = null): static
@@ -583,8 +568,7 @@ class Route
      * Parse arguments to the where method into an array.
      *
      * @param  array|string  $name
-     * @param  string  $expression
-	 * 
+     * @param  string  $expression 
      * @return array
      */
     protected function parseWhere($name, $expression): array
@@ -595,8 +579,7 @@ class Route
 	/**
      * Set a list of regular expression requirements on the route.
      *
-     * @param  array  $wheres
-	 * 
+     * @param  array  $wheres 
      * @return static
      */
     public function setWheres(array $wheres): static
@@ -611,8 +594,7 @@ class Route
 	/**
 	 * Set the where when have a variable assign.
 	 * 
-	 * @param  string  $key
-	 * 
+	 * @param  string  $key 
 	 * @return string|null
 	 */
 	public function setPattern(string $key): ?string
@@ -623,8 +605,7 @@ class Route
 	/**
 	 * Bind the route to a given request for execution.
 	 * 
-	 * @param  \Syscodes\Components\Http\Request  $request
-	 * 
+	 * @param  \Syscodes\Components\Http\Request  $request 
 	 * @return static
 	 */
 	public function bind(Request $request): static
@@ -681,8 +662,7 @@ class Route
 	 * Get a given parameter from the route.
 	 * 
 	 * @param  string  $name
-	 * @param  mixed  $default  
-	 * 
+	 * @param  mixed  $default 
 	 * @return mixed
 	 */
 	public function parameter($name, $default = null)
@@ -752,7 +732,6 @@ class Route
 	 * Get or set the middlewares attached to the route.
 	 * 
 	 * @param  array|string|null  $middleware
-	 * 
 	 * @return array|static
 	 */
 	public function middleware($middleware = null)
@@ -937,8 +916,7 @@ class Route
 	/**
 	 * Set the container instance on the route.
 	 * 
-	 * @param  \Syscodes\Components\Container\Container  $container
-	 * 
+	 * @param  \Syscodes\Components\Container\Container  $container 
 	 * @return static
 	 */
 	public function setContainer(Container $container): static
@@ -953,8 +931,7 @@ class Route
 	 * 
 	 * Dynamically access route parameters.
 	 * 
-	 * @param  string  $key
-	 * 
+	 * @param  string  $key 
 	 * @return mixed
 	 */
 	public function __get($key)

@@ -33,8 +33,7 @@ trait RequestMatchesGiven
      * @param  string  $route
      * @param  string  $uri
      * @param  string[]  $patterns
-     * @param  string[]  $parameters
-     * 
+     * @param  string[]  $parameters 
      * @return bool
      */
     public function compareUri(
@@ -52,8 +51,7 @@ trait RequestMatchesGiven
      * Convert route to regex.
      * 
      * @param  string  $route
-     * @param  array  $patterns
-     * 
+     * @param  array  $patterns 
      * @return string
      */
     private function regexUri(string $route, array $patterns): string
@@ -69,8 +67,7 @@ trait RequestMatchesGiven
      * Convert route parameter to regex.
      * 
      * @param  string  $name
-     * @param  array  $patterns
-     * 
+     * @param  array  $patterns 
      * @return string
      */
     private function regexParameter(string $name, array $patterns): string

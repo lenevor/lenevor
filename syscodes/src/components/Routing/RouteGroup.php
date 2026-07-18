@@ -34,8 +34,7 @@ class RouteGroup
 	 * 
 	 * @param  array  $new
 	 * @param  array  $old
-	 * @param  bool  $existsPrefix
-	 * 
+	 * @param  bool  $existsPrefix 
 	 * @return array
 	 */
 	public static function mergeGroup($new, $old, $existsPrefix = true): array
@@ -63,8 +62,7 @@ class RouteGroup
 	 * Format the uses namespace for the new group attributes.
 	 * 
 	 * @param  array  $new
-	 * @param  array  $old
-	 * 
+	 * @param  array  $old 
 	 * @return string|null
 	 */
 	protected static function formatUseNamespace($new, $old): ?string
@@ -83,8 +81,7 @@ class RouteGroup
 	 * 
 	 * @param  array  $new
 	 * @param  array  $old
-	 * @param  bool  $existsPrefix
-	 * 
+	 * @param  bool  $existsPrefix 
 	 * @return string|null
 	 */
 	protected static function formatUsePrefix($new, $old, bool $existsPrefix = true): string|null
@@ -102,8 +99,7 @@ class RouteGroup
 	 * Format the "wheres" for the new group attributes.
 	 * 
 	 * @param  array  $new
-	 * @param  array  $old
-	 * 
+	 * @param  array  $old 
 	 * @return array
 	 */
 	protected static function formatUseWhere($new, $old): array
@@ -118,8 +114,7 @@ class RouteGroup
 	 * Format the "as" clause of the new group attributes.
 	 * 
 	 * @param  array  $new
-	 * @param  array  $old
-	 * 
+	 * @param  array  $old 
 	 * @return array
 	 */
 	protected static function formatUseAs($new, $old): array

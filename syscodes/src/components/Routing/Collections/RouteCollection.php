@@ -62,8 +62,7 @@ class RouteCollection extends BaseRouteCollection
     /**
      * Add a Route instance to the collection.
      * 
-     * @param  \Syscodes\Components\Routing\Route  $route
-     * 
+     * @param  \Syscodes\Components\Routing\Route  $route 
      * @return \Syscodes\Components\Routing\Route
      */
     public function add(Route $route): Route
@@ -78,8 +77,7 @@ class RouteCollection extends BaseRouteCollection
     /**
      * Add a given route to the arrays of routes.
      * 
-     * @param  \Syscodes\Components\Routing\Route  $route
-     * 
+     * @param  \Syscodes\Components\Routing\Route  $route 
      * @return void
      */
     protected function addRouteCollections($route): void
@@ -96,8 +94,7 @@ class RouteCollection extends BaseRouteCollection
     /**
      * Add the route to the lookup tables if necessary.
      * 
-     * @param  \Syscodes\Components\Routing\Route  $route
-     * 
+     * @param  \Syscodes\Components\Routing\Route  $route 
      * @return void
      */
     protected function addRouteAllList($route): void
@@ -117,8 +114,7 @@ class RouteCollection extends BaseRouteCollection
      * Add a route to the controller action dictionary.
      * 
      * @param  array  $action
-     * @param  \Syscodes\Components\Routing\route  $route
-     * 
+     * @param  \Syscodes\Components\Routing\route  $route 
      * @return void
      */
     protected function AddToActionList($action, $route): void
@@ -181,8 +177,7 @@ class RouteCollection extends BaseRouteCollection
     /**
      * Find the first route matching a given request.
      * 
-     * @param  \Syscodes\Components\Http\Request  $request
-     * 
+     * @param  \Syscodes\Components\Http\Request  $request 
      * @return \Syscodes\Components\Routing\Route
      */
     public function match(Request $request): Route
@@ -200,8 +195,7 @@ class RouteCollection extends BaseRouteCollection
     /**
      * Get routes from the collection by method.
      * 
-     * @param  string|null  $method  (null by default)
-     * 
+     * @param  string|null  $method 
      * @return \Syscodes\Components\Routing\Route[]
      */
     public function get($method = null)
@@ -214,8 +208,7 @@ class RouteCollection extends BaseRouteCollection
     /**
      * Determine if the route collection contains a given named route.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return bool
      */
     public function hasNamedRoute(string $name): bool
@@ -226,8 +219,7 @@ class RouteCollection extends BaseRouteCollection
     /**
      * Get a route instance by its name.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return \Syscodes\Components\Routing\Route|null
      */
     public function getByName(string $name)
@@ -238,8 +230,7 @@ class RouteCollection extends BaseRouteCollection
     /**
      * Get a route instance by its controller action.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return \Syscodes\Components\Routing\Route|null
      */
     public function getByAction(string $name)

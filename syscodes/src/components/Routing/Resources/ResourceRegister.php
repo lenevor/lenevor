@@ -67,8 +67,7 @@ class ResourceRegister
     /**
      * Constructor. Create a new resource register instance.
      * 
-     * @param  \Syscodes\Components\Routing\Router  $router
-     * 
+     * @param  \Syscodes\Components\Routing\Router  $router 
      * @return void
      */
     public function __construct(Router $router)
@@ -81,8 +80,7 @@ class ResourceRegister
      * 
      * @param  string  $name
      * @param  string  $controller
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return \Syscodes\Components\Routing\Collections\RouteCollection
      */
     public function register($name, $controller, array $options = [])
@@ -125,8 +123,7 @@ class ResourceRegister
      * 
      * @param  string  $name
      * @param  string  $controller
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return string
      */
     public function prefixedResource($name, $controller, array $options)
@@ -143,8 +140,7 @@ class ResourceRegister
     /**
      * Extract the resource and prefix from a resource name.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return array
      */
     protected function getResourcePrefix($name): array
@@ -160,8 +156,7 @@ class ResourceRegister
      * Get the applicable resource methods.
      * 
      * @param  array  $defaults
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return array
      */
     protected function getResourceMethods($defaults, array $options): array
@@ -181,8 +176,7 @@ class ResourceRegister
      * @param  string  $name
      * @param  string  $base
      * @param  string  $controller
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return \Syscodes\Components\Routing\Route
      */
     protected function addResourceIndex($name, $base, $controller, $options)
@@ -200,8 +194,7 @@ class ResourceRegister
      * @param  string  $name
      * @param  string  $base
      * @param  string  $controller
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return \Syscodes\Components\Routing\Route
      */
     protected function addResourceCreate($name, $base, $controller, $options)
@@ -219,8 +212,7 @@ class ResourceRegister
      * @param  string  $name
      * @param  string  $base
      * @param  string  $controller
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return \Syscodes\Components\Routing\Route
      */
     protected function addResourceStore($name, $base, $controller, $options)
@@ -238,8 +230,7 @@ class ResourceRegister
      * @param  string  $name
      * @param  string  $base
      * @param  string  $controller
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return \Syscodes\Components\Routing\Route
      */
     protected function addResourceShow($name, $base, $controller, $options)
@@ -257,8 +248,7 @@ class ResourceRegister
      * @param  string  $name
      * @param  string  $base
      * @param  string  $controller
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return \Syscodes\Components\Routing\Route
      */
     protected function addResourceEdit($name, $base, $controller, $options)
@@ -276,8 +266,7 @@ class ResourceRegister
      * @param  string  $name
      * @param  string  $base
      * @param  string  $controller
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return \Syscodes\Components\Routing\Route
      */
     protected function addResourceUpdate($name, $base, $controller, $options)
@@ -295,8 +284,7 @@ class ResourceRegister
      * @param  string  $name
      * @param  string  $base
      * @param  string  $controller
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return \Syscodes\Components\Routing\Route
      */
     protected function addResourceErase($name, $base, $controller, $options)
@@ -311,8 +299,7 @@ class ResourceRegister
     /**
      * Get the base resource URI for a given resource.
      * 
-     * @param  string  $resource
-     * 
+     * @param  string  $resource 
      * @return string
      */
     public function getResourceUri($resource): string
@@ -333,8 +320,7 @@ class ResourceRegister
     /**
      * Get the URI for a nested resource segment array.
      * 
-     * @param  array  $segments
-     * 
+     * @param  array  $segments 
      * @return string
      */
     protected function getNestedResourceUri(array $segments): string
@@ -350,8 +336,7 @@ class ResourceRegister
      * @param  string  $resource
      * @param  string  $controller
      * @param  string  $method
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return array
      */
     protected function getResourceAction($resource, $controller, $method, $options): array
@@ -371,8 +356,7 @@ class ResourceRegister
      * 
      * @param  string  $resource
      * @param  string  $method
-     * @param  array  $options
-     * 
+     * @param  array  $options 
      * @return string
      */
     protected function getResourceRouteName($resource, $method, $options): string
@@ -393,8 +377,7 @@ class ResourceRegister
     /**
      * Format a resource parameter for usage.
      * 
-     * @param  string  $values
-     * 
+     * @param  string  $values 
      * @return string
      */
     public function getResourceWilcard($values): string
@@ -409,8 +392,7 @@ class ResourceRegister
     /**
      * Set the global parameters.
      * 
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return void
      */
     public static function parameters(array $parameters = []): void
@@ -421,8 +403,7 @@ class ResourceRegister
     /**
      * Get or set the action verbs used in the resource URIs.
      * 
-     * @param  array  $verbs
-     * 
+     * @param  array  $verbs 
      * @return array
      */
     public static function verbs(array $verbs = [])

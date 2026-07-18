@@ -73,13 +73,12 @@ class RouteUrlGenerator
      * Constructor. Create a new RouteUrlGenerator class instance.
      * 
      * @param  \Syscodes\Components\Routing\Generators\UrlGenerator  $url
-     * @param  \Syscodes\Components\Http\Request  $request
-     * 
+     * @param  \Syscodes\Components\Http\Request  $request 
      * @return void
      */
     public function __construct($url, $request)
     {
-        $this->url     = $url;
+        $this->url = $url;
         $this->request = $request;        
     }
 
@@ -88,8 +87,7 @@ class RouteUrlGenerator
      * 
      * @param  \Syscodes\Components\Routing\Route  $route
      * @param  array  $parameters
-     * @param  bool  $forced
-     * 
+     * @param  bool  $forced 
      * @return string
      * 
      * @throws \Syscodes\Components\Routing\Exceptions\UrlGeneratorException
@@ -101,9 +99,8 @@ class RouteUrlGenerator
         $root = $this->replaceRoot($route, $domain, $parameters);
 
         $uri = $this->url->format(
-                    $root,
-                    $this->replaceRouteParameters($route->getUri(), $parameters)
-               );
+            $root,
+            $this->replaceRouteParameters($route->getUri(), $parameters));
 
         if (preg_match_all('/{(.*?)}/', $uri, $missingParameters)) {
             throw UrlGeneratorException::missingParameters($route, $missingParameters[1]);
@@ -132,8 +129,7 @@ class RouteUrlGenerator
      * 
      * @param  \Syscodes\Components\Routing\Route  $route
      * @param  string  $domain
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return string
      */
     protected function replaceRoot($route, $domain, &$parameters): string
@@ -145,8 +141,7 @@ class RouteUrlGenerator
      * Replace all of the wildcard parameters for a route path.
      * 
      * @param  string  $path
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return string
      */
     protected function replaceRouteParameters($path, array &$parameters): string
@@ -164,8 +159,7 @@ class RouteUrlGenerator
      * Replace all of the named parameters in the path.
      * 
      * @param  string  $path
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return string
      */
     protected function replaceNamedParameters($path, &$parameters)
@@ -181,8 +175,7 @@ class RouteUrlGenerator
      * Get the formatted domain for a given route.
      * 
      * @param  \Syscodes\Components\Routing\Route  $route
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return string|null
      */
     protected function getRouteDomain($route, &$parameters)
@@ -194,8 +187,7 @@ class RouteUrlGenerator
      * Format the domain and port for the route and request.
      * 
      * @param  \Syscodes\Components\Routing\Route  $route
-     * @param  array $parameters
-     * 
+     * @param  array $parameters 
      * @return string
      */
     protected function formatDomain($route, &$parameters): string
@@ -206,8 +198,7 @@ class RouteUrlGenerator
     /**
      * Add the port to the domain if necessary.
      * 
-     * @param  string  $domain
-     * 
+     * @param  string  $domain 
      * @return string
      */
     protected function addPortToDomain($domain): string
@@ -222,8 +213,7 @@ class RouteUrlGenerator
     /**
      * Get the domain and scheme for the route.
      * 
-     * @param  \Syscodes\Components\Routing\Route  $route
-     * 
+     * @param  \Syscodes\Components\Routing\Route  $route 
      * @return string
      */
     protected function getDomainAndScheme($route): string
@@ -235,8 +225,7 @@ class RouteUrlGenerator
      * Get the root of the route URL.
      * 
      * @param  \Syscodes\Components\Routing\Route  $route
-     * @param  string  $domain
-     * 
+     * @param  string  $domain 
      * @return string
      */
     protected function getRouteRoot($route, $domain): string
@@ -247,8 +236,7 @@ class RouteUrlGenerator
     /**
      * Get the scheme for the given route.
      * 
-     * @param  \Syscodes\Components\Routing\Route  $route
-     * 
+     * @param  \Syscodes\Components\Routing\Route  $route 
      * @return string
      */
     protected function getRouteScheme($route): string
@@ -265,8 +253,7 @@ class RouteUrlGenerator
     /**
      * Get the query string for a given route.
      * 
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return string
      */
     protected function getRouteQueryString(array $parameters): string
@@ -295,8 +282,7 @@ class RouteUrlGenerator
     /**
      * Get the string parameters from a given list.
      * 
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return array
      */
     protected function getStringParameters(array $parameters): array 
@@ -307,8 +293,7 @@ class RouteUrlGenerator
     /**
      * Get the numeric parameters from a given list.
      * 
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return array
      */
     protected function getNumericParameters(array $parameters): array

@@ -35,8 +35,7 @@ interface ControllerDispatcher
      * 
      * @param  \Syscodes\Components\Routing\Route  $route
      * @param  mixed  $controller
-     * @param  string  $method
-     * 
+     * @param  string  $method 
      * @return mixed
      */
     public function dispatch(Route $route, mixed $controller, string $method): mixed;
@@ -45,8 +44,7 @@ interface ControllerDispatcher
      * Get the middleware for the controller instance.
      * 
      * @param  \Syscodes\Components\Routing\Controller  $controller
-     * @param  string  $method
-     * 
+     * @param  string  $method 
      * @return array
      */
     public function getMiddleware($controller, string $method): array;

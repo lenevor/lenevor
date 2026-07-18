@@ -32,8 +32,7 @@ class MissingThrottleLimiterException extends Exception
     /**
      * Create a new exception for invalid named throttle limiter.
      *
-     * @param  string  $limiter
-     * 
+     * @param  string  $limiter 
      * @return static
      */
     public static function forLimiter(string $limiter): static
@@ -45,8 +44,7 @@ class MissingThrottleLimiterException extends Exception
      * Create a new exception for an invalid throttle limiter based on a model property.
      *
      * @param  string  $limiter
-     * @param  class-string  $model
-     * 
+     * @param  class-string  $model 
      * @return static
      */
     public static function forLimiterAndUser(string $limiter, string $model): static

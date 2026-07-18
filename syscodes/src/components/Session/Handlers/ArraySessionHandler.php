@@ -49,8 +49,7 @@ class ArraySessionHandler implements SessionHandlerInterface
     /**
      * Constructor. The ArraySessionHandler class instance.
      * 
-     * @param  int  $minutes
-     * 
+     * @param  int  $minutes 
      * @return void
      */
     public function __construct(int $minutes)
@@ -62,8 +61,7 @@ class ArraySessionHandler implements SessionHandlerInterface
      * Initialize session.
      * 
      * @param  string  $savePath
-     * @param  string  $sessionName
-     * 
+     * @param  string  $sessionName 
      * @return bool
      */
     public function open($savePath, $sessionName): bool
@@ -84,8 +82,7 @@ class ArraySessionHandler implements SessionHandlerInterface
     /**
      * Reads the session data from the session storage, and returns the results.
      * 
-     * @param  string  $sessionId
-     * 
+     * @param  string  $sessionId 
      * @return string
      */
     public function read($sessionId): string
@@ -109,8 +106,7 @@ class ArraySessionHandler implements SessionHandlerInterface
      * Writes the session data to the session storage.
      * 
      * @param  string  $sessionId
-     * @param  string  $data
-     * 
+     * @param  string  $data 
      * @return bool
      */
     public function write($sessionId, $data): bool
@@ -126,8 +122,7 @@ class ArraySessionHandler implements SessionHandlerInterface
     /**
      * Destroys the current session.
      * 
-     * @param  string  $sessionId
-     * 
+     * @param  string  $sessionId 
      * @return bool
      */
     public function destroy($sessionId): bool
@@ -142,8 +137,7 @@ class ArraySessionHandler implements SessionHandlerInterface
     /**
      * Deletes expired sessions.
      * 
-     * @param  int  $lifetime
-     * 
+     * @param  int  $lifetime 
      * @return int
      */
     public function gc($lifetime): int
@@ -166,8 +160,7 @@ class ArraySessionHandler implements SessionHandlerInterface
     /**
      * Get the expiration time of the session.
      * 
-     * @param  int  $seconds
-     * 
+     * @param  int  $seconds 
      * @return int
      */
     protected function calculateExpiration($seconds): int

@@ -35,8 +35,7 @@ class UrlGeneratorException extends Exception
      * Create a new exception for missing route parameters.
      * 
      * @param  \Syscodes\Components\Routing\Route  $route
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return static
      */
     public static function missingParameters(Route $route, array $parameters = []): static

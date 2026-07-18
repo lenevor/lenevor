@@ -119,8 +119,7 @@ class UrlGenerator implements UrlGeneratorContract
      * 
      * @param  \Syscodes\Components\Routing\Collections\RouteCollection  $route
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  string|null  $assetRoot
-     * 
+     * @param  string|null  $assetRoot 
      * @return void
      */
     public function __construct(RouteCollection $route, Request $request, $assetRoot = null)
@@ -154,8 +153,7 @@ class UrlGenerator implements UrlGeneratorContract
     /**
      * Get the URL for the previous request.
      * 
-     * @param  mixed  $fallback  
-     * 
+     * @param  mixed  $fallback 
      * @return string
      */
     public function previous($fallback = false): string
@@ -190,8 +188,7 @@ class UrlGenerator implements UrlGeneratorContract
      * 
      * @param  string  $path
      * @param  mixed  $options
-     * @param  bool|null  $secure
-     * 
+     * @param  bool|null  $secure 
      * @return string
      */
     public function to($path, $options = [], $secure = null): string
@@ -216,8 +213,7 @@ class UrlGenerator implements UrlGeneratorContract
      * Generate a secure, absolute URL to the given path.
      * 
      * @param  string  $path
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return string
      */
     public function secure($path, $parameters = []): string
@@ -229,8 +225,7 @@ class UrlGenerator implements UrlGeneratorContract
      * Generate a URL to an application asset.
      * 
      * @param  string  $path
-     * @param  bool|null  $secure  
-     * 
+     * @param  bool|null  $secure 
      * @return string
      */
     public function asset($path, $secure = null): string
@@ -250,8 +245,7 @@ class UrlGenerator implements UrlGeneratorContract
     /**
      * Generate a URL to a secure asset.
      * 
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return string
      */
     public function secureAsset($path): string
@@ -262,8 +256,7 @@ class UrlGenerator implements UrlGeneratorContract
     /**
      * Remove the index.php file from a path.
      * 
-     * @param  string  $root
-     * 
+     * @param  string  $root 
      * @return string
      */
     protected function removeIndex($root): string
@@ -276,8 +269,7 @@ class UrlGenerator implements UrlGeneratorContract
     /**
      * Get the scheme for a raw URL.
      * 
-     * @param  bool|null  $secure
-     * 
+     * @param  bool|null  $secure 
      * @return string
      */
     public function getScheme($secure): string
@@ -296,8 +288,7 @@ class UrlGenerator implements UrlGeneratorContract
     /**
      * Force the scheme for URLs.
      * 
-     * @param  string  $scheme
-     * 
+     * @param  string  $scheme 
      * @return void
      */
     public function forcedScheme($scheme): void
@@ -312,8 +303,7 @@ class UrlGenerator implements UrlGeneratorContract
      *
      * @param  \Syscodes\Components\Http\Request  $request
      * @param  bool  $absolute
-     * @param  \Closure|array  $ignoreQuery
-     * 
+     * @param  \Closure|array  $ignoreQuery 
      * @return bool
      */
     public function hasValidSignature(Request $request, $absolute = true, Closure|array $ignoreQuery = []): bool
@@ -326,8 +316,7 @@ class UrlGenerator implements UrlGeneratorContract
      * Determine if the given request has a valid signature for a relative URL.
      *
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  \Closure|array  $ignoreQuery
-     * 
+     * @param  \Closure|array  $ignoreQuery 
      * @return bool
      */
     public function hasValidRelativeSignature(Request $request, Closure|array $ignoreQuery = []): bool
@@ -340,8 +329,7 @@ class UrlGenerator implements UrlGeneratorContract
      *
      * @param  \Syscodes\Components\Http\Request  $request
      * @param  bool  $absolute
-     * @param  \Closure|array  $ignoreQuery
-     * 
+     * @param  \Closure|array  $ignoreQuery 
      * @return bool
      */
     public function hasCorrectSignature(Request $request, $absolute = true, Closure|array $ignoreQuery = []): bool
@@ -385,8 +373,7 @@ class UrlGenerator implements UrlGeneratorContract
     /**
      * Determine if the expires timestamp from the given request is not from the past.
      *
-     * @param  \Syscodes\Components\Http\Request  $request
-     * 
+     * @param  \Syscodes\Components\Http\Request  $request 
      * @return bool
      */
     public function signatureHasNotExpired(Request $request): bool
@@ -402,7 +389,6 @@ class UrlGenerator implements UrlGeneratorContract
      * @param  string  $name
      * @param  array  $parameters
      * @param  bool  $forced 
-     * 
      * @return string
      * 
      * @throws \InvalidArgumentException
@@ -421,8 +407,7 @@ class UrlGenerator implements UrlGeneratorContract
      * 
      * @param  \Syscodes\Components\Routing\Route  $route
      * @param  mixed  $parameters
-     * @param  bool  $forced
-     * 
+     * @param  bool  $forced 
      * @return string
      */
     public function toRoute($route, $parameters, $forced): string
@@ -437,8 +422,7 @@ class UrlGenerator implements UrlGeneratorContract
      * 
      * @param  string  $action
      * @param  mixed  $parameters
-     * @param  bool  $forced
-     * 
+     * @param  bool  $forced 
      * @return string
      * 
      * @throws \InvalidArgumentException
@@ -455,8 +439,7 @@ class UrlGenerator implements UrlGeneratorContract
     /**
      * Format the given controller action.
      * 
-     * @param  string|array  $action
-     * 
+     * @param  string|array  $action 
      * @return string
      */
     protected function formatAction($action): string
@@ -475,8 +458,7 @@ class UrlGenerator implements UrlGeneratorContract
     /**
      * Format the array of URL parameters.
      * 
-     * @param  mixed|array  $parameters
-     * 
+     * @param  mixed|array  $parameters 
      * @return array
      */
     public function formatParameters($parameters): array
@@ -493,8 +475,7 @@ class UrlGenerator implements UrlGeneratorContract
     /**
      * Set the forced root URL.
      * 
-     * @param  string  $root
-     * 
+     * @param  string  $root 
      * @return void
      */
     public function forcedRoot($root): void
@@ -505,8 +486,7 @@ class UrlGenerator implements UrlGeneratorContract
     /**
      * Set the URL origin for all generated asset URLs.
      *
-     * @param  string|null  $root
-     * 
+     * @param  string|null  $root 
      * @return void
      */
     public function useAssetOrigin(?string $root): void
@@ -518,8 +498,7 @@ class UrlGenerator implements UrlGeneratorContract
      * Get the base URL for the request.
      * 
      * @param  string  $scheme
-     * @param  string|null  $root
-     * 
+     * @param  string|null  $root 
      * @return string
      */
     public function getRootUrl($scheme, $root = null): string
@@ -540,8 +519,7 @@ class UrlGenerator implements UrlGeneratorContract
     /**
      * Determine if the given path is a valid URL.
      * 
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return bool
      */
     public function isValidUrl($path): bool
@@ -572,8 +550,7 @@ class UrlGenerator implements UrlGeneratorContract
      * 
      * @param  string  $root
      * @param  string  $path
-     * @param  string  $tail
-     * 
+     * @param  string  $tail 
      * @return string
      */
     public function format($root, $path, $tail = ''): string
@@ -596,8 +573,7 @@ class UrlGenerator implements UrlGeneratorContract
     /**
      * Set the session resolver for the generator.
      * 
-     * @param  callable  $sessionResolver
-     * 
+     * @param  callable  $sessionResolver 
      * @return static
      */
     public function setSessionResolver(callable $sessionResolver): static
@@ -610,8 +586,7 @@ class UrlGenerator implements UrlGeneratorContract
     /**
      * Set the encryption key resolver.
      * 
-     * @param  callable  $keyResolver
-     * 
+     * @param  callable  $keyResolver 
      * @return static
      */
     public function setKeyResolver(callable $keyResolver): static
@@ -634,8 +609,7 @@ class UrlGenerator implements UrlGeneratorContract
     /**
      * Set the root controller namespace.
      * 
-     * @param  string  $rootNamespace
-     * 
+     * @param  string  $rootNamespace 
      * @return static
      */
     public function setRootControllerNamespace($rootNamespace): static
@@ -658,8 +632,7 @@ class UrlGenerator implements UrlGeneratorContract
     /**
      * Set the route collection.
      * 
-     * @param  \Syscodes\Components\Routing\Collections\RouteCollection  $routes
-     * 
+     * @param  \Syscodes\Components\Routing\Collections\RouteCollection  $routes 
      * @return static
      */
     public function setRoutes(RouteCollection $routes):static
@@ -672,8 +645,7 @@ class UrlGenerator implements UrlGeneratorContract
     /**
      * Sets the current Request instance.
      * 
-     * @param  \Syscodes\Components\Http\Request  $request
-     * 
+     * @param  \Syscodes\Components\Http\Request  $request 
      * @return void
      */
     public function setRequest(Request $request): void

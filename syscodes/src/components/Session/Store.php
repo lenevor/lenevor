@@ -23,7 +23,6 @@
 namespace Syscodes\Components\Session;
 
 use SessionHandlerInterface;
-use stdClass;
 use Syscodes\Components\Contracts\Session\Session;
 use Syscodes\Components\Session\Handlers\CookieSessionHandler;
 use Syscodes\Components\Support\Arr;
@@ -86,8 +85,7 @@ class Store implements Session
      * @param  string  $name
      * @param  \SessionHandlerInterface  $handler
      * @param  string|null  $id
-     * @param  string  $serialization
-     * 
+     * @param  string  $serialization 
      * @return void
      */
     public function __construct(
@@ -155,8 +153,7 @@ class Store implements Session
     /**
      * Prepare the raw string data from the session for unserialization.
      * 
-     * @param  string  $data
-     * 
+     * @param  string  $data 
      * @return string
      */
     protected function prepareForUnserialize($data): string
@@ -199,8 +196,7 @@ class Store implements Session
     /**
      * Get a subset of the session data.
      * 
-     * @param  array  $keys
-     * 
+     * @param  array  $keys 
      * @return array
      */
     public function only(array $keys): array
@@ -211,8 +207,7 @@ class Store implements Session
     /**
      * Get all the session data except for a specified array of items.
      * 
-     * @param  array  $keys
-     * 
+     * @param  array  $keys 
      * @return array
      */
     public function except(array $keys)
@@ -233,8 +228,7 @@ class Store implements Session
     /**
      * Set the session ID.
      * 
-     * @param  string|null  $id
-     * 
+     * @param  string|null  $id 
      * @return void
      */
     public function setId($id): void
@@ -323,8 +317,7 @@ class Store implements Session
     /**
      * Prepare the serialized session data for storage.
      * 
-     * @param  string  $data
-     * 
+     * @param  string  $data 
      * @return string
      */
     protected function prepareForStorage($data): string
@@ -336,8 +329,7 @@ class Store implements Session
      * Remove one or many items from the session.
      * 
      * @param  string  $key
-     * @param  mixed  $default
-     * 
+     * @param  mixed  $default 
      * @return mixed
      */
     public function pull($key, $default = null): mixed
@@ -349,8 +341,7 @@ class Store implements Session
      * Push a value onto a session array.
      * 
      * @param  string  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return void
      */
     public function push($key, $value): void
@@ -365,13 +356,12 @@ class Store implements Session
     /**
      * Checks if a key exists.
      * 
-     * @param  string|array  $key
-     * 
+     * @param  string|array  $key 
      * @return bool
      */
     public function exists($key): bool
     {
-        $placeholder = new stdClass;
+        $placeholder = new \stdClass;
         
         return ! (new Collection(is_array($key) ? $key : func_get_args()))->contains(function ($key) use ($placeholder) {
             return $this->get($key, $placeholder) === $placeholder;
@@ -381,8 +371,7 @@ class Store implements Session
     /**
      * Determine if the given key is missing from the session data.
      * 
-     * @param  string|array  $key
-     * 
+     * @param  string|array  $key 
      * @return bool
      */
     public function missing($key): bool
@@ -393,8 +382,7 @@ class Store implements Session
     /**
      * Determine if the session contains old input.
      * 
-     * @param  string|null  $key
-     * 
+     * @param  string|null  $key 
      * @return bool
      */
     public function hasOldInput($key = null): bool
@@ -408,8 +396,7 @@ class Store implements Session
      * Get the requested item from the flashed input array.
      * 
      * @param  string|null  $key
-     * @param  mixed  $default
-     * 
+     * @param  mixed  $default 
      * @return mixed
      */
     public function getOldInput($key = null, $default = null)
@@ -430,8 +417,7 @@ class Store implements Session
     /**
      * Set the name of the session.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return void
      */
     public function setName($name): void
@@ -452,8 +438,7 @@ class Store implements Session
     /**
      * Checks if an a key is present and not null.
      * 
-     * @param  string|array  $key
-     * 
+     * @param  string|array  $key 
      * @return bool
      */
     public function has($key): bool
@@ -468,8 +453,7 @@ class Store implements Session
      * the default value as the second argument to the get method.
      * 
      * @param  string  $key
-     * @param  mixed  $default
-     * 
+     * @param  mixed  $default 
      * @return mixed
      */
     public function get($key, $default = null): mixed
@@ -480,8 +464,7 @@ class Store implements Session
     /**
      * Replace the given session attributes entirely.
      * 
-     * @param  array  $attributes
-     * 
+     * @param  array  $attributes 
      * @return void
      */
     public function replace(array $attributes): void
@@ -493,8 +476,7 @@ class Store implements Session
      * Put a key / value pair or array of key / value pairs in the session.
      * 
      * @param  string|array  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return void
      */
     public function put($key, $value = null): void
@@ -511,8 +493,7 @@ class Store implements Session
     /**
      * Remove an key from the session.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return mixed
      */
     public function remove($key): mixed
@@ -523,8 +504,7 @@ class Store implements Session
     /**
      * Remove one or many items from the session.
      * 
-     * @param  string|array  $keys
-     * 
+     * @param  string|array  $keys 
      * @return void
      */
     public function erase($keys): void
@@ -536,8 +516,7 @@ class Store implements Session
      * Flash a key / value pair to the session.
      * 
      * @param  string  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return void
      */
     public function flash(string $key, $value = true): void
@@ -550,8 +529,7 @@ class Store implements Session
     /**
      * Remove the given keys from the old flash data.
      * 
-     * @param  array  $keys
-     * 
+     * @param  array  $keys 
      * @return void
      */
     protected function removeOldFlashData(array $keys): void
@@ -562,8 +540,7 @@ class Store implements Session
     /**
      * Flash an input array to the session.
      * 
-     * @param  array  $value
-     * 
+     * @param  array  $value 
      * @return void
      */
     public function flashInput(array $value): void
@@ -616,8 +593,7 @@ class Store implements Session
     /**
      * Generate a new session identifier.
      * 
-     * @param  bool  $destroy
-     * 
+     * @param  bool  $destroy 
      * @return callable
      */
     public function regenerate($destroy = false): callable
@@ -630,8 +606,7 @@ class Store implements Session
     /**
      * Generate a new session ID for the session.
      * 
-     * @param  bool  $destroy
-     * 
+     * @param  bool  $destroy 
      * @return bool
      */
     public function migrate(bool $destroy = false): bool
@@ -658,8 +633,7 @@ class Store implements Session
     /**
      * Set the "previous" URL in the session.
      * 
-     * @param  string  $url
-     * 
+     * @param  string  $url 
      * @return void
      */
     public function setPreviousUrl($url): void
@@ -701,8 +675,7 @@ class Store implements Session
     /**
      * Set the request on the handler instance.
      *
-     * @param  \Symfony\Component\HttpFoundation\Request $request
-     * 
+     * @param  \Symfony\Component\HttpFoundation\Request $request 
      * @return void
      */
     public function setRequestOnHandler($request): void

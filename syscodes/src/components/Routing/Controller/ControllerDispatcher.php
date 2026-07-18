@@ -46,8 +46,7 @@ class ControllerDispatcher implements ControllerDispatcherContract
     /**
      * Constructor. The ControllerDispatcher class instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Container\Container  $container
-     * 
+     * @param  \Syscodes\Components\Contracts\Container\Container  $container 
      * @return void
      */
     public function __construct(Container $container)
@@ -60,8 +59,7 @@ class ControllerDispatcher implements ControllerDispatcherContract
      * 
      * @param  \Syscodes\Components\Routing\Route  $route
      * @param  mixed  $controller
-     * @param  string  $method
-     * 
+     * @param  string  $method 
      * @return mixed
      */
     public function dispatch(Route $route, mixed $controller, string $method): mixed
@@ -80,8 +78,7 @@ class ControllerDispatcher implements ControllerDispatcherContract
      *
      * @param  \Syscodes\Components\Routing\Route  $route
      * @param  mixed  $controller
-     * @param  string  $method
-     * 
+     * @param  string  $method 
      * @return array
      */
     protected function resolveParameters(Route $route, $controller, $method)
@@ -95,8 +92,7 @@ class ControllerDispatcher implements ControllerDispatcherContract
      * Get the middleware for the controller instance.
      * 
      * @param  \Syscodes\Components\Routing\Controller  $controller
-     * @param  string  $method
-     * 
+     * @param  string  $method 
      * @return array
      */
     public function getMiddleware($controller, string $method): array

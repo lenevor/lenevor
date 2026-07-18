@@ -78,8 +78,7 @@ class DatabaseSessionHandler implements SessionHandlerInterface
      * @param  \Syscodes\Components\Database\Connections\ConnectionInterface  $connection
      * @param  string  $table
      * @param  int  $minutes
-     * @param  \Syscodes\Components\Contracts\Container\Container|null  $container
-     * 
+     * @param  \Syscodes\Components\Contracts\Container\Container|null  $container 
      * @return void
      */
     public function __construct(
@@ -98,8 +97,7 @@ class DatabaseSessionHandler implements SessionHandlerInterface
      * Initialize session.
      * 
      * @param  string  $savePath
-     * @param  string  $sessionName
-     * 
+     * @param  string  $sessionName 
      * @return bool
      */
     public function open($savePath, $sessionName): bool
@@ -120,8 +118,7 @@ class DatabaseSessionHandler implements SessionHandlerInterface
     /**
      * Reads the session data from the session storage, and returns the results.
      * 
-     * @param  string  $sessionId
-     * 
+     * @param  string  $sessionId 
      * @return string
      */
     public function read($sessionId): string
@@ -146,8 +143,7 @@ class DatabaseSessionHandler implements SessionHandlerInterface
     /**
      * Determine if the session is expired.
      * 
-     * @param  \stdClass  $session
-     * 
+     * @param  \stdClass  $session 
      * @return bool
      */
     protected function expired($session): bool
@@ -160,8 +156,7 @@ class DatabaseSessionHandler implements SessionHandlerInterface
      * Writes the session data to the session storage.
      * 
      * @param  string  $sessionId
-     * @param  string  $data
-     * 
+     * @param  string  $data 
      * @return bool
      */
     public function write($sessionId, $data): bool
@@ -185,8 +180,7 @@ class DatabaseSessionHandler implements SessionHandlerInterface
      * Allows an insert operation on the session ID.
      * 
      * @param  string  $sessionId
-     * @param  array  $payload
-     * 
+     * @param  array  $payload 
      * @return bool|null
      */
     protected function sessionInsert($sessionId, $payload)
@@ -202,8 +196,7 @@ class DatabaseSessionHandler implements SessionHandlerInterface
      * Allows an update operation on the session ID.
      * 
      * @param  string  $sessionId
-     * @param  array  $payload
-     * 
+     * @param  array  $payload 
      * @return bool|null
      */
     protected function sessionUpdate($sessionId, $payload)
@@ -214,8 +207,7 @@ class DatabaseSessionHandler implements SessionHandlerInterface
     /**
      * Get the default payload for the session.
      * 
-     * @param  string  $data
-     * 
+     * @param  string  $data 
      * @return array
      */
     protected function getPayload($data): array
@@ -264,8 +256,7 @@ class DatabaseSessionHandler implements SessionHandlerInterface
     /**
      * Destroys the current session.
      * 
-     * @param  string  $sessionId
-     * 
+     * @param  string  $sessionId 
      * @return bool
      */
     public function destroy($sessionId): bool
@@ -278,8 +269,7 @@ class DatabaseSessionHandler implements SessionHandlerInterface
     /**
      * Deletes expired sessions.
      * 
-     * @param  int  $lifetime
-     * 
+     * @param  int  $lifetime 
      * @return int
      */
     public function gc($lifetime): int
@@ -300,8 +290,7 @@ class DatabaseSessionHandler implements SessionHandlerInterface
     /**
      * Set the application instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Core\Application  $container
-     * 
+     * @param  \Syscodes\Components\Contracts\Core\Application  $container 
      * @return static
      */
     public function setContainer($container): static
@@ -314,8 +303,7 @@ class DatabaseSessionHandler implements SessionHandlerInterface
     /**
      * Set the existence state for the session.
      * 
-     * @param  bool  $value
-     * 
+     * @param  bool  $value 
      * @return static
      */
     public function setExists(bool $value): static

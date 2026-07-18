@@ -26,7 +26,6 @@ use ReflectionClass;
 use ReflectionMethod;
 use ReflectionParameter;
 use ReflectionFunctionAbstract;
-use stdClass;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Reflector;
 
@@ -40,8 +39,7 @@ trait DependencyResolver
      * 
      * @param  array  $parameters
      * @param  object  $instance
-     * @param  string  $method
-     * 
+     * @param  string  $method 
      * @return array
      */
     protected function resolveObjectMethodDependencies(array $parameters, $instance, $method): array
@@ -59,8 +57,7 @@ trait DependencyResolver
      * Resolve the object method's with a type of dependencies.
      * 
      * @param  array  $parameters
-     * @param  \ReflectionFunctionAbstract  $reflector
-     * 
+     * @param  \ReflectionFunctionAbstract  $reflector 
      * @return array
      */
     public function resolveMethodDependencies(array $parameters, ReflectionFunctionAbstract $reflector): array
@@ -69,7 +66,7 @@ trait DependencyResolver
 
         $values = array_values($parameters);
 
-        $value = new stdClass;
+        $value = new \stdClass;
 
         foreach ($reflector->getParameters() as $key => $parameter) {
             $instance = $this->transformGivenDependency($parameter, $parameters, $value);
@@ -93,8 +90,7 @@ trait DependencyResolver
      * 
      * @param  \ReflectionParameter  $parameter
      * @param  array  $parameters
-     * @param  object  $value
-     * 
+     * @param  object  $value 
      * @return mixed
      */
     protected function transformGivenDependency(ReflectionParameter $parameter, array $parameters, $value)
@@ -117,7 +113,6 @@ trait DependencyResolver
      * 
      * @param  string  $class
      * @param  array  $parameters
-     * 
      * @return bool
      */
     protected function getInParameters($class, array $parameters): bool
@@ -131,7 +126,6 @@ trait DependencyResolver
      * @param  array  $parameters
      * @param  string  $key
      * @param  mixed  $instance
-     * 
      * @return void
      */
     protected function spliceOnParameters(array &$parameters, $key, $instance): void

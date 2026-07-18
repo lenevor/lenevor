@@ -35,7 +35,6 @@ class NullSessionHandler implements SessionHandlerInterface
      * 
      * @param  string  $savePath
      * @param  string  $sessionName
-     * 
      * @return bool
      */
     public function open($savePath, $sessionName): bool
@@ -56,8 +55,7 @@ class NullSessionHandler implements SessionHandlerInterface
     /**
      * Reads the session data from the session storage, and returns the results.
      * 
-     * @param  string  $sessionId
-     * 
+     * @param  string  $sessionId 
      * @return string
      */
     public function read($sessionId): string
@@ -69,8 +67,7 @@ class NullSessionHandler implements SessionHandlerInterface
      * Writes the session data to the session storage.
      * 
      * @param  string  $sessionId
-     * @param  string  $data
-     * 
+     * @param  string  $data 
      * @return bool
      */
     public function write($sessionId, $data): bool
@@ -81,8 +78,7 @@ class NullSessionHandler implements SessionHandlerInterface
     /**
      * Destroys the current session.
      * 
-     * @param  string  $sessionId
-     * 
+     * @param  string  $sessionId 
      * @return bool
      */
     public function destroy($sessionId): bool
@@ -93,8 +89,7 @@ class NullSessionHandler implements SessionHandlerInterface
     /**
      * Deletes expired sessions.
      * 
-     * @param  int  $lifetime
-     * 
+     * @param  int  $lifetime 
      * @return int
      */
     public function gc(int $lifetime): int

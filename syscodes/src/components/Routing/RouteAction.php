@@ -36,8 +36,7 @@ class RouteAction
      * Parse the given action into an array.
      * 
      * @param  string|array  $uri
-     * @param  mixed  $action
-     * 
+     * @param  mixed  $action 
      * @return array
      */
     public static function parse($uri, $action): array
@@ -66,7 +65,6 @@ class RouteAction
      * Get an action for a route that has no action.
      * 
      * @param  string  $uri
-     *
      * @return array
      * 
      * @throws \LogicException
@@ -79,8 +77,7 @@ class RouteAction
     /**
      * Find the callable in an action array.
      * 
-     * @param  array  $action
-     * 
+     * @param  array  $action 
      * @return \Closure
      */
     protected static function findClosureAction(array $action)
@@ -90,8 +87,8 @@ class RouteAction
     
     /**
      * Call an action for an invokable controller.
-     * @param  string  $action
      * 
+     * @param  string  $action 
      * @return string
      * 
      * @throws \UnexpectedValueException

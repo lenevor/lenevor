@@ -34,8 +34,7 @@ class UriValidator implements ValidatorInterface
      * Validate a given rule against a route and request.
      * 
      * @param  \Syscodes\Components\Routing\Route  $route
-     * @param  \Syscodes\Components\Http\Request  $request
-     * 
+     * @param  \Syscodes\Components\Http\Request  $request 
      * @return bool
      */
     public function matches(Route $route, Request $request): bool
