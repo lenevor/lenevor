@@ -46,9 +46,6 @@ trait Date
 {
     use Creator,
         Schedule,
-        Utilities,
-        Comparison,
-        Difference,
         ForwardsCalls,
         Macroable {
 		    __call as macroCall;
@@ -125,8 +122,7 @@ trait Date
     /**
      * Returns a new instance with the timezone.
      * 
-     * @param  \DateTimeZone  $timezone
-     * 
+     * @param  \DateTimeZone  $timezone 
      * @return \Syscodes\Components\Support\Chronos\Chronos
      */
     public function setTimezone($timezone): DateTime
@@ -137,8 +133,7 @@ trait Date
     /**
      * Returns a new instance with the date set to the new timestamp.
      * 
-     * @param  int  $timestamp
-     * 
+     * @param  int  $timestamp 
      * @return \Syscodes\Components\Support\Chronos\Chronos
      */
     public function setTimestamp($timestamp): DateTime
@@ -152,8 +147,7 @@ trait Date
      * Helper method to capture the data of reference of the 'setX' methods.
      * 
      * @param  string  $name
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return \Syscodes\Components\Support\Chronos\Chronos
      */
     protected function setValue(string $name, $value)
@@ -242,8 +236,7 @@ trait Date
     /**
      * Returns the localized value of this instance in a format specific by the user.
      * 
-     * @param  string|null  $format
-     * 
+     * @param  string|null  $format 
      * @return string|bool
      */
     public function toLocalizedFormatter(?string $format = null)
@@ -322,8 +315,7 @@ trait Date
      * 
      * Allow for property-type access to any getX method.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return mixed
      */
     public function __get($name)
@@ -343,8 +335,7 @@ trait Date
      * Dynamically handle calls to the class.
      *
      * @param  string  $method  Magic method name called
-     * @param  array  $parameters  Parameters list
-     * 
+     * @param  array  $parameters  Parameters list 
      * @return mixed
      *
      * @throws BadMethodCallException

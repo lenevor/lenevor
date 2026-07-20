@@ -50,7 +50,6 @@ trait Creator
      * 
      * @param  DateTimeInterface|string|int|float|null  $time  
      * @param  DateTimeZone|string|int|null  $timezone 
-     * 
      * @return void
      */
     public function __construct(
@@ -89,8 +88,7 @@ trait Creator
     /**
      * Create a Chronos instance from a DateTime one.
      * 
-     * @param  DateTimeInterface  $date
-     * 
+     * @param  DateTimeInterface  $date 
      * @return static
      */
     public static function instance(DateTimeInterface $date): static
@@ -109,8 +107,7 @@ trait Creator
      * Create a carbon instance from a string.
      *
      * @param  DateTimeInterface|string|int|float|null  $time
-     * @param  DateTimeZone|string|int|null  $timezone
-     * 
+     * @param  DateTimeZone|string|int|null  $timezone 
      * @return static
      *
      * @throws InvalidFormatException
@@ -143,8 +140,7 @@ trait Creator
      * Returns a new Time instance while parsing a datetime string.
      * 
      * @param  DateTimeInterface|string|int|float|null  $time
-     * @param  DateTimeZone|string|int|null  $timezone    
-     * 
+     * @param  DateTimeZone|string|int|null  $timezone 
      * @return static
      */
     public static function parse(
@@ -167,8 +163,7 @@ trait Creator
     /**
      * Returns a new Time instance with the timezone set.
      * 
-     * @param  DateTimeZone|string|int|null  $timezone
-     * 
+     * @param  DateTimeZone|string|int|null  $timezone 
      * @return static
      */
     public static function now(DateTimeZone|string|int|null $timezone = null): static
@@ -179,8 +174,7 @@ trait Creator
     /**
      * Return a new time with the time set to midnight.
      * 
-     * @param  string|null  $timezone  
-     * 
+     * @param  string|null  $timezone 
      * @return static
      */
     public static function today($timezone = null): static
@@ -191,8 +185,7 @@ trait Creator
     /**
      * Returns an instance set to midnight yesterday morning.
      * 
-     * @param  string|null  $timezone   
-     * 
+     * @param  string|null  $timezone 
      * @return static
      */
     public static function yesterday($timezone = null): static
@@ -203,8 +196,7 @@ trait Creator
     /**
      * Returns an instance set to midnight tomorrow morning.
      * 
-     * @param  string|null  $timezone    
-     * 
+     * @param  string|null  $timezone 
      * @return static
      */
     public static function tomorrow($timezone = null): static
@@ -219,8 +211,7 @@ trait Creator
      * @param  int|null  $year  
      * @param  int|null  $month  
      * @param  int|null  $day  
-     * @param  string|null  $timezone
-     * 
+     * @param  string|null  $timezone 
      * @return \Syscodes\Components\Support\Chronos\Chronos
      */
     public static function createFromDate(
@@ -239,8 +230,7 @@ trait Creator
      * @param  int|null  $hour  
      * @param  int|null  $minutes  
      * @param  int|null  $seconds  
-     * @param  string|null  $timezone  
-     * 
+     * @param  string|null  $timezone 
      * @return \Syscodes\Components\Support\Chronos\Chronos
      */
     public static function createFromTime(
@@ -262,7 +252,6 @@ trait Creator
      * @param  int|null  $minutes  
      * @param  int|null  $seconds  
      * @param  string|null  $timezone 
-     * 
      * @return \Syscodes\Components\Support\Chronos\Chronos
      */
     public static function create(
@@ -291,8 +280,7 @@ trait Creator
      * 
      * @param  string  $format
      * @param  string  $datetime
-     * @param  \DateTimeZone|string|null  $timezone  
-     * 
+     * @param  \DateTimeZone|string|null  $timezone
      * @return \Syscodes\Components\Support\Chronos\Chronos
      */
     public static function createFromFormat($format, $datetime, $timezone = null): DateTime
@@ -307,8 +295,7 @@ trait Creator
      * 
      * @param  int  $timestamp
      * @param  string|null  $timezone  
-     * @param  string|null  $locale  
-     * 
+     * @param  string|null  $locale
      * @return \Syscodes\Components\Support\Chronos\Chronos
      */
     public static function createFromTimestamp(int $timestamp, $timezone = null, ?string $locale = null)
@@ -322,8 +309,7 @@ trait Creator
      * 
      * @param  \Syscodes\Components\Support\Chronos\Chronos|string  $datetime  
      * @param  string|null  $timezone 
-     * @param  string|null  $locale  
-     * 
+     * @param  string|null  $locale 
      * @return static
      */
     public static function setTestNow($datetime = null, $timezone = null, ?string $locale = null)
@@ -361,8 +347,7 @@ trait Creator
      * Get difference time depending on a specific period of time.
      * 
      * @param  string   $time
-     * @param  string|null  $timezone  
-     * 
+     * @param  string|null  $timezone 
      * @return void
      */
     public function difference($time, ?string $timezone = null)

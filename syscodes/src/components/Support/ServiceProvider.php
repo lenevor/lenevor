@@ -69,8 +69,7 @@ abstract class ServiceProvider
     /**
      * Constructor. Create a new service provider instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Core\Application  $app
-     * 
+     * @param  \Syscodes\Components\Contracts\Core\Application  $app 
      * @return void
      */
     public function __construct($app)
@@ -102,8 +101,7 @@ abstract class ServiceProvider
     /**
      * Register a booting callback to be run before the "boot" method is called.
      * 
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return void
      */
     public function booting(Closure $callback): void
@@ -114,8 +112,7 @@ abstract class ServiceProvider
     /**
      * Register a booted callback to be run after the "boot" method is called.
      * 
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return void
      */
     public function booted(Closure $callback): void
@@ -159,8 +156,7 @@ abstract class ServiceProvider
      * Register a view file namespace.
      * 
      * @param  string|array  $path
-     * @param  string  $namespace
-     * 
+     * @param  string  $namespace 
      * @return void
      */
     protected function loadViewsTo($path, $namespace): void
@@ -185,8 +181,7 @@ abstract class ServiceProvider
      * if already resolved.
      * 
      * @param  string  $name
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return void
      */
     protected function callResolving($name, Closure $callback): void
@@ -201,8 +196,7 @@ abstract class ServiceProvider
     /**
      * Register the package's custom Prime commands.
      * 
-     * @param  mixed  $commands
-     * 
+     * @param  mixed  $commands 
      * @return void
      */
     public function commands($commands): void
@@ -218,8 +212,7 @@ abstract class ServiceProvider
      * Register paths to be published by the publish command.
      * 
      * @param  array  $paths
-     * @param  mixed  $groups
-     * 
+     * @param  mixed  $groups 
      * @return void
      */
     protected function publishes(array $paths, $groups = null): void
@@ -236,8 +229,7 @@ abstract class ServiceProvider
     /**
      * Ensure the publish array for the service provider is initialized.
      * 
-     * @param  string  $class
-     * 
+     * @param  string  $class 
      * @return void
      */
     protected function ensurePublishArrayInitialized($class): void
@@ -251,8 +243,7 @@ abstract class ServiceProvider
      * Add a publish group / tag to the service provider.
      * 
      * @param  string  $group
-     * @param  array  $paths
-     * 
+     * @param  array  $paths 
      * @return void
      */
     protected function addPublishGroup($group, $paths): void
@@ -270,8 +261,7 @@ abstract class ServiceProvider
      * Get the paths to publish.
      * 
      * @param  string|null  $provider
-     * @param  string|null  $group
-     * 
+     * @param  string|null  $group 
      * @return array
      */
     public static function pathsToPublish($provider = null, $group = null): array
@@ -289,8 +279,7 @@ abstract class ServiceProvider
      * Get the paths for the provider or group (or both).
      * 
      * @param  string|null  $provider
-     * @param  string|null  $group
-     * 
+     * @param  string|null  $group 
      * @return array
      */
     protected static function pathsForProviderOrGroup($provider, $group)
@@ -310,8 +299,7 @@ abstract class ServiceProvider
      * Get the paths for the provider and group.
      * 
      * @param  string  $provider
-     * @param  string  $group
-     * 
+     * @param  string  $group 
      * @return array
      */
     protected static function pathsForProviderAndGroup($provider, $group): array
@@ -377,8 +365,7 @@ abstract class ServiceProvider
      * Add the given provider to the application's provider bootstrap file.
      * 
      * @param  string  $provider
-     * @param  string|null  $path
-     * 
+     * @param  string|null  $path 
      * @return bool
      */
     public static function addProviderToBootstrapFile(string $provider, ?string $path = null): bool

@@ -95,13 +95,12 @@ class Inflector
      * @param  string  $text
      * @param  int  $count
      * @param  bool  $includeCount
-     *
      * @return string
      */
     public function pluralize($text, $count, $includeCount = false)
     {
-        return ($includeCount ? $count." " : "")
-            . (intval($count) === 1
+        return ($includeCount ? $count." " : "").
+            (intval($count) === 1
                 ? $this->singular($text)
                 : $this->plural($text)
             );
@@ -111,7 +110,6 @@ class Inflector
      * Returns a word in plural form with replace.
      * 
      * @param  string  $text
-     *
      * @return string
      */
     public function plural($text)
@@ -129,7 +127,6 @@ class Inflector
      * Gets a word in plural form.
      * 
      * @param  string  $text
-     *
      * @return bool
      */
     public function isPlural($text): bool
@@ -141,7 +138,6 @@ class Inflector
      * Returns a word in singular form with replace.
      * 
      * @param  string  $text
-     *
      * @return string
      */
     public function singular($text)
@@ -159,7 +155,6 @@ class Inflector
      * Gets a word in singular form.
      * 
      * @param  string  $text
-     *
      * @return bool
      */
     public function isSingular($text): bool
@@ -177,8 +172,7 @@ class Inflector
      * Adds a word of plural rule.
      *
      * @param  string  $rule  Regex string to find
-     * @param  string  $replacement  Replacement with regex match
-     * 
+     * @param  string  $replacement  Replacement with regex match 
      * @return void
      */
     public function addPluralRule($rule, $replacement): void
@@ -190,8 +184,7 @@ class Inflector
      * Adds a word of singular rule.
      *
      * @param  string  $rule  Regex string to find
-     * @param  string  $replacement  Replacement with regex match
-     * 
+     * @param  string  $replacement  Replacement with regex match 
      * @return void
      */
     public function addSingularRule($rule, $replacement): void
@@ -203,8 +196,7 @@ class Inflector
      * Adds a word of irregular plural and singular rule.
      * 
      * @param  string  $single
-     * @param  string  $plural
-     * 
+     * @param  string  $plural 
      * @return void
      */
     public function addIrregularRule($single, $plural): void
@@ -216,8 +208,7 @@ class Inflector
     /**
      * Get a uncountable word or regex string
      * 
-     * @param  string  $rule  Uncountable word or Regex string
-     * 
+     * @param  string  $rule  Uncountable word or Regex string 
      * @return void
      */
     public function addUncountableRule($rule)

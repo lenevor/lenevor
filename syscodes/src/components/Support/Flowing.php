@@ -50,8 +50,7 @@ class Flowing implements ArrayAccess, Arrayable, IteratorAggregate, Jsonable, Js
     /**
      * Constructor. Create a new Flowing class instance.
      * 
-     * @param  array|object  $attributes
-     * 
+     * @param  array|object  $attributes 
      * @return void
      */
     public function __construct($attributes = [])
@@ -62,8 +61,7 @@ class Flowing implements ArrayAccess, Arrayable, IteratorAggregate, Jsonable, Js
     /**
      * Create a new flowing instance.
      * 
-     * @param  iterable  $attributes
-     * 
+     * @param  iterable  $attributes 
      * @return static
      */
     public static function make($attributes = []): static
@@ -75,8 +73,7 @@ class Flowing implements ArrayAccess, Arrayable, IteratorAggregate, Jsonable, Js
      * Get an attribute from flowing instance.
      * 
      * @param  string  $key
-     * @param  mixed  $default  
-     * 
+     * @param  mixed  $default 
      * @return mixed
      */
     public function get($key, $default = null)
@@ -88,8 +85,7 @@ class Flowing implements ArrayAccess, Arrayable, IteratorAggregate, Jsonable, Js
      * Set an attribute on the flowing instance using "dot" notation.
      * 
      * @param  mixed  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return static
      */
     public function set($key, $value): static
@@ -102,8 +98,7 @@ class Flowing implements ArrayAccess, Arrayable, IteratorAggregate, Jsonable, Js
     /**
      * Fill the flowing instance with an array of attributes.
      * 
-     * @param  iterable  $attributes
-     * 
+     * @param  iterable  $attributes 
      * @return static
      */
     public function fill($attributes): static
@@ -119,8 +114,7 @@ class Flowing implements ArrayAccess, Arrayable, IteratorAggregate, Jsonable, Js
      * Get an attribute from the flowing instance.
      * 
      * @param  string  $key
-     * @param  mixed  $default
-     * 
+     * @param  mixed  $default 
      * @return mixed
      */
     public function value($key, $default = null)
@@ -135,8 +129,7 @@ class Flowing implements ArrayAccess, Arrayable, IteratorAggregate, Jsonable, Js
     /**
      * Get all of the attributes from the flowing instance.
      * 
-     * @param  mixed  $keys
-     * 
+     * @param  mixed  $keys 
      * @return array
      */
     public function all($keys = null): array
@@ -160,8 +153,7 @@ class Flowing implements ArrayAccess, Arrayable, IteratorAggregate, Jsonable, Js
      * Get data from the flowing instance.
      * 
      * @param  string|null  $key
-     * @param  mixed  $default
-     * 
+     * @param  mixed  $default 
      * @return mixed
      */
     protected function data($key = null, $default = null)
@@ -202,8 +194,7 @@ class Flowing implements ArrayAccess, Arrayable, IteratorAggregate, Jsonable, Js
     /**
      * Convert flowing instance to JSON.
      * 
-     * @param  int  $options  (0 by default)
-     * 
+     * @param  int  $options 
      * @return string
      */
     public function toJson($options = 0): string
@@ -214,8 +205,7 @@ class Flowing implements ArrayAccess, Arrayable, IteratorAggregate, Jsonable, Js
     /**
      * Convert the flowing instance to pretty print formatted JSON.
      * 
-     * @param int $options
-     * 
+     * @param int $options 
      * @return string
      */
     public function toPrettyJson(int $options = 0): string
@@ -252,8 +242,7 @@ class Flowing implements ArrayAccess, Arrayable, IteratorAggregate, Jsonable, Js
     /**
      * Determine if a given offset exists.
      * 
-     * @param  string  $offset
-     * 
+     * @param  string  $offset 
      * @return bool
      */
     public function offsetExists($offset): bool
@@ -264,8 +253,7 @@ class Flowing implements ArrayAccess, Arrayable, IteratorAggregate, Jsonable, Js
     /**
      * Get the value at a given offset.
      * 
-     * @param  string  $offset
-     * 
+     * @param  string  $offset 
      * @return mixed
      */
     public function offsetGet($offset): mixed
@@ -277,8 +265,7 @@ class Flowing implements ArrayAccess, Arrayable, IteratorAggregate, Jsonable, Js
      * Set the value at a given offset.
      * 
      * @param  string  $offset
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return void
      */
     public function offsetSet($offset, $value): void
@@ -289,8 +276,7 @@ class Flowing implements ArrayAccess, Arrayable, IteratorAggregate, Jsonable, Js
     /**
      * Unset the value at a given offset.
      * 
-     * @param  string  $offset
-     * 
+     * @param  string  $offset 
      * @return void
      */
     public function offsetUnset($offset): void
@@ -320,7 +306,6 @@ class Flowing implements ArrayAccess, Arrayable, IteratorAggregate, Jsonable, Js
      * Searches for the given variable and returns its value.
 	 *
 	 * @param  string  $key  Variable name
-	 *
 	 * @return mixed
 	 */
 	public function __get($key) 
@@ -335,8 +320,7 @@ class Flowing implements ArrayAccess, Arrayable, IteratorAggregate, Jsonable, Js
 	 *
 	 * @param  string  $key    Variable name
 	 * @param  mixed   $value  Value
-	 *
-	 * @return void
+     * @return void
 	 */
 	public function __set($key, $value) 
 	{
@@ -349,7 +333,6 @@ class Flowing implements ArrayAccess, Arrayable, IteratorAggregate, Jsonable, Js
      * Determines if a variable is set.
 	 *
 	 * @param  string  $key  variable name
-	 *
 	 * @return boolean
 	 */
 	public function __isset($key) 
@@ -363,7 +346,6 @@ class Flowing implements ArrayAccess, Arrayable, IteratorAggregate, Jsonable, Js
      * Unsets a given variable.
 	 *
 	 * @param  string  $key  Variable name
-	 *
 	 * @return void
 	 */
 	public function __unset($key) 
@@ -377,8 +359,7 @@ class Flowing implements ArrayAccess, Arrayable, IteratorAggregate, Jsonable, Js
      * Handle dynamic calls to the container to set attributes.
      * 
      * @param  string  $method
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return $this
      */
     public function __call($method, $parameters)

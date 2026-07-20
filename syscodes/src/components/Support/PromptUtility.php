@@ -30,8 +30,7 @@ class PromptUtility
     /**
      * Escapes a string to be used as a shell argument.
      *
-     * @param  string  $argument
-     * 
+     * @param  string  $argument 
      * @return string
      */
     public static function escapeArgument($argument): string
@@ -74,8 +73,7 @@ class PromptUtility
      * Allows the given string to be surrounded by a given character.
      *
      * @param  string  $args
-     * @param  string  $char
-     * 
+     * @param  string  $char 
      * @return bool
      */
     protected static function isSurroundedBy(string $args, string $char): bool

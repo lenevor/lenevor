@@ -41,8 +41,7 @@ trait Utilities
     /**
      * Check a time string to see if it includes a relative date.
      * 
-     * @param  string  $time
-     * 
+     * @param  string  $time 
      * @return bool
      */
     protected static function hasRelativeKeywords(string $time): bool
@@ -60,8 +59,7 @@ trait Utilities
      * Returns a Time instance with the timezone converted to UTC.
      * 
      * @param  \DateTime|string  $time
-     * @param  \DateTimeZone|string|null  $timezone  
-     * 
+     * @param  \DateTimeZone|string|null  $timezone 
      * @return \DateTime|\Syscodes\Components\Support\Chronos\Chronos
      */
     protected function getConvertedUTC($time, ?string $timezone = null)

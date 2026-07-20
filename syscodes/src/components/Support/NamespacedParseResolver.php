@@ -40,8 +40,7 @@ class NamespacedParseResolver
      * filename as the first segment into namespace, groups
      * and item.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return array
      */
     public function parseLine($key): array
@@ -67,8 +66,7 @@ class NamespacedParseResolver
     /**
      * Parse an array of segments.
      * 
-     * @param  array  $segments
-     * 
+     * @param  array  $segments 
      * @return array
      */
     protected function parseSegments(array $segments): array
@@ -91,8 +89,7 @@ class NamespacedParseResolver
      * Set the parsed value of a key.
      * 
      * @param  string  $key
-     * @param  array  $parsed
-     * 
+     * @param  array  $parsed 
      * @return void
      */
     public function setParsedLine(string $key, array $parsed): void

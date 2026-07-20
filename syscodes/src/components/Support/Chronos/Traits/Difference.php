@@ -56,8 +56,7 @@ trait Difference
      * Get difference time.
      * 
      * @param  \DateTime  $currentTime
-     * @param  \DateTime  $testTime
-     * 
+     * @param  \DateTime  $testTime 
      * @return self 
      */
     protected function getDifferenceTime(\DateTime $currentTime, \DateTime $testTime): self
@@ -72,8 +71,7 @@ trait Difference
     /**
      * Returns the number of years of difference between the two dates.
      * 
-     * @param  bool  $raw
-     * 
+     * @param  bool  $raw 
      * @return float|int
      */
     public function getYears(bool $raw = false)
@@ -90,8 +88,7 @@ trait Difference
     /**
      * Returns the number of months of difference between the two dates.
      * 
-     * @param  bool  $raw
-     * 
+     * @param  bool  $raw 
      * @return float|int
      */
     public function getMonths(bool $raw = false)
@@ -108,8 +105,7 @@ trait Difference
     /**
      * Returns the number of weeks of difference between the two dates.
      * 
-     * @param  bool  $raw
-     * 
+     * @param  bool  $raw 
      * @return float|int
      */
     public function getWeeks(bool $raw = false)
@@ -126,8 +122,7 @@ trait Difference
     /**
      * Returns the number of days of difference between the two dates.
      * 
-     * @param  bool  $raw
-     * 
+     * @param  bool  $raw 
      * @return float|int
      */
     public function getDays(bool $raw = false)
@@ -144,8 +139,7 @@ trait Difference
     /**
      * Returns the number of hours of difference between the two dates.
      * 
-     * @param  bool  $raw
-     * 
+     * @param  bool  $raw 
      * @return float|int
      */
     public function getHours(bool $raw = false)
@@ -162,8 +156,7 @@ trait Difference
     /**
      * Returns the number of minutes of difference between the two dates.
      * 
-     * @param  bool  $raw
-     * 
+     * @param  bool  $raw 
      * @return float|int
      */
     public function getMinutes(bool $raw = false)
@@ -180,8 +173,7 @@ trait Difference
     /**
      * Returns the number of seconds of difference between the two dates.
      * 
-     * @param  bool  $raw
-     * 
+     * @param  bool  $raw 
      * @return float|int
      */
     public function getSeconds(bool $raw = false)
@@ -198,8 +190,7 @@ trait Difference
     /**
      * Convert the time to human readable format.
      * 
-     * @param  string|null  $locale
-     * 
+     * @param  string|null  $locale 
      * @return string
      */
     public function humanize(?string $locale = null): string

@@ -50,8 +50,7 @@ class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagCo
     /**
      * Constructor. Create a new MessageBag class instance.
      * 
-     * @param  array  $messages
-     * 
+     * @param  array  $messages 
      * @return void
      */
     public function __construct(array $messages = [])
@@ -77,8 +76,7 @@ class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagCo
      * Add a message to the bag.
      * 
      * @param  string  $key
-     * @param  string  $message
-     * 
+     * @param  string  $message 
      * @return static
      */
     public function add($key, $message): static
@@ -94,8 +92,7 @@ class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagCo
      * Determine if a key and message combination already exists.
      * 
      * @param  string  $key
-     * @param  string  $message
-     * 
+     * @param  string  $message 
      * @return bool
      */
     protected function isUnique($key, $message): bool
@@ -108,8 +105,7 @@ class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagCo
     /**
      * Merge a new array of messages into the bag.
      * 
-     * @param  \Syscodes\Components\Contracts\Support\MessageProvider|array  $messages
-     * 
+     * @param  \Syscodes\Components\Contracts\Support\MessageProvider|array  $messages 
      * @return static
      */
     public function merge($messages): static
@@ -122,8 +118,7 @@ class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagCo
     /**
      * Determine if messages exist for a given key.
      * 
-     * @param  string|array  $key
-     * 
+     * @param  string|array  $key 
      * @return bool
      */
     public function has($key): bool
@@ -151,8 +146,7 @@ class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagCo
      * Get the first message from the bag for a given key.
      * 
      * @param  string|null  $key
-     * @param  string|null  $format
-     * 
+     * @param  string|null  $format 
      * @return string
      */
     public function first($key = null, $format = null): string
@@ -168,8 +162,7 @@ class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagCo
      * Get all of the messages from the bag for a given key.
      * 
      * @param  string  $key
-     * @param  string|null  $format
-     * 
+     * @param  string|null  $format 
      * @return array
      */
     public function get($key, $format = null): array
@@ -186,8 +179,7 @@ class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagCo
     /**
      * Get all of the messages for every key in the bag.
      * 
-     * @param  string|null  $format
-     * 
+     * @param  string|null  $format 
      * @return array
      */
     public function all($format = null): array
@@ -208,8 +200,7 @@ class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagCo
      * 
      * @param  array   $messages
      * @param  string  $format
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return array
      */
     protected function transform($messages, $format, $key): array
@@ -227,8 +218,7 @@ class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagCo
     /**
      * Get the appropriate format based on the given format.
      * 
-     * @param  string  $format
-     * 
+     * @param  string  $format 
      * @return string
      */
     protected function checkFormat($format): string
@@ -279,8 +269,7 @@ class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagCo
     /**
      * Set the default message format.
      * 
-     * @param  string  $format
-     * 
+     * @param  string  $format 
      * @return static
      */
     public function setFormat($format = ':message'): static
@@ -353,8 +342,7 @@ class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagCo
     /**
      * Convert the object to its JSON representation.
      * 
-     * @param  int  $options
-     * 
+     * @param  int  $options 
      * @return string
      */
     public function toJson($options = 0): string

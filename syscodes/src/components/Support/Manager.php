@@ -62,8 +62,7 @@ abstract class Manager
     /**
      * Constructor. The Manager class instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Container\Container  $container
-     * 
+     * @param  \Syscodes\Components\Contracts\Container\Container  $container 
      * @return void
      */
     public function __construct(Container $container)
@@ -82,8 +81,7 @@ abstract class Manager
     /**
      * Get a driver instance.
      * 
-     * @param  string|null  $driver
-     * 
+     * @param  string|null  $driver 
      * @return mixed
      * 
      * @throws \InvalidArgumentException
@@ -108,8 +106,7 @@ abstract class Manager
     /**
      * Create a new driver instance.
      * 
-     * @param  string  $driver
-     * 
+     * @param  string  $driver 
      * @return mixed
      * 
      * @throws \InvalidArgumentException
@@ -134,8 +131,7 @@ abstract class Manager
     /**
      * Call a custom driver creator.
      * 
-     * @param  string  $driver
-     * 
+     * @param  string  $driver 
      * @return mixed
      */
     protected function callCustomCreator($driver)
@@ -147,8 +143,7 @@ abstract class Manager
      * Register a custom driver creator Closure.
      * 
      * @param  string  $driver
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return static
      */
     public function extend($driver, Closure $callback): static
@@ -181,8 +176,7 @@ abstract class Manager
     /**
      * Get the container instance used by the manager.
      * 
-     * @param  \Syscodes\Components\Contracts\Container\Container  $container
-     * 
+     * @param  \Syscodes\Components\Contracts\Container\Container  $container 
      * @return static
      */
     public function setContainer(Container $container): static
@@ -198,8 +192,7 @@ abstract class Manager
      * Dynamically call the default driver instance.
      * 
      * @param  string  $method
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return mixed
      */
     public function __call($method, $parameters)

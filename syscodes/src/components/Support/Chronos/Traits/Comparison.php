@@ -34,8 +34,7 @@ trait Comparison
      * Determines if the datetime passed in is equal to the current instance.
      * 
      * @param  \Syscodes\Components\Support\Chronos\Chronos|\DateTime|string  $time
-     * @param  \DateTimeZone|string|null  $timezone
-     * 
+     * @param  \DateTimeZone|string|null  $timezone 
      * @return bool
      */
     public function equals($time, ?string $timezone = null): bool
@@ -53,8 +52,7 @@ trait Comparison
      * after converting to UTC.
      * 
      * @param  \DateTime|string  $time
-     * @param  \DatetimeZone|string|null  $timezone
-     * 
+     * @param  \DatetimeZone|string|null  $timezone 
      * @return bool
      */
     public function isBefore($time, ?string $timezone = null): bool
@@ -70,8 +68,7 @@ trait Comparison
      * after converting to UTC.
      * 
      * @param  \DateTime|string  $time
-     * @param  \DatetimeZone|string|null  $timezone
-     * 
+     * @param  \DatetimeZone|string|null  $timezone 
      * @return bool
      */
     public function isAfter($time, ?string $timezone = null): bool
@@ -86,8 +83,7 @@ trait Comparison
      * Ensures that the times are identical, taking timezone into account.
      * 
      * @param  \Syscodes\Components\Support\Chronos\Chronos|DateTime|string  $time
-     * @param  \DatetimeZone|string|null  $timezone
-     * 
+     * @param  \DatetimeZone|string|null  $timezone 
      * @return bool
      */
     public function sameAs($time, ?string $timezone = null): bool

@@ -37,8 +37,7 @@ class DefaultCoreProviders
     /**
      * Constructor. Create a new DefaultCoreProviders class instance.
      * 
-     * @param  array|null  $providers
-     * 
+     * @param  array|null  $providers 
      * @return void
      */
     public function __construct(?array $providers = null)
@@ -70,7 +69,6 @@ class DefaultCoreProviders
      * Merge the provider collection with the given providers.
      * 
      * @param  array  $providers
-     * 
      * @return static
      */
     public function merge(array $providers): static
@@ -83,8 +81,7 @@ class DefaultCoreProviders
     /**
      * Replace the provider collection with other given providers.
      * 
-     * @param  array  $replacements
-     * 
+     * @param  array  $replacements 
      * @return static
      */
     public function replace(array $replacements): static

@@ -34,8 +34,7 @@ trait Localizable
      * Run the callback with the given locale.
      * 
      * @param  string  $locale
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return mixed
      */
     public function assignLocale(string $locale, Closure $callback)

@@ -47,8 +47,7 @@ trait CapsuleManager
     /**
      * Get the container instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Container\Container  $container
-     * 
+     * @param  \Syscodes\Components\Contracts\Container\Container  $container 
      * @return void
      */
     protected function getContainerManager(Container $container)
@@ -83,8 +82,7 @@ trait CapsuleManager
     /**
      * Set the container instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Container\Container  $container
-     * 
+     * @param  \Syscodes\Components\Contracts\Container\Container  $container 
      * @return void
      */
     public function setContainer(Container $container): void

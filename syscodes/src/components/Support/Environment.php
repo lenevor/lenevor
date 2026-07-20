@@ -69,7 +69,6 @@ class Environment
      * 
      * @param  string  $key
      * @param  mixed|null  $default 
-     * 
      * @return mixed
      */
     public static function get($key, $default = null)
@@ -91,7 +90,6 @@ class Environment
             'empty', '(empty)' => '',
             'null', '(null)' => null,
             default => $value,
-        };
-        
+        };        
     }
 }

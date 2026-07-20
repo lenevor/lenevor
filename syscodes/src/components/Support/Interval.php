@@ -100,9 +100,8 @@ class Interval
     /**
      * Constructor. Create a new class instance.
      *
-     * @param  int|float|\DateInterval  $duration
-     * 
-     * @retur void
+     * @param  int|float|\DateInterval  $duration 
+     * @return void
      */
     public function __construct($duration)
     {
@@ -112,8 +111,7 @@ class Interval
     /**
      * Sleep for the given duration.
      *
-     * @param  \DateInterval|int|float  $duration
-     * 
+     * @param  \DateInterval|int|float  $duration 
      * @return static
      */
     public static function for($duration)
@@ -124,8 +122,7 @@ class Interval
     /**
      * Sleep until the given timestamp.
      *
-     * @param  \DateTimeInterface|int|float|numeric-string  $timestamp
-     * 
+     * @param  \DateTimeInterface|int|float|numeric-string  $timestamp 
      * @return static
      */
     public static function until($timestamp)
@@ -140,8 +137,7 @@ class Interval
     /**
      * Sleep for the given number of microseconds.
      *
-     * @param  int  $duration
-     * 
+     * @param  int  $duration 
      * @return static
      */
     public static function usleep($duration)
@@ -152,8 +148,7 @@ class Interval
     /**
      * Sleep for the given number of seconds.
      *
-     * @param  int|float  $duration
-     * 
+     * @param  int|float  $duration 
      * @return static
      */
     public static function sleep($duration)
@@ -164,8 +159,7 @@ class Interval
     /**
      * Sleep for the given duration. Replaces any previously defined duration.
      *
-     * @param  \DateInterval|int|float  $duration
-     * 
+     * @param  \DateInterval|int|float  $duration 
      * @return static
      */
     protected function duration($duration)
@@ -284,8 +278,7 @@ class Interval
     /**
      * Add additional time to sleep for.
      *
-     * @param  int|float  $duration
-     * 
+     * @param  int|float  $duration 
      * @return static
      */
     public function and($duration)
@@ -298,8 +291,7 @@ class Interval
     /**
      * Sleep while a given callback returns "true".
      *
-     * @param  \Closure  $callback
-     * 
+     * @param  \Closure  $callback 
      * @return static
      */
     public function while(Closure $callback)
@@ -312,8 +304,7 @@ class Interval
     /**
      * Specify a callback that should be executed after sleeping.
      *
-     * @param  callable  $then
-     * 
+     * @param  callable  $then 
      * @return mixed
      */
     public function then(callable $then)
@@ -421,14 +412,12 @@ class Interval
      * Stay awake and capture any attempts to sleep.
      *
      * @param  bool  $value
-     * @param  bool  $syncWithCarbon
-     * 
+     * @param  bool  $syncWithCarbon 
      * @return void
      */
     public static function fake($value = true, $syncWithCarbon = false)
     {
         static::$fake = $value;
-
         static::$sequence = [];
         static::$fakeSleepCallbacks = [];
         static::$syncWithCarbon = $syncWithCarbon;
@@ -449,8 +438,7 @@ class Interval
     /**
      * Only sleep when the given condition is true.
      *
-     * @param  (\Closure($this): bool)|bool  $condition
-     * 
+     * @param  (\Closure($this): bool)|bool  $condition 
      * @return static
      */
     public function when($condition)
@@ -463,8 +451,7 @@ class Interval
     /**
      * Don't sleep when the given condition is true.
      *
-     * @param  (\Closure($this): bool)|bool  $condition
-     * 
+     * @param  (\Closure($this): bool)|bool  $condition 
      * @return static
      */
     public function unless($condition)
@@ -475,8 +462,7 @@ class Interval
     /**
      * Specify a callback that should be invoked when faking sleep within a test.
      *
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return void
      */
     public static function whenFakingSleep($callback)
@@ -486,7 +472,8 @@ class Interval
 
     /**
      * Indicate that Carbon's "now" should be kept in sync when sleeping.
-     *
+     * 
+     * @param  bool  $value
      * @return void
      */
     public static function syncWithCarbon($value = true)

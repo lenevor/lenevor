@@ -32,8 +32,7 @@ if ( ! function_exists('blank')) {
     /**
      * Determine if the given value is "blank".
      *
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return bool
      */
     function blank($value): bool
@@ -66,8 +65,7 @@ if ( ! function_exists('camel_case')) {
     /**
      * Convert the string with spaces or underscore in camelcase notation.
      *
-     * @param  string  $string  
-     *
+     * @param  string  $string
      * @return string
      */
     function camel_case($string): string
@@ -80,8 +78,7 @@ if ( ! function_exists('class_basename')) {
     /**
      * Get the class "basename" of the given object / class.
      *
-     * @param  string|object  $class
-     * 
+     * @param  string|object  $class 
      * @return string
      */
     function class_basename($class): string
@@ -97,8 +94,7 @@ if ( ! function_exists('class_recursive'))
     /**
      * Returns all traits used by a class, it's subclasses and trait of their traits
      * 
-     * @param  string  $class
-     * 
+     * @param  string  $class 
      * @return array
      */
     function class_recursive($class): array
@@ -123,7 +119,6 @@ if ( ! function_exists('e')) {
      *
      * @param  string  $value
      * @param  bool  $doubleEncode
-     *
      * @return string
      */
     function e($value, $doubleEncode = true): string
@@ -145,8 +140,7 @@ if ( ! function_exists('env')) {
      * Gets the value of an environment variable.
      * 
      * @param  string  $key
-     * @param  mixed  $default  
-     * 
+     * @param  mixed  $default 
      * @return mixed
      */
     function env($key, $default = null)
@@ -159,8 +153,7 @@ if ( ! function_exists('filled')) {
     /**
      * Determine if a value is "filled".
      *
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return bool
      */
     function filled($value): bool
@@ -175,8 +168,7 @@ if ( ! function_exists('preg_replace_sub')) {
      * 
      * @param  string  $pattern
      * @param  array   $replacements
-     * @param  string  $subject
-     * 
+     * @param  string  $subject 
      * @return string
      */
     function preg_replace_sub($pattern, &$replacements, $subject)
@@ -193,7 +185,6 @@ if ( ! function_exists('retry')) {
      * @param  callable  $callback
      * @param  int|\Closure  $sleepMilliseconds
      * @param  callable|null  $when
-     * 
      * @return mixed
      *
      * @throws \Exception
@@ -236,8 +227,7 @@ if ( ! function_exists('str_dash')) {
     /**
      * Replace in the chain the spaces by dashes.
      *
-     * @param  string  $string  
-     *
+     * @param  string  $string
      * @return string
      */
     function str_dash($string): string
@@ -251,7 +241,6 @@ if ( ! function_exists('str_humanize')) {
      * Replace in an string the underscore or dashed by spaces.
      *
      * @param  string  $string
-     *
      * @return string
      */
     function str_humanize($string): string
@@ -265,7 +254,6 @@ if ( ! function_exists('str_smallcase')) {
      * Converts the CamelCase string into smallcase notation.
      *
      * @param  string  $string
-     *
      * @return string
      */
     function str_smallcase($string): string
@@ -279,7 +267,6 @@ if ( ! function_exists('str_underscore')) {
      * Replace in the string the spaces by low dashes.
      *
      * @param  string  $string
-     *
      * @return string
      */
     function str_underscore($string): string
@@ -293,7 +280,6 @@ if ( ! function_exists('studly_caps')) {
      * Convert the string with spaces or underscore in StudlyCaps. 
      *
      * @param  string  $string
-     *
      * @return string
      */
     function studly_caps($string): string
@@ -307,8 +293,7 @@ if ( ! function_exists('take')) {
      * Call the given Closure if this activated then return the value.
      * 
      * @param  mixed  $value
-     * @param  \Closure|null  $callback
-     * 
+     * @param  \Closure|null  $callback 
      * @return mixed
      * 
      * @uses   \Syscodes\Components\Support\HigherOrderTakeProxy
@@ -329,8 +314,7 @@ if ( ! function_exists('title')) {
     /**
      * Generates the letter first of a word in upper.
      * 
-     * @param  string  $string
-     * 
+     * @param  string  $string 
      * @return string
      */
     function title($string): string
@@ -344,8 +328,7 @@ if ( ! function_exists('trait_recursive'))
     /**
      * Returns all traits used by a trait and its traits.
      * 
-     * @param  string  $trait
-     * 
+     * @param  string  $trait 
      * @return array
      */
     function trait_recursive($trait): array
@@ -370,8 +353,7 @@ if ( ! function_exists('transform')) {
      *
      * @param  mixed  $value
      * @param  callable  $callback
-     * @param  callable  $default
-     * 
+     * @param  callable  $default 
      * @return mixed
      */
     function transform($value, callable $callback, $default = null)
@@ -394,8 +376,7 @@ if ( ! function_exists('throw_if')) {
      *
      * @param  mixed  $condition
      * @param  \Closure|string|object  $exception
-     * @param  array  ...$parameters
-     * 
+     * @param  array  ...$parameters 
      * @return mixed
      *
      * @throws \RuntimeException
@@ -424,8 +405,7 @@ if ( ! function_exists('throw_unless')) {
      *
      * @param  mixed  $condition
      * @param  \Closure|string|object  $exception
-     * @param  array  ...$parameters
-     * 
+     * @param  array  ...$parameters 
      * @return mixed
      *
      * @throws \RuntimeException
@@ -467,8 +447,7 @@ if ( ! function_exists('with')) {
      * Return the given value, optionally passed through the given callback.
      * 
      * @param  mixed  $value
-     * @param  callable|null  $callback
-     * 
+     * @param  callable|null  $callback 
      * @return mixed
      */
     function with($value, ?callable $callback = null)

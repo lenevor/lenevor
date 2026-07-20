@@ -35,8 +35,7 @@ class Reflector
      * Compatible implementation of is_callable.
      *
      * @param  mixed  $var
-     * @param  bool  $syntaxOnly
-     * 
+     * @param  bool  $syntaxOnly 
      * @return bool
      */
     public static function isCallable($var, $syntaxOnly = false)
@@ -81,8 +80,7 @@ class Reflector
     /**
      * Get the class name of the given parameter's type, if possible.
      * 
-     * @param  \ReflectionParameter  $parameter
-     * 
+     * @param  \ReflectionParameter  $parameter 
      * @return string|null
      */
     public static function getParameterClassName($parameter)
@@ -100,8 +98,7 @@ class Reflector
      * Get the given type's class name.
      * 
      * @param  \ReflectionParameter  $parameter
-     * @param  \ReflectionNamedType  $type
-     * 
+     * @param  \ReflectionNamedType  $type 
      * @return string
      */
     protected static function getTypeName($parameter, $type): string

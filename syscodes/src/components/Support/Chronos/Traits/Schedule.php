@@ -184,8 +184,7 @@ trait Schedule
     /**
      * Sets the localized Year.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return \Syscodes\Components\Support\Chronos\Chronos
      * 
      * @throws \Syscodes\Components\Support\Chronos\Exceptions\InvalidDateTimeException
@@ -198,8 +197,7 @@ trait Schedule
     /**
      * Sets the localized month in the year.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return \Syscodes\Components\Support\Chronos\Chronos
      * 
      * @throws \Syscodes\Components\Support\Chronos\Exceptions\InvalidDateTimeException
@@ -220,8 +218,7 @@ trait Schedule
     /**
      * Sets the localized day in the month.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return \Syscodes\Components\Support\Chronos\Chronos
      * 
      * @throws \Syscodes\Components\Support\Chronos\Exceptions\InvalidDateTimeException
@@ -245,8 +242,7 @@ trait Schedule
     /**
      * Sets the hour of the day (24 hour cycle).
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return \Syscodes\Components\Support\Chronos\Chronos
      * 
      * @throws \Syscodes\Components\Support\Chronos\Exceptions\InvalidDateTimeException
@@ -263,8 +259,7 @@ trait Schedule
     /**
      * Sets the minute of the hour.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return \Syscodes\Components\Support\Chronos\Chronos
      * 
      * @throws \Syscodes\Components\Support\Chronos\Exceptions\InvalidDateTimeException
@@ -281,8 +276,7 @@ trait Schedule
     /**
      * Sets the second of the minute.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return \Syscodes\Components\Support\Chronos\Chronos
      * 
      * @throws \Syscodes\Components\Support\Chronos\Exceptions\InvalidDateTimeException
@@ -301,8 +295,7 @@ trait Schedule
     /**
      * Returns a new Time instance with hours added to the time.
      * 
-     * @param  int  $hours
-     * 
+     * @param  int  $hours 
      * @return static
      */
     public function addHours(int $hours)
@@ -315,8 +308,7 @@ trait Schedule
     /**
      * Returns a new Time instance with minutes added to the time.
      * 
-     * @param  int  $minutes
-     * 
+     * @param  int  $minutes 
      * @return static
      */
     public function addMinutes(int $minutes)
@@ -329,8 +321,7 @@ trait Schedule
     /**
      * Returns a new Time instance with seconds added to the time.
      * 
-     * @param  int  $seconds
-     * 
+     * @param  int  $seconds 
      * @return static
      */
     public function addSeconds(int $seconds)
@@ -343,8 +334,7 @@ trait Schedule
     /**
      * Returns a new Time instance with years added to the time.
      * 
-     * @param  int  $years
-     * 
+     * @param  int  $years 
      * @return static
      */
     public function addYears(int $years)
@@ -357,8 +347,7 @@ trait Schedule
     /**
      * Returns a new Time instance with months added to the time.
      * 
-     * @param  int  $months
-     * 
+     * @param  int  $months 
      * @return static
      */
     public function addMonths(int $months)
@@ -371,8 +360,7 @@ trait Schedule
     /**
      * Returns a new Time instance with days added to the time.
      * 
-     * @param  int  $days
-     * 
+     * @param  int  $days 
      * @return static
      */
     public function addDays(int $days)
@@ -385,8 +373,7 @@ trait Schedule
     /**
      * Returns a new Time instance with hours subtracted from the time.
      * 
-     * @param  int  $hours
-     * 
+     * @param  int  $hours 
      * @return static
      */
     public function subHours(int $hours)
@@ -399,8 +386,7 @@ trait Schedule
     /**
      * Returns a new Time instance with minutes subtracted from the time.
      * 
-     * @param  int  $minutes
-     * 
+     * @param  int  $minutes 
      * @return static
      */
     public function subMinutes(int $minutes)
@@ -413,8 +399,7 @@ trait Schedule
     /**
      * Returns a new Time instance with seconds subtracted from the time.
      * 
-     * @param  int  $seconds
-     * 
+     * @param  int  $seconds 
      * @return static
      */
     public function subSeconds(int $seconds)
@@ -427,8 +412,7 @@ trait Schedule
     /**
      * Returns a new Time instance with years subtracted from the time.
      * 
-     * @param  int  $years
-     * 
+     * @param  int  $years 
      * @return static
      */
     public function subYears(int $years)
@@ -441,8 +425,7 @@ trait Schedule
     /**
      * Returns a new Time instance with months subtracted from the time.
      * 
-     * @param  int  $months
-     * 
+     * @param  int  $months 
      * @return static
      */
     public function subMonths(int $months)
@@ -455,8 +438,7 @@ trait Schedule
     /**
      * Returns a new Time instance with days subtracted from the time.
      * 
-     * @param  int  $days
-     * 
+     * @param  int  $days 
      * @return static
      */
     public function subDays(int $days)

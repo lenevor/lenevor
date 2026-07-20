@@ -38,6 +38,7 @@ class HigherOrderTakeProxy
      * Constructor. Create a new take proxy instance.
      * 
      * @param  mixed  $target
+     * @return void
      */
     public function __construct($target)
     {
@@ -50,8 +51,7 @@ class HigherOrderTakeProxy
      * Dynamically pass method calls to the target.
      * 
      * @param  string  $method
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return mixed
      */
     public function __call($method, $parameters)

@@ -39,8 +39,7 @@ class WebString implements Webable
     /**
      * Constructor. Create a new WebString class instance.
      * 
-     * @param  string  $html
-     * 
+     * @param  string  $html 
      * @return void
      */
     public function __construct($html)

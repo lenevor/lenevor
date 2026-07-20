@@ -39,8 +39,7 @@ class Rules
     /**
      * Constructor. Create a new Rules class instance.
      * 
-     * @param  array  $uncountables
-     * 
+     * @param  array  $uncountables 
      * @return void
      */
     public function __construct(array $uncountables = [])
@@ -51,8 +50,7 @@ class Rules
     /**
      * Added the words uncountables.
      * 
-     * @param  string  $word
-     * 
+     * @param  string  $word 
      * @return void
      */
     public function addUncountable(string $word): void
@@ -65,8 +63,7 @@ class Rules
      * 
      * @param  array  $replaceMap
      * @param  array  $keepMap
-     * @param  array  $rules
-     * 
+     * @param  array  $rules 
      * @return \Closure
      */
     public function replace($replaceMap, $keepMap, $rules): Closure
@@ -91,8 +88,7 @@ class Rules
      * 
      * @param  array  $replaceMap
      * @param  array  $keepMap
-     * @param  array  $rules
-     * 
+     * @param  array  $rules 
      * @return \Closure
      */
     public function checkWord($replaceMap, $keepMap, $rules): Closure
@@ -116,8 +112,7 @@ class Rules
      * Replace the words with your respective rules.
      * 
      * @param  string  $word
-     * @param  array  $rule
-     * 
+     * @param  array  $rule 
      * @return  string
      */
     protected function replaceWord($word, $rule): string
@@ -142,16 +137,15 @@ class Rules
      * Get the arguments based in regex depending of a string.
      * 
      * @param  string  $str
-     * @param  array  $args
-     * 
+     * @param  array  $args 
      * @return string
      */
     protected function interpolate($str, $args)
     {
         return preg_replace_callback('/\$(\d{1,2})/', function ($matches) use ($args) {
             return isset($matches[1], $args[$matches[1]])
-                        ? $args[$matches[1]]
-                        : "";
+                ? $args[$matches[1]]
+                : "";
         }, $str);
     }
     
@@ -159,8 +153,7 @@ class Rules
      * Get a string with the uppercase, lowercase and first-capital functions.
      * 
      * @param  string  $word
-     * @param  string  $token
-     * 
+     * @param  string  $token 
      * @return string
      */
     protected function restore($word, $token): string
@@ -189,8 +182,7 @@ class Rules
      * 
      * @param  string  $token
      * @param  string  $word
-     * @param  array  $rules
-     * 
+     * @param  array  $rules 
      * @return string
      */
     private function sanitizeWord($token, $word, $rules): string

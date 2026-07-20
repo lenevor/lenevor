@@ -57,8 +57,7 @@ class Str
      * Return the remainder of a string after the first occurrence of a given value.
      * 
      * @param  string  $subject
-     * @param  string  $search
-     * 
+     * @param  string  $search 
      * @return string
      */
     public static function after($subject, $search): string
@@ -70,8 +69,7 @@ class Str
      * Return the remainder of a string after the last occurrence of a given value.
      * 
      * @param  string  $subject
-     * @param  string  $search
-     * 
+     * @param  string  $search 
      * @return string
      */
     public static function afterLast($subject, $search): string
@@ -92,8 +90,7 @@ class Str
     /**
      * Transliterate a UTF-8 value to ASCII.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     public static function ascii($value): string
@@ -105,8 +102,7 @@ class Str
      * Get the portion of a string before the first occurrence of a given value.
      * 
      * @param  string  $subject
-     * @param  string  $search
-     * 
+     * @param  string  $search 
      * @return string
      */
     public static function before($subject, $search): string
@@ -124,8 +120,7 @@ class Str
      * Get the portion of a string before the last occurrence of a given value.
      * 
      * @param  string  $subject
-     * @param  string  $search
-     * 
+     * @param  string  $search 
      * @return string
      */
     public static function beforeLast($subject, $search): string
@@ -148,8 +143,7 @@ class Str
      *
      * @param  string  $subject
      * @param  string  $from
-     * @param  string  $to
-     * 
+     * @param  string  $to 
      * @return string
      */
     public static function between($subject, $from, $to): string
@@ -166,8 +160,7 @@ class Str
      *
      * @param  string  $subject
      * @param  string  $from
-     * @param  string  $to
-     * 
+     * @param  string  $to 
      * @return string
      */
     public static function betweenFirst($subject, $from, $to): string
@@ -183,7 +176,6 @@ class Str
      * Convert the string with spaces or underscore in camelcase notation.
      *
      * @param  string  $value  String to convert
-     *
      * @return string
      */
     public static function camelcase($value): string
@@ -200,8 +192,7 @@ class Str
      * Get the character at the specified index.
      * 
      * @param  string  $subject
-     * @param  int  $index
-     * 
+     * @param  int  $index 
      * @return string|false
      */
     public static function charAt($subject, $index): string|false
@@ -220,8 +211,7 @@ class Str
      * 
      * @param  string  $haystack
      * @param  string|iterable<string>  $needles
-     * @param  bool  $ignoreCase
-     * 
+     * @param  bool  $ignoreCase 
      * @return bool
      */
     public static function contains($haystack, $needles, $ignoreCase = false): bool
@@ -256,8 +246,7 @@ class Str
      *
      * @param  string  $haystack
      * @param  iterable<string>  $needles
-     * @param  bool  $ignoreCase
-     * 
+     * @param  bool  $ignoreCase 
      * @return bool
      */
     public static function containsAll($haystack, $needles, $ignoreCase = false): bool
@@ -276,8 +265,7 @@ class Str
      *
      * @param  string  $haystack
      * @param  string|iterable<string>  $needles
-     * @param  bool  $ignoreCase
-     * 
+     * @param  bool  $ignoreCase 
      * @return bool
      */
     public static function doesntContain($haystack, $needles, $ignoreCase = false): bool
@@ -290,8 +278,7 @@ class Str
      *
      * @param  string  $string
      * @param  int  $mode
-     * @param  string|null  $encoding
-     * 
+     * @param  string|null  $encoding 
      * @return string
      */
     public static function convertCase(string $string, int $mode = MB_CASE_FOLD, ?string $encoding = 'UTF-8'): string
@@ -304,7 +291,6 @@ class Str
      *
      * @param  string  $haystack
      * @param  string|array  $needles
-     *
      * @return bool
      */
     public static function endsWith($haystack, $needles): bool
@@ -330,8 +316,7 @@ class Str
      * Determine if a given string doesn't end with a given substring.
      *
      * @param  string  $haystack
-     * @param  string|iterable<string>  $needles
-     * 
+     * @param  string|iterable<string>  $needles 
      * @return bool
      */
     public static function doesntEndWith($haystack, $needles): bool
@@ -343,7 +328,6 @@ class Str
      * Replace in the chain the spaces by dashes.
      *
      * @param  string  $value  String to convert
-     *
      * @return string
      */
     public static function dash($value): string
@@ -355,8 +339,7 @@ class Str
      * Cap a string with a single instance of a given value.
      * 
      * @param  string  $value
-     * @param  string  $cap
-     * 
+     * @param  string  $cap 
      * @return string
      */
     public static function finish($value, $cap): string
@@ -370,7 +353,6 @@ class Str
      * Replace in an string the underscore or dashed by spaces.
      *
      * @param  string  $value  String to convert
-     *
      * @return string
      */
     public static function humanize($value): string
@@ -383,8 +365,7 @@ class Str
      * 
      * @param  string  $pattern
      * @param  string  $value
-     * @param  bool  $ignoreCase
-     * 
+     * @param  bool  $ignoreCase 
      * @return bool
      */
     public static function is($pattern, $value, $ignoreCase = false): bool
@@ -424,8 +405,7 @@ class Str
     /**
      * Determine if a given value is valid JSON.
      *
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return bool
      */
     public static function isJson($value): bool
@@ -440,8 +420,7 @@ class Str
     /**
      * Convert a string to kebab case.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     public static function kebab($value): string
@@ -452,8 +431,7 @@ class Str
     /**
      * Make a string's first character lowercase.
      *
-     * @param  string  $string
-     * 
+     * @param  string  $string 
      * @return string
      */
     public static function lcfirst($string): string
@@ -465,8 +443,7 @@ class Str
      * Return the length of the given string.
      *
      * @param  string  $value  String to length
-     * @param  string|null  $encoding  String encoding
-     * 
+     * @param  string|null  $encoding  String encoding 
      * @return int
      */
     public static function length($value, $encoding = null): int
@@ -485,7 +462,6 @@ class Str
      * @param  int  $limit
      * @param  string  $end
      * @param  bool  $preserveWords
-     *
      * @return string
      */
     public static function limit($value, $limit = 100, $end = '...', $preserveWords = false): string
@@ -511,7 +487,6 @@ class Str
      * Convert the given string to lower-case.
      *
      * @param  string  $value
-     *
      * @return string
      */
     public static function lower($value): string
@@ -523,8 +498,7 @@ class Str
      * Get the string matching the given pattern.
      *
      * @param  string  $pattern
-     * @param  string  $subject
-     * 
+     * @param  string  $subject 
      * @return string
      */
     public static function match($pattern, $subject): string
@@ -542,8 +516,7 @@ class Str
      * Determine if a given string matches a given pattern.
      *
      * @param  string|iterable<string>  $pattern
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return bool
      */
     public static function isMatch($pattern, $value): bool
@@ -570,7 +543,6 @@ class Str
      *
      * @param  string  $pattern
      * @param  string  $subject
-     * 
      * @return \Syscodes\Components\Support\Collection
      */
     public static function matchAll($pattern, $subject): Collection
@@ -587,8 +559,7 @@ class Str
     /**
      * Remove all non-numeric characters from a string.
      *
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     public static function numbers($value): string
@@ -599,8 +570,7 @@ class Str
     /**
      * Get a new stringable object from the given string.
      *
-     * @param  string  $string
-     * 
+     * @param  string  $string 
      * @return \Syscodes\Components\Support\Stringable
      */
     public static function of($string): Stringable
@@ -613,8 +583,7 @@ class Str
      * 
      * @param  string  $value
      * @param  int  $padLength
-     * @param  string  $padString
-     * 
+     * @param  string  $padString 
      * @return string 
      */
     public static function padBoth(string $value, int $padLength, string $padString = ' '): string 
@@ -627,8 +596,7 @@ class Str
      * 
      * @param  string  $value
      * @param  int  $padLength
-     * @param  string  $padString
-     * 
+     * @param  string  $padString 
      * @return string 
      */
     public static function padLeft(string $value, int $padLength, string $padString = ' '): string 
@@ -641,8 +609,7 @@ class Str
      * 
      * @param  string  $value
      * @param  int  $padLength
-     * @param  string  $padString
-     * 
+     * @param  string  $padString 
      * @return string 
      */
     public static function padRight(string $value, int $padLength, string $padString = ' '): string 
@@ -654,9 +621,8 @@ class Str
      * Parse a Class@method style callback into class and method.
      * Puts the class name with the first capital letter.
      * 
-     * @param  string       $callback
-     * @param  string|null  $default   
-     * 
+     * @param  string  $callback
+     * @param  string|null  $default 
      * @return array
      */
     public static function parseCallback($callback, $default = null): array
@@ -668,8 +634,7 @@ class Str
      * Get the plural form of an English word.
      * 
      * @param  string  $value
-     * @param  int|array|\Countable  $count
-     * 
+     * @param  int|array|\Countable  $count 
      * @return string 
      */
     public static function plural($value, $count = 2): string
@@ -683,8 +648,7 @@ class Str
      * @param  string  $haystack
      * @param  string  $needle
      * @param  int  $offset
-     * @param  string|null  $encoding
-     * 
+     * @param  string|null  $encoding 
      * @return int|false
      */
     public static function position($haystack, $needle, $offset = 0, $encoding = null): int|false
@@ -695,8 +659,7 @@ class Str
     /**
      * Generate a more truly "random" alpha-numeric string.
      * 
-     * @param  int  $length  
-     * 
+     * @param  int  $length 
      * @return string
      */
     public static function random($length = 16): string
@@ -723,8 +686,7 @@ class Str
      * Repeat the given string.
      * 
      * @param  string  $value
-     * @param  int  $times
-     * 
+     * @param  int  $times 
      * @return string
      */
     public static function repeat($value, $times): string
@@ -738,8 +700,7 @@ class Str
      * @param  string|iterable<string>  $search
      * @param  string|iterable<string>  $replace
      * @param  string|iterable<string>  $subject
-     * @param  bool  $caseSensitive
-     * 
+     * @param  bool  $caseSensitive 
      * @return ($subject is string ? string : string[])
      */
     public static function replace($search, $replace, $subject, $caseSensitive = true): string
@@ -766,8 +727,7 @@ class Str
      * 
      * @param  string  $search
      * @param  string[]  $replace
-     * @param  string  $subject
-     * 
+     * @param  string  $subject 
      * @return string
      */
     public static function replaceArray($search, $replace, $subject): string
@@ -791,8 +751,7 @@ class Str
      * Convert the given value to a string or return the given fallback on failure.
      *
      * @param  mixed  $value
-     * @param  string  $fallback
-     * 
+     * @param  string  $fallback 
      * @return string
      */
     protected static function toStringOr($value, $fallback): string
@@ -809,8 +768,7 @@ class Str
      * 
      * @param  string  $search
      * @param  string  $replace
-     * @param  string  $subject
-     * 
+     * @param  string  $subject 
      * @return string
      */
     public static function replaceFirst($search, $replace, $subject): string
@@ -835,8 +793,7 @@ class Str
      *
      * @param  string  $search
      * @param  string  $replace
-     * @param  string  $subject
-     * 
+     * @param  string  $subject 
      * @return string
      */
     public static function replaceStart($search, $replace, $subject): string
@@ -859,8 +816,7 @@ class Str
      * 
      * @param  string  $search
      * @param  string  $replace
-     * @param  string  $subject
-     * 
+     * @param  string  $subject 
      * @return string
      */
     public static function replaceLast($search, $replace, $subject): string
@@ -885,8 +841,7 @@ class Str
      *
      * @param  string  $search
      * @param  string  $replace
-     * @param  string  $subject
-     * 
+     * @param  string  $subject 
      * @return string
      */
     public static function replaceEnd($search, $replace, $subject): string
@@ -910,8 +865,7 @@ class Str
      * @param  array|string  $pattern
      * @param  \Closure|string[]|string  $replace
      * @param  array|string  $subject
-     * @param  int  $limit
-     * 
+     * @param  int  $limit 
      * @return string|string[]|null
      */
     public static function replaceMatches($pattern, $replace, $subject, $limit = -1)
@@ -928,8 +882,7 @@ class Str
      * 
      * @param  string|string[]  $search
      * @param  string|string[]  $subject
-     * @param  bool  $caseReplace
-     * 
+     * @param  bool  $caseReplace 
      * @return string
      */
     public static function remove($search, $subject, bool $caseReplace = true)
@@ -946,8 +899,7 @@ class Str
     /**
      * Reverse the given string.
      *
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     public static function reverse(string $value): string
@@ -958,8 +910,7 @@ class Str
     /**
      * Get the singular form of an English word.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string 
      */
     public static function singular($value): string
@@ -969,26 +920,34 @@ class Str
 
     /**
      * Generate a URL friendly "slug" from a given string.
-     * 
+     *
      * @param  string  $title
      * @param  string  $separator
-     * 
+     * @param  array<string, string>  $dictionary
      * @return string
      */
-    public static function slug($title, $separator = '-'): string
+    public static function slug($title, $separator = '-', $dictionary = ['@' => 'at'])
     {
-        $title = static::ascii($title);
-        
+        $title =  static::ascii($title) ?? $title;
+
         // Convert all dashes/underscores into separator
-        $flip = $separator == '-' ? '_' : '-';
+        $flip = $separator === '-' ? '_' : '-';
+
         $title = preg_replace('!['.preg_quote($flip).']+!u', $separator, $title);
-        
-        // Remove all characters that are not the separator, letters, numbers, or whitespace.
-        $title = preg_replace('![^'.preg_quote($separator).'\pL\pN\s]+!u', '', mb_strtolower($title));
-        
+
+        // Replace dictionary words
+        foreach ($dictionary as $key => $value) {
+            $dictionary[$key] = $separator.$value.$separator;
+        }
+
+        $title = str_replace(array_keys($dictionary), array_values($dictionary), $title);
+
+        // Remove all characters that are not the separator, letters, numbers, or whitespace
+        $title = preg_replace('![^'.preg_quote($separator).'\pL\pN\s]+!u', '', static::lower($title));
+
         // Replace all separator characters and whitespace by a single separator
         $title = preg_replace('!['.preg_quote($separator).'\s]+!u', $separator, $title);
-        
+
         return trim($title, $separator);
     }
 
@@ -996,7 +955,6 @@ class Str
      * Converts the CamelCase string into smallcase notation.
      *
      * @param  string  $value  String to convert
-     *
      * @return string
      */
     public static function smallcase($value): string
@@ -1008,8 +966,7 @@ class Str
      * Convert a string to snake case.
      * 
      * @param  string  $value
-     * @param  string  $delimiter
-     * 
+     * @param  string  $delimiter 
      * @return string
      */
     public static function snake($value, $delimiter = '_'): string
@@ -1033,8 +990,7 @@ class Str
      * Begin a string with a single instance of a given value.
      *
      * @param  string  $value
-     * @param  string  $prefix
-     * 
+     * @param  string  $prefix 
      * @return string
      */
     public static function start($value, $prefix): string
@@ -1049,7 +1005,6 @@ class Str
      *
      * @param  string  $haystack
      * @param  string|array  $needles
-     *
      * @return bool
      */
     public static function startsWith($haystack, $needles): bool
@@ -1075,8 +1030,7 @@ class Str
      * Determine if a given string doesn't start with a given substring.
      *
      * @param  string  $haystack
-     * @param  string|iterable<string>  $needles
-     * 
+     * @param  string|iterable<string>  $needles 
      * @return bool
      */
     public static function doesntStartWith($haystack, $needles): bool
@@ -1088,7 +1042,6 @@ class Str
      * Convert the string with spaces or underscore in StudlyCaps. 
      *
      * @param  string  $value  String to convert
-     *
      * @return string
      */
     public static function studlycaps($value): string
@@ -1112,8 +1065,7 @@ class Str
      * @param  string  $string
      * @param  int  $start
      * @param  int|null  $length
-     * @param  string  $encoding
-     * 
+     * @param  string  $encoding 
      * @return string
      */
     public static function substr($string, $start, $length = null, $encoding = 'UTF-8'): string
@@ -1125,8 +1077,7 @@ class Str
      * Take the first or last {$limit} characters of a string.
      *
      * @param  string  $string
-     * @param  int  $limit
-     * 
+     * @param  int  $limit 
      * @return string
      */
     public static function take($string, int $limit): string
@@ -1141,8 +1092,7 @@ class Str
     /**
      * Generates the letter first of a word in upper.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     public static function title($value): string
@@ -1153,8 +1103,7 @@ class Str
     /**
      * Convert the given string to Base64 encoding.
      *
-     * @param  string  $string
-     * 
+     * @param  string  $string 
      * @return string
      */
     public static function toBase64($string): string
@@ -1166,8 +1115,7 @@ class Str
      * Decode the given Base64 encoded string.
      *
      * @param  string  $string
-     * @param  bool  $strict
-     * 
+     * @param  bool  $strict 
      * @return string|false
      */
     public static function fromBase64($string, $strict = false): string|false
@@ -1179,7 +1127,6 @@ class Str
      * Replace in the string the spaces by low dashes.
      *
      * @param  string  $value  String to convert
-     *
      * @return string
      */
     public static function underscore($value): string
@@ -1191,7 +1138,6 @@ class Str
      * Convert the given string to upper-case.
      *
      * @param  string  $value
-     *
      * @return string
      */
     public static function upper($value): string
@@ -1202,8 +1148,7 @@ class Str
     /**
      * Make a string's first character uppercase.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     public static function ucfirst($value): string
@@ -1216,8 +1161,7 @@ class Str
      *
      * @param  string  $value
      * @param  string  $before
-     * @param  string|null  $after
-     * 
+     * @param  string|null  $after 
      * @return string
      */
     public static function unwrap($value, $before, $after = null): string
@@ -1238,8 +1182,7 @@ class Str
      *
      * @param  string  $value
      * @param  int  $words
-     * @param  string  $end
-     * 
+     * @param  string  $end 
      * @return string
      */
     public static function words($value, $words = 100, $end = '...'): string
@@ -1258,8 +1201,7 @@ class Str
      *
      * @param  string  $value
      * @param  string  $before
-     * @param  string|null  $after
-     * 
+     * @param  string|null  $after 
      * @return string
      */
     public static function wrap($value, $before, $after = null): string

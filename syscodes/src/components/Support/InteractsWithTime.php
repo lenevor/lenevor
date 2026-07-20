@@ -33,8 +33,7 @@ trait InteractsWithTime
     /**
      * Get the number of seconds until the given DateTime.
      * 
-     * @param  DateTime|DateInterval|int  $delay
-     * 
+     * @param  DateTime|DateInterval|int  $delay 
      * @return int
      */
     protected function secondsUntil($delay): int
@@ -49,8 +48,7 @@ trait InteractsWithTime
     /**
      * Get the "available at" UNIX timestamp.
      * 
-     * @param  DateTime|DateInterval|int  $delay  
-     * 
+     * @param  DateTime|DateInterval|int  $delay 
      * @return int
      */
     protected function availableAt($delay = 0): int
@@ -65,8 +63,7 @@ trait InteractsWithTime
     /**
      * If the given value is an interval, convert it to a DateTime instance.
      * 
-     * @param  DateTime|DateInterval|int  $delay
-     * 
+     * @param  DateTime|DateInterval|int  $delay 
      * @return DateTime|int
      */
     protected function parseDateInterval($delay)
@@ -91,8 +88,7 @@ trait InteractsWithTime
     /**
      * Add seconds to the instance using timestamp.
      * 
-     * @param  int  $value
-     * 
+     * @param  int  $value 
      * @return static
      */
     public function addRealSeconds($value)
@@ -104,8 +100,7 @@ trait InteractsWithTime
      * Given a start time, format the total run time for human readability.
      * 
      * @param  float  $startTime
-     * @param  float|null  $endTime
-     * 
+     * @param  float|null  $endTime 
      * @return string
      */
     protected function runTimeForHumans($startTime, $endTime = null): string
