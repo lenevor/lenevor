@@ -32,8 +32,7 @@ trait File
     /**
      * Check whether value is from $_FILES.
      * 
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return bool
      */
     public function isValueFromUploadedFiles($value): bool
@@ -56,8 +55,7 @@ trait File
     /**
      * Check the $value is uploaded file.
      * 
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return bool
      */
     public function isUploadedFile($value): bool
@@ -68,8 +66,7 @@ trait File
     /**
      * Resolve uploaded file value.
      * 
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return array|null
      */
     public function resolveUploadedFileValue($value): array|null
@@ -80,10 +77,10 @@ trait File
         
         $arrayDots = Arr::dot($value);
         
-        $results   = [];
+        $results = [];
         
         foreach ($arrayDots as $key => $val) {
-            $splits   = explode(".", $key);
+            $splits = explode(".", $key);
             $firstKey = array_shift($splits);
             
             $key = count($splits) ? implode(".", $splits) . ".{$firstKey}" : $firstKey;

@@ -32,8 +32,7 @@ trait Size
     /**
      * Get size (int) value from given value.
      * 
-     * @param  int|string  $value
-     * 
+     * @param  int|string  $value 
      * @return float|false
      */
     protected function getValueSize($value): float|false
@@ -62,8 +61,7 @@ trait Size
     /**
      * Given $size and get the bytes.
      * 
-     * @param  string|int  $size
-     * 
+     * @param  string|int  $size 
      * @return float
      * 
      * @throws InvalidArgumentException
@@ -98,8 +96,7 @@ trait Size
     /**
      * Check whether value is from $_FILES.
      * 
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return bool
      */
     public function isUploadedFileValue($value): bool

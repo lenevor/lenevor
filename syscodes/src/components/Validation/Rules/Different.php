@@ -46,15 +46,14 @@ class Different extends Rules
     /**
      * Check the value is valid.
      * 
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return bool
      */
     public function check($value): bool
     {
         $this->requireParameters($this->fillableParams);
         
-        $field        = $this->parameter('field');
+        $field = $this->parameter('field');
         $anotherValue = $this->validation->getValue($field);
         
         return $value != $anotherValue;

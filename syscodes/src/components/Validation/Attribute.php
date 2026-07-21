@@ -91,8 +91,7 @@ final class Attribute
      * @param  Validation  $validation
      * @param  string  $key
      * @param  string|null  $alias
-     * @param  array  $rules
-     * 
+     * @param  array  $rules 
      * @return void
      */
     public function __construct(
@@ -102,8 +101,8 @@ final class Attribute
         array $rules = []
     ) {
         $this->validation = $validation;
-        $this->key        = $key;
-        $this->alias      = $alias;
+        $this->key = $key;
+        $this->alias = $alias;
         
         foreach ($rules as $rule) {
             $this->addRule($rule);
@@ -113,8 +112,7 @@ final class Attribute
     /**
      * Set the primary attribute.
      * 
-     * @param Attribute $primaryAttribute
-     * 
+     * @param  Attribute  $primaryAttribute 
      * @return void
      */
     public function setPrimaryAttribute(Attribute $primaryAttribute): void
@@ -125,8 +123,7 @@ final class Attribute
     /**
      * Set key indexes.
      * 
-     * @param array $keyIndexes
-     * 
+     * @param  array  $keyIndexes 
      * @return void
      */
     public function setKeyIndexes(array $keyIndexes): void
@@ -147,8 +144,7 @@ final class Attribute
     /**
      * Set other attributes.
      * 
-     * @param array $otherAttributes
-     * 
+     * @param  array  $otherAttributes 
      * @return void
      */
     public function setOtherAttributes(array $otherAttributes): void
@@ -163,8 +159,7 @@ final class Attribute
     /**
      * Add other attributes.
      * 
-     * @param Attribute $otherAttribute
-     * 
+     * @param  Attribute  $otherAttribute 
      * @return void
      */
     public function addOtherAttribute(Attribute $otherAttribute): void
@@ -185,8 +180,7 @@ final class Attribute
     /**
      * Add rule.
      * 
-     * @param Rules $rule
-     * 
+     * @param  Rules  $rule 
      * @return void
      */
     public function addRule(Rules $rule): void
@@ -199,8 +193,7 @@ final class Attribute
     /**
      * Get rule.
      * 
-     * @param string $ruleKey
-     * 
+     * @param  string  $ruleKey 
      * @return bool
      */
     public function getRule(string $ruleKey): bool
@@ -221,8 +214,7 @@ final class Attribute
     /**
      * Check the $ruleKey has in the rule.
      * 
-     * @param string $ruleKey
-     * 
+     * @param  string  $ruleKey 
      * @return bool
      */
     public function hasRule(string $ruleKey): bool
@@ -233,8 +225,7 @@ final class Attribute
     /**
      * Set required.
      * 
-     * @param boolean $required
-     * 
+     * @param  boolean  $required 
      * @return void
      */
     public function setRequired(bool $required): void
@@ -275,8 +266,7 @@ final class Attribute
     /**
      * Get value.
      * 
-     * @param string|null $key
-     * 
+     * @param  string|null  $key 
      * @return mixed
      */
     public function getValue(?string $key = null): mixed
@@ -315,14 +305,13 @@ final class Attribute
     /**
      * Resolve sibling key.
      * 
-     * @param string $key
-     * 
+     * @param  string  $key 
      * @return string
      */
     public function resolveSiblingKey(string $key): string
     {
-        $indexes        = $this->getKeyIndexes();
-        $keys           = explode("*", $key);
+        $indexes = $this->getKeyIndexes();
+        $keys = explode("*", $key);
         $countAsterisks = count($keys) - 1;
         
         if (count($indexes) < $countAsterisks) {
@@ -348,7 +337,7 @@ final class Attribute
         // Resolve key from array validation
         if ($primaryAttribute) {
             $split = explode('.', $key);
-            $key   = implode(' ', array_map(function ($word) {
+            $key = implode(' ', array_map(function ($word) {
                 if (is_numeric($word)) {
                     $word = $word + 1;
                 }
@@ -363,8 +352,7 @@ final class Attribute
     /**
      * Set alias.
      * 
-     * @param string $alias
-     * 
+     * @param  string  $alias 
      * @return void
      */
     public function setAlias(string $alias): void

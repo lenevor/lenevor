@@ -46,8 +46,7 @@ class DigitsBetween extends Rules
     /**
      * Check the value is valid.
      * 
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return bool
      */
     public function check($value): bool
@@ -60,6 +59,6 @@ class DigitsBetween extends Rules
         $length = strlen((string) $value);
         
         return ! preg_match('/[^0-9]/', $value)
-               && $length >= $min && $length <= $max;
+            && $length >= $min && $length <= $max;
     }
 }

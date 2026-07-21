@@ -35,6 +35,13 @@ class Validator implements ValidationContract
 {
     use Traits\Messages,
         Traits\RegisterValidators;
+
+    /**
+     * All of the registered "after" callbacks.
+     *
+     * @var array
+     */
+    protected $after = [];
     
     /**
      * Allows the rules override.
@@ -42,13 +49,6 @@ class Validator implements ValidationContract
      * @var bool
      */
     protected $allowRuleOverride = false;
-    
-    /**
-     * The message bag instance.
-     * 
-     * @var \Syscodes\Components\Support\MessageBag|array
-     */
-    protected $messages;
     
     /**
      * The Validator resolver instance.
@@ -63,6 +63,13 @@ class Validator implements ValidationContract
      * @var array
      */
     protected $rules;
+
+    /**
+     * Indicates if the validator should stop on the first rule failure.
+     *
+     * @var bool
+     */
+    protected $stopOnFirstFailure = false;
     
     /**
      * Allows use humanize keys.
@@ -81,15 +88,14 @@ class Validator implements ValidationContract
     /**
      * The Presence Verifier implementation.
      * 
-     * @var \Syscodes\Components\Contracts\Validation\PresenceVerifier
+     * @var \Syscodes\Components\Validation\PresenceInterface
      */
     protected $verifier;
         
     /**
      * Constructor. Create new Validator class instance.
      * 
-     * @param  array  $messages
-     * 
+     * @param  array  $messages 
      * @return void
      */
     public function __construct(array $messages = [])
@@ -102,8 +108,7 @@ class Validator implements ValidationContract
     /**
      * Get validator object from given key.
      * 
-     * @param  mixed  $key
-     * 
+     * @param  mixed  $key 
      * @return mixed
      */
     public function getValidator($key): mixed
@@ -115,8 +120,7 @@ class Validator implements ValidationContract
      * Register or override existing validator.
      * 
      * @param  mixed  $key
-     * @param  \Syscodes\Components\Validation\Rules  $rule
-     * 
+     * @param  \Syscodes\Components\Validation\Rules  $rule 
      * @return void
      */
     public function setValidator(string $key, Rules $rule): void
@@ -124,6 +128,27 @@ class Validator implements ValidationContract
         $this->validators[$key] = $rule;
         
         $rule->setKey($key);
+    }
+
+    /**
+     * Add an after validation callback.
+     *
+     * @param  callable|array|string  $callback
+     * @return static
+     */
+    public function after($callback): static
+    {
+        if (is_array($callback) && ! is_callable($callback)) {
+            foreach ($callback as $rule) {
+                $this->after(method_exists($rule, 'after') ? $rule->after(...) : $rule);
+            }
+
+            return $this;
+        }
+
+        $this->after[] = fn () => $callback($this);
+
+        return $this;
     }
     
     /**
@@ -136,9 +161,19 @@ class Validator implements ValidationContract
         $this->messages = new MessageBag;
         
         foreach ($this->rules as $attribute => $rules) {
+            if ($this->stopOnFirstFailure && $this->messages->isNotEmpty()) {
+                break;
+            }
+
             foreach ($rules as $rule) {
                 $this->validate((array) $attribute, $rule);
             }
+        }
+
+        // Here we will spin through all of the "after" hooks on this validator and
+        // fire them off.
+        foreach ($this->after as $after) {
+            $after();
         }
         
         return $this->messages->isEmpty();
@@ -192,29 +227,27 @@ class Validator implements ValidationContract
     /**
      * Validate the given data against the provided rules.
      * 
-     * @param  array  $inputs
+     * @param  array  $data
      * @param  array  $rules
-     * @param  array  $messages
-     * 
+     * @param  array  $messages 
      * @return void
      */
-    public function validate(array $inputs, array $rules, array $messages = [])
+    public function validate(array $data, array $rules, array $messages = [])
     {
-        return $this->make($inputs, $rules, $messages)->validate();
+        return $this->make($data, $rules, $messages)->validate();
     }
     
     /**
-     * Given inputs, rules and messages to make the Validation class instance.
+     * Given data, rules and messages to make the Validation class instance.
      * 
-     * @param  array  $inputs
+     * @param  array  $data
      * @param  array  $rules
-     * @param  array  $messages
-     * 
+     * @param  array  $messages 
      * @return Validation
      */
-    public function make(array $inputs, array $rules, array $messages = []): Validation
+    public function make(array $data, array $rules, array $messages = []): Validation
     {
-        $validator = $this->resolve($inputs, $rules, $messages);
+        $validator = $this->resolve($data, $rules, $messages);
         
         if ( ! is_null($this->verifier)) {
             $validator->setPresenceVerifier($this->verifier);
@@ -226,27 +259,25 @@ class Validator implements ValidationContract
     /**
      * Resolve a new Validation instance.
      * 
-     * @param  array  $inputs
+     * @param  array  $data
      * @param  array  $rules
-     * @param  array  $messages
-     * 
+     * @param  array  $messages 
      * @return Validation 
      */
-    protected function resolve(array $inputs, array $rules, array $messages = []): Validation
+    protected function resolve(array $data, array $rules, array $messages = []): Validation
     {
         if (is_null($this->resolver)) {
-            return new Validation($this, $inputs, $rules, array_merge($this->messages, $messages));
+            return new Validation($this, $data, $rules, array_merge($this->messages, $messages));
         }
         
-        return call_user_func($this->resolver, $inputs, $rules, $messages);
+        return call_user_func($this->resolver, $data, $rules, $messages);
     }
     
     /**
      * Given ruleName and rule to add new validator.
      * 
      * @param  string  $ruleName
-     * @param  \Syscodes\Components\Validation\Rules  $rule
-     * 
+     * @param  \Syscodes\Components\Validation\Rules  $rule 
      * @return void
      */
     public function addValidator(string $ruleName, Rules $rule): void
@@ -263,8 +294,7 @@ class Validator implements ValidationContract
     /**
      * Set rule can allow to be overrided.
      * 
-     * @param  boolean  $status
-     * 
+     * @param  boolean  $status 
      * @return void
      */
     public function allowRuleOverride(bool $status = false): void
@@ -275,8 +305,7 @@ class Validator implements ValidationContract
     /**
      * Set this can use humanize keys.
      * 
-     * @param  boolean  $useHumanizedKeys
-     * 
+     * @param  boolean  $useHumanizedKeys 
      * @return void
      */
     public function setUseHumanizedKeys(bool $useHumanizedKeys = true): void
@@ -287,8 +316,7 @@ class Validator implements ValidationContract
     /**
      * Set the Validator instance resolver.
      * 
-     * @param  \Closure  $resolver
-     * 
+     * @param  \Closure  $resolver 
      * @return void
      */
     public function resolver(Closure $resolver): void
@@ -297,9 +325,22 @@ class Validator implements ValidationContract
     }
 
     /**
+     * Instruct the validator to stop validating after the first rule error.
+     *
+     * @param  bool  $stopOnFirstFailure
+     * @return static
+     */
+    public function stopOnFirstFailure($stopOnFirstFailure = true): static
+    {
+        $this->stopOnFirstFailure = $stopOnFirstFailure;
+
+        return $this;
+    }
+
+    /**
      * Get the Presence Verifier implementation.
      * 
-     * @return \Syscodes\Components\Contracts\Validation\PresenceVerifier
+     * @return \Syscodes\Components\Validation\PresenceInterface
      */
     public function getPresenceVerifier()
     {
@@ -309,8 +350,7 @@ class Validator implements ValidationContract
     /**
      * Set the Presence Verifier implementation.
      * 
-     * @param  \Syscodes\Components\Contracts\Validation\PresenceVerifier  $presenceVerifier
-     * 
+     * @param  \Syscodes\Components\Validation\PresenceInterface  $presenceVerifier 
      * @return void
      */
     public function setPresenceVerifier($presenceVerifier): void
@@ -334,7 +374,6 @@ class Validator implements ValidationContract
      * Invokes method to make Rule instance.
      * 
      * @param  string  $rule
-     * 
      * @return Rules
      * 
      * @throws RuleNotFoundException

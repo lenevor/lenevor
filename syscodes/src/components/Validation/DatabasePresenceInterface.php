@@ -30,8 +30,7 @@ interface DatabasePresenceInterface extends PresenceInterface
     /**
      * Set the connection to be used.
      * 
-     * @param  string  $connection
-     * 
+     * @param  string  $connection 
      * @return void
      */
     public function setConnection($connection): void;

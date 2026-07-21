@@ -46,8 +46,7 @@ class Defaults extends Rules
     /**
      * Check the value is valid.
      * 
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return bool
      */
     public function check($value): bool
@@ -62,8 +61,7 @@ class Defaults extends Rules
     /**
      * Allows the modify of a value.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string|null 
      */
     public function modifyValue($value): string|null
@@ -74,14 +72,13 @@ class Defaults extends Rules
     /**
      * Check value is empty value.
      * 
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return boolean
      */
     protected function isEmptyValue($value): bool
     {
         $requiredValid = new Required;
         
-        return false === $requiredValid->check($value, []);
+        return false === $requiredValid->check($value);
     }
 }

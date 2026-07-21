@@ -35,8 +35,7 @@ interface PresenceInterface
      * @param  string  $value
      * @param  int|null  $excludeId
      * @param  string|null  $idColumn
-     * @param  array  $extra
-     * 
+     * @param  array  $extra 
      * @return int
      */
     public function getCount(
@@ -54,8 +53,7 @@ interface PresenceInterface
      * @param  string  $collection
      * @param  string  $column
      * @param  array  $values
-     * @param  array  $extra
-     * 
+     * @param  array  $extra 
      * @return int
      */
     public function getMultiCount(

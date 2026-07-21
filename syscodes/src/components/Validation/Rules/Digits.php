@@ -46,8 +46,7 @@ class Digits extends Rules
     /**
      * Check the value is valid.
      * 
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return bool
      */
     public function check($value): bool
@@ -57,6 +56,6 @@ class Digits extends Rules
         $length = (int) $this->parameter('length');
         
         return ! preg_match('/[^0-9]/', $value) 
-               && strlen((string) $value) == $length;
+            && strlen((string) $value) == $length;
     }
 }

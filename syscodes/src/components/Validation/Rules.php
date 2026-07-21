@@ -88,8 +88,7 @@ abstract class Rules
     /**
      * Checks the value to given a rule.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return bool
      */
     abstract public function check($value): bool;
@@ -97,8 +96,7 @@ abstract class Rules
     /**
      * Set Validation class instance
      * 
-     * @param  Validation  $validation
-     * 
+     * @param  Validation  $validation 
      * @return void
      */
     public function setValidation(Validation $validation): void
@@ -109,8 +107,7 @@ abstract class Rules
     /**
      * Set key.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return void
      */
     public function setKey(string $key): void
@@ -131,8 +128,7 @@ abstract class Rules
     /**
      * Set attribute.
      * 
-     * @param  Attribute  $attribute
-     * 
+     * @param  Attribute  $attribute 
      * @return void
      */
     public function setAttribute(Attribute $attribute): void
@@ -163,8 +159,7 @@ abstract class Rules
     /**
      * Set params.
      * 
-     * @param array $params
-     * 
+     * @param  array  $params 
      * @return static
      */
     public function setParameters(array $params): static
@@ -178,8 +173,7 @@ abstract class Rules
      * Set parameters.
      * 
      * @param  string  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return static
      */
     public function setParameter(string $key, $value): static
@@ -192,8 +186,7 @@ abstract class Rules
     /**
      * Fill $params to $this->params.
      * 
-     * @param  array  $params
-     * 
+     * @param  array  $params 
      * @return static
      */
     public function fillParameters(array $params): static
@@ -212,8 +205,7 @@ abstract class Rules
     /**
      * Get parameter from given $key, return null if it not exists.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return string|null
      */
     public function parameter(string $key): string|null
@@ -225,8 +217,7 @@ abstract class Rules
      * Set parameter text that can be displayed in error message using ':param_key'.
      * 
      * @param  string  $key
-     * @param  string  $text
-     * 
+     * @param  string  $text 
      * @return void
      */
     public function setParameterText(string $key, string $text): void
@@ -257,8 +248,7 @@ abstract class Rules
     /**
      * Just alias of setMessage.
      * 
-     * @param  string  $message
-     * 
+     * @param  string  $message 
      * @return static
      */
     public function message(string $message): static
@@ -269,8 +259,7 @@ abstract class Rules
     /**
      * Set message.
      * 
-     * @param  string  $message
-     * 
+     * @param  string  $message 
      * @return static
      */
     public function setMessage(string $message): static
@@ -293,8 +282,7 @@ abstract class Rules
     /**
      * Check given $params must be exists.
      * 
-     * @param  array  $params
-     * 
+     * @param  array  $params 
      * @return void
      * 
      * @throws MissingRequiredParameterException

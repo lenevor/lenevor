@@ -49,8 +49,7 @@ class After extends Rules
     /**
      * Check the value is valid.
      * 
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return bool
      * 
      * @throws \Exception

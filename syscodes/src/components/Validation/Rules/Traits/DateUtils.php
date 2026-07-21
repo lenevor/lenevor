@@ -32,8 +32,7 @@ trait DateUtils
     /**
      * Check the date is valid
      * 
-     * @param  string  $date
-     * 
+     * @param  string  $date 
      * @return bool
      */
     protected function isValidDate(string $date): bool
@@ -44,8 +43,7 @@ trait DateUtils
     /**
      * Throw exception.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return Exception
      */
     protected function throwException(string $value): Exception
@@ -58,8 +56,7 @@ trait DateUtils
     /**
      * Given $date and get the timestamp.
      * 
-     * @param  mixed  $date
-     * 
+     * @param  mixed  $date 
      * @return int
      */
     protected function getTimeStamp($date): int

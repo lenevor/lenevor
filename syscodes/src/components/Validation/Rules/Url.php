@@ -39,8 +39,7 @@ class Url extends Rules
     /**
      * Given $params and assign the params.
      * 
-     * @param  array  $params
-     * 
+     * @param  array  $params 
      * @return static
      */
     public function fillParameters(array $params): static
@@ -55,8 +54,7 @@ class Url extends Rules
     /**
      * Given schemes and assign the params.
      * 
-     * @param  array  $schemes
-     * 
+     * @param  array  $schemes 
      * @return static
      */
     public function forScheme($schemes): static
@@ -69,8 +67,7 @@ class Url extends Rules
     /**
      * Check the value is valid.
      * 
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return bool
      */
     public function check($value): bool
@@ -100,8 +97,7 @@ class Url extends Rules
      * Validate value is correct scheme format.
      * 
      * @param  mixed  $value
-     * @param  null  $scheme
-     * 
+     * @param  null  $scheme 
      * @return bool
      */
     public function validateCommonScheme($value, $scheme = null): bool
@@ -116,8 +112,7 @@ class Url extends Rules
     /**
      * Validate the value is mailto scheme format.
      * 
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return bool
      */
     public function validateMailtoScheme($value): bool
@@ -128,8 +123,7 @@ class Url extends Rules
     /**
      * Validate the value is jdbc scheme format.
      * 
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return bool
      */
     public function validateJdbcScheme($value): bool
@@ -140,8 +134,7 @@ class Url extends Rules
     /**
      * Validate $value is valid URL format.
      * 
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return bool
      */
     public function validateBasic($value): bool

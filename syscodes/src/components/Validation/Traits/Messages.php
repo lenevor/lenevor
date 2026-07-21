@@ -26,20 +26,19 @@ namespace Syscodes\Components\Validation\Traits;
  * Get the messsages.
  */
 trait Messages
-{
-    /** 
-     * The message implementation.
+{    
+    /**
+     * The message bag instance.
      * 
-     * @var array
+     * @var \Syscodes\Components\Support\MessageBag|array
      */
-    protected $messages = [];
+    protected $messages;
     
     /**
      * Given $key and $message to set message
      * 
      * @param  mixed  $key
-     * @param  mixed  $message
-     * 
+     * @param  mixed  $message 
      * @return void
      */
     public function setMessage(string $key, string $message): void
@@ -50,8 +49,7 @@ trait Messages
     /**
      * Given $messages and set multiple messages.
      * 
-     * @param  array  $messages
-     * 
+     * @param  array  $messages 
      * @return void
      */
     public function setMessages(array $messages): void
@@ -62,8 +60,7 @@ trait Messages
     /**
      * Given message from given $key.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return string
      */
     public function getMessage(string $key): string

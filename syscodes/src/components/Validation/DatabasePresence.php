@@ -48,8 +48,7 @@ class DatabasePresence implements DatabasePresenceInterface
     /**
      * Constructor. Create a new database presence class instance.
      * 
-     * @param  \Syscodes\Components\Database\ConnectionResolverInterface  $db
-     * 
+     * @param  \Syscodes\Components\Database\ConnectionResolverInterface  $db 
      * @return void
      */
     public function __construct(ConnectionResolverInterface $db)
@@ -65,8 +64,7 @@ class DatabasePresence implements DatabasePresenceInterface
      * @param  string  $value
      * @param  int|null  $excludeId
      * @param  string|null  $idColumn
-     * @param  array  $extra
-     * 
+     * @param  array  $extra 
      * @return int
      */
     public function getCount(
@@ -92,8 +90,7 @@ class DatabasePresence implements DatabasePresenceInterface
      * @param  string  $collection
      * @param  string  $column
      * @param  array  $values
-     * @param  array  $extra
-     * 
+     * @param  array  $extra 
      * @return int
      */
     public function getMultiCount(
@@ -111,8 +108,7 @@ class DatabasePresence implements DatabasePresenceInterface
      * Add the given conditions to the query.
      * 
      * @param  \Syscodes\Components\Database\Query\Builder  $query
-     * @param  array  $conditions
-     * 
+     * @param  array  $conditions 
      * @return \Syscodes\Components\Database\Query\Builder
      */
     protected function addConditions($query, $conditions)
@@ -135,8 +131,7 @@ class DatabasePresence implements DatabasePresenceInterface
      * 
      * @param  \Syscodes\Components\Database\Query\Builder  $query
      * @param  string  $key
-     * @param  string  $extraValue
-     * 
+     * @param  string  $extraValue 
      * @return void
      */
     protected function addWhere($query, $key, $extraValue): void
@@ -155,8 +150,7 @@ class DatabasePresence implements DatabasePresenceInterface
     /**
      * Get a query builder for the given table.
      * 
-     * @param  string  $table
-     * 
+     * @param  string  $table 
      * @return \Syscodes\Components\Database\Query\Builder
      */
     protected function table($table)
@@ -167,8 +161,7 @@ class DatabasePresence implements DatabasePresenceInterface
     /**
      * Set the connection to be used.
      * 
-     * @param  string  $connection
-     * 
+     * @param  string  $connection 
      * @return void
      */
     public function setConnection($connection): void

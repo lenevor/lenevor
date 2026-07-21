@@ -48,8 +48,7 @@ class Callback extends Rules
     /**
      * Set the Callback closure.
      * 
-     * @param Closure $callback
-     * 
+     * @param Closure $callback 
      * @return static
      */
     public function setCallback(Closure $callback): static
@@ -60,8 +59,7 @@ class Callback extends Rules
     /**
      * Check the value is valid.
      * 
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return bool
      */
     public function check($value): bool
@@ -76,7 +74,7 @@ class Callback extends Rules
             throw new InvalidArgumentException("Callback rule for '{$key}' is not callable");
         }
         
-        $callback       = $callback->bindTo($this);
+        $callback = $callback->bindTo($this);
         $invalidMessage = $callback($value);
         
         if (is_string($invalidMessage)) {

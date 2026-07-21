@@ -26,6 +26,7 @@ use Closure;
 use Exception;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\MessageBag;
+use Syscodes\Components\Validation\Exceptions\ValidationException;
 use Syscodes\Components\Validation\Traits\Messages;
 use Syscodes\Components\Validation\Rules\Required;
 
@@ -51,18 +52,11 @@ final class Validation
     protected $attributes = [];
 
     /**
-     * Get the errors.
-     * 
-     * @var MessageBag
-     */
-    public $errors;
-
-    /**
      * Gets the input.
      * 
      * @var array
      */
-    protected $inputs = [];
+    protected $data = [];
 
     /**
      * Gets the invalid data.
@@ -81,7 +75,7 @@ final class Validation
     /**
      * The validator implementation.
      * 
-     * @var mixed
+     * @var Validator
      */
     protected $validator;
 
@@ -95,7 +89,7 @@ final class Validation
     /**
      * The Presence Verifier implementation.
      * 
-     * @var \Syscodes\Components\Contracts\Validation\PresenceVerifier
+     * @var \Syscodes\Components\Validation\PresenceInterface
      */
     protected $verifier;
 
@@ -103,22 +97,20 @@ final class Validation
      * Constructor. Create new a Validation class instance.
      * 
      * @param  Validator $validator
-     * @param  array $inputs
+     * @param  array $data
      * @param  array $rules
-     * @param  array $messages
-     * 
+     * @param  array $messages 
      * @return void
      */
     public function __construct(
         Validator $validator,
-        array $inputs,
+        array $data,
         array $rules,
         array $messages = []
     ) {
         $this->validator = $validator;
-        $this->inputs = $this->resolveInputAttributes($inputs);
+        $this->data = $this->resolveInputAttributes($data);
         $this->messages = $messages;
-        $this->errors = new MessageBag;
         
         foreach ($rules as $attributeKey => $rules) {
             $this->addAttribute($attributeKey, $rules);
@@ -129,8 +121,7 @@ final class Validation
      * Add attribute rules.
      * 
      * @param  string  $attributeKey
-     * @param  string|array  $rules
-     * 
+     * @param  string|array  $rules 
      * @return void
      */
     public function addAttribute(string $attributeKey, $rules): void
@@ -144,8 +135,7 @@ final class Validation
     /**
      * Get attribute by key.
      * 
-     * @param  string  $attributeKey
-     * 
+     * @param  string  $attributeKey 
      * @return string|null
      */
     public function getAttribute(string $attributeKey): string|null
@@ -156,14 +146,14 @@ final class Validation
     /**
      * Run validation.
      * 
-     * @param  array  $inputs
-     * 
+     * @param  array  $data 
      * @return void
      */
-    public function validate(array $inputs = []): void
+    public function validate(array $data = []): void
     {
-        $this->errors = new MessageBag; // reset message bag
-        $this->inputs = array_merge($this->inputs, $this->resolveInputAttributes($inputs));
+        // Reset message bag.
+        $this->messages = new MessageBag; 
+        $this->data = array_merge($this->data, $this->resolveInputAttributes($data));
         
         // Before validation hooks
         foreach ($this->attributes as $attributeKey => $attribute) {
@@ -176,6 +166,25 @@ final class Validation
             $this->validateAttribute($attribute);
         }
     }
+
+    /**
+     * Run the validator's rules against its data.
+     *
+     * @param  string  $errorBag
+     * @return array
+     *
+     * @throws \Syscodes\Components\Validation\Exceptions\ValidationException
+     */
+    public function validateWithBag(string $errorBag)
+    {
+        try {
+            return $this->validate();
+        } catch (ValidationException $e) {
+            $e->errorBag = $errorBag;
+
+            throw $e;
+        }
+    }
     
     /**
      * Add error to the errors.
@@ -183,22 +192,19 @@ final class Validation
      * @param  Attribute  $attribute
      * @param  mixed  $value
      * @param  Rules  $ruleValidator
-     * 
      * @return void
      */
     protected function addError(Attribute $attribute, $value, Rules $ruleValidator): void
     {
-        $ruleName = $ruleValidator->getKey();
         $message = $this->resolveMessage($attribute, $value, $ruleValidator);
         
-        $this->errors->add($attribute->getKey(), $ruleName, $message);
+        $this->messages->add($attribute, $message);
     }
     
     /**
      * Validate an attribute.
      * 
-     * @param  Attribute  $attribute
-     * 
+     * @param  Attribute  $attribute 
      * @return void
      */
     protected function validateAttribute(Attribute $attribute): void
@@ -254,8 +260,7 @@ final class Validation
     /**
      * Check whether given $attribute is array attribute.
      * 
-     * @param  Attribute  $attribute
-     * 
+     * @param  Attribute  $attribute 
      * @return bool
      */
     protected function isArrayAttribute(Attribute $attribute): bool
@@ -269,22 +274,20 @@ final class Validation
      * Check if the value is empty.
      * 
      * @param  mixed  $value
-     *
      * @return boolean
      */
     protected function isEmptyValue($value): bool
     {
         $requiredValidator = new Required;
         
-        return false === $requiredValidator->check($value, []);
+        return false === $requiredValidator->check($value);
     }
     
     /**
      * Check the rule is optional.
      * 
      * @param  Attribute  $attribute
-     * @param  Rules  $rule
-     * 
+     * @param  Rules  $rule 
      * @return bool
      */
     protected function ruleIsOptional(Attribute $attribute, Rules $rule): bool
@@ -297,8 +300,7 @@ final class Validation
     /**
      * Resolve rules.
      * 
-     * @param  mixed  $rules
-     * 
+     * @param  mixed  $rules 
      * @return array
      */
     protected function resolveRules($rules): array
@@ -307,7 +309,7 @@ final class Validation
             $rules = explode('|', $rules);
         }
         
-        $resolvedRules    = [];
+        $resolvedRules = [];
         $validatorFactory = $this->getValidator();
         
         foreach ($rules as $i => $rule) {
@@ -341,8 +343,7 @@ final class Validation
     /**
      * Parse rules.
      * 
-     * @param  string  $rule
-     * 
+     * @param  string  $rule 
      * @return array
      */
     protected function parseRule(string $rule): array
@@ -362,8 +363,7 @@ final class Validation
     /**
      * Parse array attribute into it's child attributes.
      * 
-     * @param  Attribute  $attribute
-     * 
+     * @param  Attribute  $attribute 
      * @return array
      */
     protected function parseArrayAttribute(Attribute $attribute): array
@@ -403,8 +403,7 @@ final class Validation
     /**
      * Gather a copy of the attribute data filled with any missing attributes.
      * 
-     * @param  string  $attributeKey
-     * 
+     * @param  string  $attributeKey 
      * @return array
      */
     protected function initializeAttributeOnData(string $attributeKey): array
@@ -424,8 +423,7 @@ final class Validation
      * Get all of the exact attribute values for a given wildcard attribute.
      * 
      * @param  array  $data
-     * @param  string  $attributeKey
-     * 
+     * @param  string  $attributeKey 
      * @return array
      */
     public function extractValuesForWildcards(array $data, string $attributeKey): array
@@ -445,7 +443,7 @@ final class Validation
         $data = [];
         
         foreach ($keys as $key) {
-            $data[$key] = Arr::get($this->inputs, $key);
+            $data[$key] = Arr::get($this->data, $key);
         }
         
         return $data;
@@ -456,8 +454,7 @@ final class Validation
      * Allows us to not spin through all of the flattened data 
      * for some operations.
      * 
-     * @param  string  $attributeKey
-     * 
+     * @param  string  $attributeKey 
      * @return string|null  Null when root wildcard
      */
     protected function getLeadingExplicitAttributePath(string $attributeKey): string|null
@@ -469,15 +466,14 @@ final class Validation
      * Extract data based on the given dot-notated path.
      * Used to extract a sub-section of the data for faster iteration.
      * 
-     * @param  string|null  $attributeKey
-     * 
+     * @param  string|null  $attributeKey 
      * @return array
      */
     protected function extractDataFromPath($attributeKey): array
     {
         $results = [];
         
-        $value = Arr::get($this->inputs, $attributeKey, '__missing__');
+        $value = Arr::get($this->data, $attributeKey, '__missing__');
         
         if ($value != '__missing__') {
             Arr::set($results, $attributeKey, $value);
@@ -491,8 +487,7 @@ final class Validation
      * 
      * @param  Attribute  $attribute
      * @param  mixed  $value
-     * @param  Rules  $validator
-     * 
+     * @param  Rules  $validator 
      * @return string
      */
     protected function resolveMessage(Attribute $attribute, $value, Rules $validator): string
@@ -503,6 +498,7 @@ final class Validation
         $ruleKey = $validator->getKey();
         $alias = $attribute->getAlias() ?: $this->resolveAttributeName($attribute);
         $message = $validator->getMessage(); // default rule message
+
         $messageKeys = [
             $attributeKey.$this->msgSeparator.$ruleKey,
             $attributeKey,
@@ -529,7 +525,7 @@ final class Validation
         ]);
         
         foreach ($vars as $key => $value) {
-            $value   = $this->stringify($value);
+            $value = $this->stringify($value);
             $message = str_replace(':'.$key, $value, $message);
         }
         
@@ -554,8 +550,7 @@ final class Validation
     /**
      * Resolve attribute name.
      * 
-     * @param  Attribute  $attribute
-     * 
+     * @param  Attribute  $attribute 
      * @return string
      */
     protected function resolveAttributeName(Attribute $attribute): string
@@ -576,25 +571,24 @@ final class Validation
     /**
      * Get Validator class instance.
      * 
-     * @return static
+     * @return \Syscodes\Components\Validation\Validator
      */
-    public function getValidator(): static
+    public function getValidator()
     {
         return $this->validator;
     }
     
     /**
-     * Given $inputs and resolve input attributes.
+     * Given $data and resolve input attributes.
      * 
-     * @param  array  $inputs
-     * 
+     * @param  array  $data 
      * @return array
      */
-    protected function resolveInputAttributes(array $inputs): array
+    protected function resolveInputAttributes(array $data): array
     {
         $resolvedInputs = [];
         
-        foreach ($inputs as $key => $rules) {
+        foreach ($data as $key => $rules) {
             $exp = explode(':', $key);
             
             if (count($exp) > 1) {
@@ -614,7 +608,7 @@ final class Validation
      */
     public function passes(): bool
     {
-        return $this->errors->count() == 0;
+        return $this->messages->count() == 0;
     }
     
     /**
@@ -630,46 +624,42 @@ final class Validation
     /**
      * Get value given the key.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return mixed
      */
     public function getValue($key): mixed
     {
-        return Arr::get($this->inputs, $key);
+        return Arr::get($this->data, $key);
     }
 
     /**
      * Set value given the key and check value is existed.
      * 
      * @param  string  $key
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return void
      */
     public function setValue(string $key, mixed $value): void
     {
-        Arr::set($this->inputs, $key, $value);
+        Arr::set($this->data, $key, $value);
     }
 
     /**
      * Given key and check value is existed.
      * 
-     * @param  string  $key
-     * 
+     * @param  string  $key 
      * @return bool
      */
     public function hasValue(string $key): bool
     {
-        return Arr::has($this->inputs, $key);
+        return Arr::has($this->data, $key);
     }
     
     /**
      * Given $attributeKey and $alias then assign alias.
      * 
      * @param  mixed  $attributeKey
-     * @param  mixed  $alias
-     * 
+     * @param  mixed  $alias 
      * @return void
      */
     public function setAlias(string $attributeKey, string $alias): void
@@ -680,8 +670,7 @@ final class Validation
     /**
      * Get attribute alias from given key.
      * 
-     * @param  mixed  $attributeKey
-     * 
+     * @param  mixed  $attributeKey 
      * @return string|null
      */
     public function getAlias(string $attributeKey): string|null
@@ -692,8 +681,7 @@ final class Validation
     /**
      * Set attributes aliases.
      * 
-     * @param  array  $aliases
-     * 
+     * @param  array  $aliases 
      * @return void
      */
     public function setAliases(array $aliases): void
@@ -704,8 +692,7 @@ final class Validation
     /**
      * Stringify value.
      * 
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return string
      */
     protected function stringify($value): string
@@ -722,7 +709,7 @@ final class Validation
     /**
      * Get the Presence Verifier implementation.
      * 
-     * @return \Syscodes\Components\Contracts\Validation\PresenceVerifier
+     * @return \Syscodes\Components\Validation\PresenceInterface
      */
     public function getPresenceVerifier()
     {
@@ -732,8 +719,7 @@ final class Validation
     /**
      * Set the Presence Verifier implementation.
      * 
-     * @param  \Syscodes\Components\Contracts\Validation\PresenceVerifier  $presenceVerifier
-     * 
+     * @param  \Syscodes\Components\Validation\PresenceInterface  $presenceVerifier
      * @return void
      */
     public function setPresenceVerifier($presenceVerifier): void
@@ -784,7 +770,7 @@ final class Validation
     /**
      * Get invalid data.
      * 
-     * @return void
+     * @return array
      */
     public function getInvalidData(): array
     {
@@ -795,8 +781,7 @@ final class Validation
      * Set invalid data.
      * 
      * @param  Attribute  $attribute
-     * @param  mixed  $value
-     * 
+     * @param  mixed  $value 
      * @return void
      */
     protected function setInvalidData(Attribute $attribute, $value): void
@@ -809,15 +794,5 @@ final class Validation
         } else {
             $this->invalidData[$key] = $value;
         }
-    }
-    
-    /**
-     * The MessageBag instance.
-     * 
-     * @return MessageBag
-     */
-    public function errors(): MessageBag
-    {
-        return $this->errors;
     }
 }

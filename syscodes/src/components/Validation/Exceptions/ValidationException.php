@@ -67,10 +67,9 @@ class ValidationException extends RuntimeException
     /**
      * Create a new exception instance.
      *
-     * @param  \Sysocdes\Components\Contracts\Validation\Validator  $validator
+     * @param  \Syscodes\Components\Contracts\Validation\Validator  $validator
      * @param  \Syscodes\Components\Http\Response|null  $response
-     * @param  string  $errorBag
-     * 
+     * @param  string  $errorBag 
      * @return void
      */
     public function __construct($validator, $response = null, $errorBag = 'default')
@@ -85,14 +84,13 @@ class ValidationException extends RuntimeException
     /**
      * Create an error message summary from the validation errors.
      *
-     * @param  \Syscodes\Components\Contracts\Validation\Validator  $validator
-     * 
+     * @param  \Syscodes\Components\Contracts\Validation\Validator  $validator 
      * @return string
      */
     protected static function summarize($validator)
     {
         $messages = $validator->errors()->all();
-        $message  = array_shift($messages);        
+        $message = array_shift($messages);        
 
         return $message;
     }
@@ -110,8 +108,7 @@ class ValidationException extends RuntimeException
     /**
      * Set the HTTP status code to be used for the response.
      *
-     * @param  int  $status
-     * 
+     * @param  int  $status 
      * @return static
      */
     public function status($status): static
@@ -124,8 +121,7 @@ class ValidationException extends RuntimeException
     /**
      * Set the error bag on the exception.
      *
-     * @param  string  $errorBag
-     * 
+     * @param  string  $errorBag 
      * @return static
      */
     public function errorBag($errorBag): static
@@ -138,8 +134,7 @@ class ValidationException extends RuntimeException
     /**
      * Set the URL to redirect to on a validation error.
      *
-     * @param  string  $url
-     * 
+     * @param  string  $url 
      * @return static
      */
     public function redirectTo($url): static
