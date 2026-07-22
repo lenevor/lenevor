@@ -43,6 +43,7 @@ use Syscodes\Components\Routing\Generators\Redirector;
 use Syscodes\Components\Routing\RouteResponse;
 use Syscodes\Components\Support\Facades\Date;
 use Syscodes\Components\Support\WebString;
+use Syscodes\Components\Contracts\Validation\Validator as ValidationContract;
 
 use function Syscodes\Components\Support\enum_value;
 
@@ -434,7 +435,7 @@ if ( ! function_exists('event')) {
     }
 }
 
-if ( ! function_exists('fake') && class_exists(\Fibber\Factory::class)) {
+if ( ! function_exists('fibber') && class_exists(\Fibber\Factory::class)) {
     /**
      * Get a fibber instance.
      *
@@ -986,6 +987,27 @@ if ( ! function_exists('url')) {
         }
 
         return app(UrlGenerator::class)->to($path, $parameters, $secure);
+    }
+}
+
+if ( ! function_exists('validator')) {
+    /**
+     * Create a new Validator instance.
+     * 
+     * @param  array|null  $data
+     * @param  array  $rules
+     * @param  array  $messages
+     * @return \Syscodes\Components\Contracts\Validation\Validator
+     */
+    function validator(?array $data = null, array $rules = [], array $messages = []): ValidationContract
+    {
+        $validator = app(ValidationContract::class);
+
+        if (func_num_args() === 0) {
+            return $validator;
+        }
+
+        return $validator->make($data ?? [], $rules, $messages);
     }
 }
 
