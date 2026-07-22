@@ -25,6 +25,7 @@ namespace Syscodes\Components\Core\Providers;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Support\AggregateServiceProvider;
 use Syscodes\Components\Support\Facades\URL;
+use Syscodes\Components\Validation\Exceptions\ValidationException;
 
 /**
  * Allows is register aggregate service providers use to core system.
@@ -48,10 +49,35 @@ class CoreServiceProvider extends AggregateServiceProvider
     public function register()
     {
         parent::register();
+        $this->registerRequestValidation();
         $this->registerRequestSignatureValidation();
     }
 
      /**
+     * Register the "validate" macro on the request.
+     *
+     * @return void
+     *
+     * @throws \Syscodes\Components\Validation\Exceptions\ValidationException
+     */
+    public function registerRequestValidation()
+    {
+        Request::macro('validate', function (array $rules, ...$params) {
+            return take(validator(Request::all(), $rules, ...$params))->validate();
+        });
+
+        Request::macro('validateWithBag', function (string $errorBag, array $rules, ...$params) {
+            try {
+                return Request::validate($rules, ...$params);
+            } catch (ValidationException $e) {
+                $e->errorBag = $errorBag;
+
+                throw $e;
+            }
+        });
+    }
+
+    /**
      * Register the "hasValidSignature" macro on the request.
      *
      * @return void
