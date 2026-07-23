@@ -41,8 +41,7 @@ trait ManagesComponents
      * Begin a components for rendered view.
      * 
      * @param  string  $view
-     * @param  array  $data
-     * 
+     * @param  array  $data 
      * @return array
      */
     public function beginComponent($view, array $data = [])
@@ -75,8 +74,7 @@ trait ManagesComponents
     /**
      * Get the data for the given component.
      * 
-     * @param  array  $component
-     * 
+     * @param  array  $component 
      * @return array
      */
     protected function getComponentData($component)
@@ -92,8 +90,7 @@ trait ManagesComponents
      * Begin the slot rendering.
      * 
      * @param  string  $name
-     * @param  string|null  $content  
-     * 
+     * @param  string|null  $content 
      * @return void
      */
     public function slot($name, $content = null)

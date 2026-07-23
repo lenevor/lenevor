@@ -30,8 +30,7 @@ interface TranspilerInterface
     /**
      * Get the path to the transpiled version of a view.
      * 
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return string
      */
     public function getTranspilePath($path): string;
@@ -48,8 +47,7 @@ interface TranspilerInterface
     /**
      * Transpile the view at the given path.
      * 
-     * @param  string|null  $path
-     * 
+     * @param  string|null  $path 
      * @return void
      */
     public function transpile($path = null): void;

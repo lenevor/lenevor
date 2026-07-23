@@ -48,8 +48,7 @@ class EngineResolver
      * Register a new engine resolver.
      * 
      * @param  string  $engine
-     * @param  \Closure  $resolver
-     * 
+     * @param  \Closure  $resolver 
      * @return void
      */
     public function register($engine, Closure $resolver): void
@@ -62,8 +61,7 @@ class EngineResolver
     /**
      * Resolver an engine instance.
      * 
-     * @param  string  $engine
-     * 
+     * @param  string  $engine 
      * @return \Syscodes\Components\Contracts\View\Engine
      * 
      * @throws \InvalidArgumentException
@@ -84,8 +82,7 @@ class EngineResolver
     /**
      * Remove a resolved engine.
      * 
-     * @param  string  $engine
-     * 
+     * @param  string  $engine 
      * @return void
      */
     public function erase($engine): void

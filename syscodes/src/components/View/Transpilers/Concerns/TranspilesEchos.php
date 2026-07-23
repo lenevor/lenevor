@@ -30,8 +30,7 @@ trait TranspilesEchos
     /**
      * Transpile Plaze echos into valid PHP.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function transpileEchos($value): string
@@ -61,8 +60,7 @@ trait TranspilesEchos
     /**
      * Transpile the "raw" echo statements.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function transpileRawEchos($value): string
@@ -81,8 +79,7 @@ trait TranspilesEchos
     /**
      * Transpile the "regular" echo statements.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function transpileRegularEchos($value): string
@@ -103,8 +100,7 @@ trait TranspilesEchos
     /**
      * Transpile the escaped echo statements.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function transpileEscapedEchos($value): string

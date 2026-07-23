@@ -48,8 +48,7 @@ trait ManagesLayouts
 	 * Starting section.
 	 * 
 	 * @param  string  $section
-	 * @param  string|null  $content  
-	 * 
+	 * @param  string|null  $content
 	 * @return array
 	 */
 	public function startSection($section, $content = null)
@@ -68,12 +67,11 @@ trait ManagesLayouts
 	 * 
 	 * @param  string  $section
 	 * @param  string  $content
-	 * 
 	 * @return void
 	 */
 	public function injectSection($section, $content)
 	{
-		$this->beginSection($section, $content);
+		$this->startSection($section, $content);
 	}
 	
 	/**
@@ -81,7 +79,6 @@ trait ManagesLayouts
 	 * 
 	 * @param  string  $section
 	 * @param  string  $content
-	 * 
 	 * @return void
 	 */
 	protected function extendSection($section, $content)
@@ -110,8 +107,7 @@ trait ManagesLayouts
 	/**
 	 * Give sections the page view from the master page.
 	 * 
-	 * @param  string  $name
-	 * 
+	 * @param  string  $name 
 	 * @return string
 	 */
 	public function giveContent($name, $default = ''): string
@@ -128,8 +124,7 @@ trait ManagesLayouts
 	/**
 	 * Closing section.
 	 * 
-	 * @param  bool  $overwrite  
-	 * 
+	 * @param  bool  $overwrite 
 	 * @return mixed
 	 * 
 	 * @throws \InvalidArgumentException
@@ -178,8 +173,7 @@ trait ManagesLayouts
 	/**
 	 * Check if section exists.
 	 * 
-	 * @param  string  $name
-	 * 
+	 * @param  string  $name 
 	 * @return bool
 	 */
 	public function hasSection($name): bool

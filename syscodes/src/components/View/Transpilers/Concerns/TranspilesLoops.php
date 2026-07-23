@@ -37,8 +37,7 @@ trait TranspilesLoops
     /**
      * Transpile the for statements into valid PHP.
      * 
-     * @param  string  $expression
-     * 
+     * @param  string  $expression 
      * @return string
      */
     protected function transpileFor($expression): string
@@ -59,8 +58,7 @@ trait TranspilesLoops
     /**
      * Transpile the foreach statements into valid PHP.
      * 
-     * @param  string  $expression
-     * 
+     * @param  string  $expression 
      * @return string
      */
     protected function transpileForeach($expression): string
@@ -81,8 +79,7 @@ trait TranspilesLoops
     /**
      * Transpile the while statements into valid PHP.
      * 
-     * @param  string  $expression
-     * 
+     * @param  string  $expression 
      * @return string
      */
     protected function transpileWhile($expression): string
@@ -103,8 +100,7 @@ trait TranspilesLoops
     /**
      * Transpile the break statements into valid PHP.
      * 
-     * @param  string  $expression
-     * 
+     * @param  string  $expression 
      * @return string
      */
     protected function transpileBreak($expression): string
@@ -115,8 +111,7 @@ trait TranspilesLoops
     /**
      * Transpile the continue statements into valid PHP.
      * 
-     * @param  string  $expression
-     * 
+     * @param  string  $expression 
      * @return string
      */
     protected function transpileContinue($expression): string
@@ -127,8 +122,7 @@ trait TranspilesLoops
     /**
      * Transpile the for-else statements into valid PHP.
      * 
-     *  @param  string  $expression
-     * 
+     *  @param  string  $expression 
      * @return string
      */
     protected function transpileForElse($expression): string
@@ -141,8 +135,7 @@ trait TranspilesLoops
     /**
      * Transpile the for-else-empty statements into valid PHP.
      * 
-     *  @param  string  $expression
-     * 
+     *  @param  string  $expression 
      * @return string
      */
     protected function transpileEmpty($expression): string

@@ -48,8 +48,7 @@ abstract class Transpiler
      * Constructor. Create a new Transpiler instance.
      * 
      * @param  \Syscodes\Components\Filesystem\Filesystem  $files
-     * @param  string  $cachePath
-     * 
+     * @param  string  $cachePath 
      * @return void
      * 
      * @throws \InvalidArgumentException
@@ -67,8 +66,7 @@ abstract class Transpiler
     /**
      * Get the path to the transpiled version of a view.
      * 
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return string
      */
     public function getTranspilePath($path): string
@@ -79,8 +77,7 @@ abstract class Transpiler
     /**
      * Determine if the view at the given view is expired.
      * 
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return bool
      */
     public function isExpired($path): bool
@@ -97,8 +94,7 @@ abstract class Transpiler
     /**
      * Create the transpiled file directory if neccesary.
      * 
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return void
      */
     protected function transpiledDirectoryExists($path): void

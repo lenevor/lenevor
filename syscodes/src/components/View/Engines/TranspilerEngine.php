@@ -59,8 +59,7 @@ class TranspilerEngine extends PhpEngine
      * Constructor. Create a new Plaze view engine instance.
      * 
      * @param  \Syscodes\Components\View\Transpilers\TranspilerInterface  $transpiler
-     * @param  \Syscodes\Components\Filesystem\Filesystem|null  $files
-     * 
+     * @param  \Syscodes\Components\Filesystem\Filesystem|null  $files 
      * @return void
      */
     public function __construct(TranspilerInterface $transpiler, ?Filesystem $files = null)
@@ -74,8 +73,7 @@ class TranspilerEngine extends PhpEngine
      * Get the evaluated contents of the view.
      * 
      * @param  string  $path
-     * @param  array  $data
-     * 
+     * @param  array  $data 
      * @return string
      */
     public function get($path, array $data = []): string
@@ -109,8 +107,7 @@ class TranspilerEngine extends PhpEngine
      * Handle a view exception.
      * 
      * @param  \Throwable  $e
-     * @param  int  $obLevel
-     * 
+     * @param  int  $obLevel 
      * @return void
      * 
      * @throws \Throwable 
@@ -129,8 +126,7 @@ class TranspilerEngine extends PhpEngine
     /**
      * Get the exception message for an exception.
      * 
-     * @param  \Throwable  $e
-     * 
+     * @param  \Throwable  $e 
      * @return string
      */
     protected function getMessage(Throwable $e): string

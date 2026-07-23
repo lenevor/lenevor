@@ -37,8 +37,7 @@ trait TranspilesJson
     /**
      * Traspile the JSON statement into valid PHP.
      * 
-     * @param  string  $expression
-     * 
+     * @param  string  $expression 
      * @return string
      */
     protected function transpileJson($expression): string

@@ -30,8 +30,7 @@ trait TranspilesStacks
     /**
      * Transpile the stack statements into valid PHP.
      * 
-     * @param  string  $expression
-     * 
+     * @param  string  $expression 
      * @return string
      */
     protected function transpileStack($expression): string
@@ -42,8 +41,7 @@ trait TranspilesStacks
     /**
      * Transpile the push statements into valid PHP.
      * 
-     * @param  string  $expression
-     * 
+     * @param  string  $expression 
      * @return string
      */
     protected function transpilePush($expression): string
@@ -64,8 +62,7 @@ trait TranspilesStacks
     /**
      * Transpile the prepend statements into valid PHP.
      * 
-     * @param  string  $expression
-     * 
+     * @param  string  $expression 
      * @return string
      */
     protected function transpilePrepend($expression): string

@@ -30,8 +30,7 @@ trait TranspilesIncludes
     /**
      * Transpile the include statements into valid PHP.
      * 
-     * @param  string  $expression
-     * 
+     * @param  string  $expression 
      * @return string
      */
     protected function transpileInclude($expression): string
@@ -44,8 +43,7 @@ trait TranspilesIncludes
     /**
      * Transpile the include-if statements into valid PHP.
      * 
-     * @param  string  $expression
-     * 
+     * @param  string  $expression 
      * @return string
      */
     protected function transpileIncludeIf($expression): string

@@ -37,8 +37,7 @@ trait TranspilesConditionals
     /**
      * Transpile the if statements into valid PHP.
      * 
-     * @param  string  $expression
-     * 
+     * @param  string  $expression 
      * @return string
      */
     protected function transpileIf($expression): string
@@ -49,8 +48,7 @@ trait TranspilesConditionals
     /**
      * Transpile the else-if statements into valid PHP.
      * 
-     * @param  string  $expression
-     * 
+     * @param  string  $expression 
      * @return string
      */
     protected function transpileElseif($expression): string
@@ -81,8 +79,7 @@ trait TranspilesConditionals
     /**
      * Transpile the if-auth statements into valid PHP.
      * 
-     * @param  string|null  $guard
-     * 
+     * @param  string|null  $guard 
      * @return string
      */
     protected function transpileAuth($guard = null): string
@@ -95,8 +92,7 @@ trait TranspilesConditionals
     /**
      * Transpile the else-auth statements into valid PHP.
      * 
-     * @param  string|null  $guard
-     * 
+     * @param  string|null  $guard 
      * @return string
      */
     protected function transpileElseAuth($guard = null): string
@@ -119,8 +115,7 @@ trait TranspilesConditionals
     /**
      * Transpile the if-guest statements into valid PHP.
      * 
-     * @param  string|null  $guard
-     * 
+     * @param  string|null  $guard 
      * @return string
      */
     protected function compileGuest($guard = null): string
@@ -133,8 +128,7 @@ trait TranspilesConditionals
     /**
      * Transpile the else-guest statements into valid PHP.
      * 
-     * @param  string|null  $guard
-     * 
+     * @param  string|null  $guard 
      * @return string
      */
     protected function compileElseGuest($guard = null): string
@@ -157,8 +151,7 @@ trait TranspilesConditionals
     /**
      * Transpile the if-isset statements into valid PHP.
      * 
-     * @param  string  $expression
-     * 
+     * @param  string  $expression 
      * @return string
      */
     protected function transpileIsset($expression): string
@@ -179,8 +172,7 @@ trait TranspilesConditionals
     /**
      * Transpile the unless statements into valid PHP.
      * 
-     * @param  string  $expression
-     * 
+     * @param  string  $expression 
      * @return string
      */
     protected function transpileUnless($expression): string
@@ -201,8 +193,7 @@ trait TranspilesConditionals
     /**
      * Transpile the if statements into valid PHP.
      * 
-     * @param  string  $expression
-     * 
+     * @param  string  $expression 
      * @return string
      */
     protected function transpileHasSection($expression): string
@@ -213,8 +204,7 @@ trait TranspilesConditionals
     /**
      * Transpile the switch statements into valid PHP.
      * 
-     * @param  string  $expression
-     * 
+     * @param  string  $expression 
      * @return string
      */
     protected function transpileSwitch($expression): string
@@ -227,8 +217,7 @@ trait TranspilesConditionals
     /**
      * Transpile the case statements into valid PHP.
      * 
-     * @param  string  $expression
-     * 
+     * @param  string  $expression 
      * @return string
      */
     protected function transpileCase($expression): string
@@ -265,8 +254,7 @@ trait TranspilesConditionals
     /**
      * Transpile the env statements into valid PHP.
      * 
-     * @param  string  $environments
-     * 
+     * @param  string  $environments 
      * @return string
      */
     protected function transpileEnv($environments): string

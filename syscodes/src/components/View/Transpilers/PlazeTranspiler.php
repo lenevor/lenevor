@@ -122,8 +122,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
     /**
      * Transpile the view at the given path.
      * 
-     * @param  string|null  $path
-     * 
+     * @param  string|null  $path 
      * @return void
      */
     public function transpile($path = null): void
@@ -160,8 +159,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
     /**
      * Transpile the given template contents.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function displayString($value): string
@@ -184,8 +182,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
     /**
      * Store the blocks that do not receive compilation.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function storeUncompiledBlocks($value): string
@@ -205,8 +202,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * Register the literal blocks and program for expressions or
      * functions according to your need.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function registerLiteralBlocks($value): string
@@ -219,7 +215,6 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * functions according to your need.
      * 
      * @param  string  $value
-     * 
      * @return string
      */
     protected function registerPhpBlocks($value): string
@@ -230,8 +225,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
     /**
      * Parse the tokens from the template.
      * 
-     * @param  array  $token
-     * 
+     * @param  array  $token 
      * @return string
      */
     protected function parseToken($token): string
@@ -250,8 +244,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
     /**
      * Append the file path to the compiled string.
      * 
-     * @param  string  $contents
-     * 
+     * @param  string  $contents 
      * @return string
      */
     protected function AppendFilePath($contents): string
@@ -268,8 +261,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
     /**
      * Get the open and closing PHP tag tokens from the given string.
      * 
-     * @param  string  $contents
-     * 
+     * @param  string  $contents 
      * @return \Syscodes\Components\Support\Collection
      */
     protected function getCollectionPHPTokens($contents)
@@ -282,8 +274,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
     /**
      * Transpile Plaze Statements that start with "@".
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function transpileStatements($value): string
@@ -298,8 +289,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
     /**
      * Transpile a single Plaze @ statement.
      * 
-     * @param  string  $match
-     * 
+     * @param  string  $match 
      * @return string
      */
     protected function transpileStatement($match): string
@@ -319,8 +309,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * Gets the given directive with the given value.
      * 
      * @param  string  $name
-     * @param  string|null  $value
-     * 
+     * @param  string|null  $value 
      * @return string
      */
     protected function customDirective($name, $value = null)
@@ -338,8 +327,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * Register an "if" statement directive.
      * 
      * @param  string  $name
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return void
      */
     public function if($name, callable $callback): void
@@ -373,8 +361,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * Checkpoint the result of a condition.
      * 
      * @param  string  $name
-     * @param  array  $parameters
-     * 
+     * @param  array  $parameters 
      * @return bool
      */
     public function checkpoint($name, ...$parameters): bool
@@ -385,8 +372,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
     /**
      * Strip the parentheses from the given expression.
      * 
-     * @param  string  $expression
-     * 
+     * @param  string  $expression 
      * @return string
      */
     public function stripParentheses($expression): string
@@ -401,8 +387,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
     /**
      * Gets the user defined extensions.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function transpileExtensions($value): string
@@ -418,8 +403,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * Register a callback for custom directives.
      * 
      * @param  string  $name
-     * @param  callable  $callback
-     * 
+     * @param  callable  $callback 
      * @return  void
      * 
      * @throws \InvalidArgumentException
@@ -447,7 +431,6 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * Set the path currently being transpiled.
      * 
      * @param  string  $path
-     * 
      * @return void
      */
     public function setPath($path): void
@@ -458,8 +441,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
     /**
      * Register a custom transpiler the Plaze engine.
      * 
-     * @param  callable  $extend
-     * 
+     * @param  callable  $extend 
      * @return void
      */
     public function extend($extend): void

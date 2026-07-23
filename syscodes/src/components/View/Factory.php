@@ -107,7 +107,6 @@ class Factory implements FactoryContract
 	 * @param  \Syscodes\Components\View\Engines\EngineResolver  $engines
 	 * @param  \Syscodes\Components\Contracts\View\ViewFinder  $finder
 	 * @param  \Syscodes\Components\Contracts\Events\Dispatcher  $events
-	 *
 	 * @return void
 	 */
 	public function __construct(EngineResolver $engines, ViewFinder $finder, Dispatcher $events)
@@ -123,7 +122,6 @@ class Factory implements FactoryContract
 	 * Check existance view file.
 	 * 
 	 * @param  string  $view
-	 *
 	 * @return bool
 	 */
 	public function exists($view): bool
@@ -144,8 +142,7 @@ class Factory implements FactoryContract
      *
      * @param  string  $path  Path filename
      * @param  \Syscodes\Components\Contracts\Support\Arrayable|array  $data  Array of values
-     * @param  array  $mergeData  Array of merge data
-	 * 
+     * @param  array  $mergeData  Array of merge data 
      * @return \Syscodes\Components\Contracts\View\View
      */
     public function file($path, $data = [], $mergeData = [])
@@ -165,7 +162,6 @@ class Factory implements FactoryContract
 	 * @param  string  $view  View filename
 	 * @param  \Syscodes\Components\Contracts\Support\Arrayable|array  $data  Array of values
 	 * @param  array  $mergeData  Array of merge data
-	 *
 	 * @return \Syscodes\Components\Contracts\View\View
 	 */
 	public function make($view, $data = [], $mergeData = [])
@@ -186,7 +182,6 @@ class Factory implements FactoryContract
      * @param  array  $views  Views filename
      * @param  \Syscodes\Components\Contracts\Support\Arrayable|array  $data  Array of values
      * @param  array  $mergeData  Array of merge data
-	 * 
      * @return \Syscodes\Components\Contracts\View\View
      *
      * @throws \InvalidArgumentException
@@ -208,7 +203,6 @@ class Factory implements FactoryContract
 	 * Normalize a view name.
 	 * 
 	 * @param  string  $name
-	 * 
 	 * @return string
 	 */
 	protected function normalizeName($name): string
@@ -219,8 +213,7 @@ class Factory implements FactoryContract
 	/**
 	 * Parse the given data into a raw array.
 	 * 
-	 * @param  mixed  $data
-	 * 
+	 * @param  mixed  $data 
 	 * @return array
 	 */
 	protected function parseData($data): array
@@ -234,7 +227,6 @@ class Factory implements FactoryContract
 	 * @param  string  $view  View filename
 	 * @param  string  $path  Path filename
 	 * @param  array  $data  Array of values
-	 * 
 	 * @return \Syscodes\Components\Contracts\View\View
 	 */
 	protected function viewInstance($view, $path, $data)
@@ -245,8 +237,7 @@ class Factory implements FactoryContract
 	/**
 	 * Get the appropriate view engine for the given path.
 	 * 
-	 * @param  string  $path
-	 * 
+	 * @param  string  $path 
 	 * @return \Syscodes\Components\Contracts\View\Engine
 	 * 
 	 * @throws \InvalidArgumentException
@@ -269,8 +260,7 @@ class Factory implements FactoryContract
 	/**
 	 * Get the extension used by the view file.
 	 * 
-	 * @param  string  $path
-	 * 
+	 * @param  string  $path 
 	 * @return string
 	 */
 	protected function getExtension($path)
@@ -283,8 +273,7 @@ class Factory implements FactoryContract
 	/**
 	 * Call the creator for a given view.
 	 * 
-	 * @param  \Syscodes\Components\View\View  $view
-	 * 
+	 * @param  \Syscodes\Components\View\View  $view 
 	 * @return void
 	 */
 	public function callCreator(View $view): void
@@ -306,8 +295,7 @@ class Factory implements FactoryContract
 	 * Add a piece of shared data to the environment.
 	 * 
 	 * @param  array|string  $key
-	 * @param  mixed|null  $value  
-	 * 
+	 * @param  mixed|null  $value
 	 * @return mixed
 	 */
 	public function share($key, $value = null)
@@ -325,8 +313,7 @@ class Factory implements FactoryContract
 	 * Add a new namespace to the loader.
 	 * 
 	 * @param  string  $namespace
-	 * @param  string|array  $hints
-	 * 
+	 * @param  string|array  $hints 
 	 * @return static
 	 */
 	public function addNamespace($namespace, $hints): static
@@ -340,8 +327,7 @@ class Factory implements FactoryContract
      * Prepend a new namespace to the loader.
      *
      * @param  string  $namespace
-     * @param  string|array  $hints
-	 * 
+     * @param  string|array  $hints 
      * @return static
      */
     public function prependNamespace($namespace, $hints): static
@@ -355,8 +341,7 @@ class Factory implements FactoryContract
 	 * Replace the namespace hints for the given namespace.
 	 * 
 	 * @param  string  $namespace
-	 * @param  string|array  $hints
-	 * 
+	 * @param  string|array  $hints 
 	 * @return static
 	 */
 	public function replaceNamespace($namespace, $hints): static
@@ -433,8 +418,7 @@ class Factory implements FactoryContract
     /**
      * Set the view finder instance.
      *
-     * @param  \Syscodes\Components\Contracts\View\ViewFinder  $finder
-	 * 
+     * @param  \Syscodes\Components\Contracts\View\ViewFinder  $finder 
      * @return void
      */
     public function setFinder(ViewFinder $finder): void
@@ -455,8 +439,7 @@ class Factory implements FactoryContract
     /**
      * Set the event dispatcher instance.
      *
-     * @param  \Syscodes\Components\Contracts\Events\Dispatcher  $events
-	 * 
+     * @param  \Syscodes\Components\Contracts\Events\Dispatcher  $events 
      * @return void
      */
     public function setDispatcher(Dispatcher $events): void
@@ -468,8 +451,7 @@ class Factory implements FactoryContract
      * Get an item from the shared data.
      *
      * @param  string  $key
-     * @param  mixed  $default
-	 * 
+     * @param  mixed  $default 
      * @return mixed
      */
     public function shared($key, $default = null)
@@ -500,8 +482,7 @@ class Factory implements FactoryContract
 	/**
 	 * Set the IoC container instance.
 	 * 
-	 * @param  \Syscodes\Components\Contracts\Container\Container  $container
-	 * 
+	 * @param  \Syscodes\Components\Contracts\Container\Container  $container 
 	 * @return void
 	 */
 	public function setContainer(Container $container): void

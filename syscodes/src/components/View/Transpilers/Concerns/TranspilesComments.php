@@ -30,8 +30,7 @@ trait TranspilesComments
     /**
      * Transpiles Plaze comments into an empty string.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function transpileComments($value): string

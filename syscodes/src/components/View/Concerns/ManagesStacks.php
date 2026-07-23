@@ -54,8 +54,7 @@ trait ManagesStacks
      * Start injecting content into a push section.
      * 
      * @param  string  $section
-     * @param  string  $content
-     * 
+     * @param  string  $content 
      * @return void
      */
     public function startPush($section, $content = ''): void
@@ -91,8 +90,7 @@ trait ManagesStacks
      * Append content to a given stack.
      * 
      * @param  string  $section
-     * @param  string  $content
-     * 
+     * @param  string  $content 
      * @return void
      */
     protected function ExtendPush($section, $content): void
@@ -112,8 +110,7 @@ trait ManagesStacks
      * Start prepending content into a push section.
      * 
      * @param  string  $section
-     * @param  string  $content
-     * 
+     * @param  string  $content 
      * @return void
      */
     public function startPrepend($section, $content = ''): void
@@ -149,8 +146,7 @@ trait ManagesStacks
      * Prepend content to a given stack.
      * 
      * @param  string  $section
-     * @param  string  $content
-     * 
+     * @param  string  $content 
      * @return void
      */
     protected function ExtendPrepend($section, $content): void
@@ -170,8 +166,7 @@ trait ManagesStacks
      * Get the string contents of a push section.
      * 
      * @param  string  $section
-     * @param  string  $default
-     * 
+     * @param  string  $default 
      * @return string
      */
     public function givePushContent($section, $default = ''): string

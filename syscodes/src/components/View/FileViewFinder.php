@@ -67,8 +67,7 @@ class FileViewFinder implements ViewFinder
      * 
      * @param  \Syscodes\Components\Filesystem\Filesystem  $files
      * @param  array  $paths
-     * @param  array|null  $extensions   
-     * 
+     * @param  array|null  $extensions 
      * @return void
      */
     public function __construct(Filesystem $files, array $paths, $extensions = null)
@@ -85,7 +84,6 @@ class FileViewFinder implements ViewFinder
      * Get the complete location of the view.
      * 
      * @param  string  $name
-     *
      * @return string
      */
     public function find($name): string
@@ -104,8 +102,7 @@ class FileViewFinder implements ViewFinder
     /**
      * Get the path to a template with a named path.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return string
      */
     protected function findNamespacedPaths($name): string
@@ -118,8 +115,7 @@ class FileViewFinder implements ViewFinder
     /**
      * Get the segments of a template with a named path.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return array
      * 
      * @throws \InvalidArgumentException
@@ -143,8 +139,7 @@ class FileViewFinder implements ViewFinder
      * Find the given view in the list of paths.
      * 
      * @param  string  $name
-     * @param  array  $paths
-     * 
+     * @param  array  $paths 
      * @return string
      * 
      * @throws \Syscodes\Components\View\Exceptions\ViewException
@@ -165,8 +160,7 @@ class FileViewFinder implements ViewFinder
     /**
      * Get an array of possible view files.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return array
      */
     protected function getFindViewFiles($name): array
@@ -177,8 +171,7 @@ class FileViewFinder implements ViewFinder
     /**
      * Resolve the path.
      * 
-     * @param  string  $path
-     * 
+     * @param  string  $path 
      * @return string
      */
     protected function resolvePath($path): string
@@ -190,8 +183,7 @@ class FileViewFinder implements ViewFinder
      * Add a namespace hint to the finder.
      * 
      * @param  string  $namespace
-     * @param  string|array  $hints
-     * 
+     * @param  string|array  $hints 
      * @return void
      */
     public function addNamespace($namespace, $hints): void
@@ -209,8 +201,7 @@ class FileViewFinder implements ViewFinder
      * Prepend a namespace hint to the finder.
      *
      * @param  string  $namespace
-     * @param  string|array  $hints
-     * 
+     * @param  string|array  $hints 
      * @return void
      */
     public function prependNamespace($namespace, $hints): void
@@ -228,8 +219,7 @@ class FileViewFinder implements ViewFinder
      * Replace the namespace hints for the given namespace.
      * 
      * @param  string  $namespace
-     * @param  string|array  $hints
-     * 
+     * @param  string|array  $hints 
      * @return void
      */
     public function replaceNamespace($namespace, $hints): void
@@ -240,8 +230,7 @@ class FileViewFinder implements ViewFinder
      /**
      * Register an extension with the view finder.
      *
-     * @param  string  $extension
-     * 
+     * @param  string  $extension 
      * @return void
      */
     public function addExtension($extension): void
@@ -256,8 +245,7 @@ class FileViewFinder implements ViewFinder
     /**
      * Returns whether or not the view name has any hint information.
      * 
-     * @param  string  $name
-     * 
+     * @param  string  $name 
      * @return bool
      */
     protected function hasHintInfo($name): bool
@@ -288,8 +276,7 @@ class FileViewFinder implements ViewFinder
     /**
      * Set the active view paths.
      *
-     * @param  string[]  $paths
-     * 
+     * @param  string[]  $paths 
      * @return static
      */
     public function setPaths($paths): static

@@ -32,8 +32,7 @@ trait TranspilesLayouts
     /**
      * Transpile the extends statements into valid PHP.
      * 
-     * @param  string  $expression
-     * 
+     * @param  string  $expression 
      * @return string
      */
     protected function transpileExtends($expression): string
@@ -50,8 +49,7 @@ trait TranspilesLayouts
     /**
      * Transpile the section statements into valid PHP.
      * 
-     * @param  string  $expression
-     * 
+     * @param  string  $expression 
      * @return string
      */
     protected function transpileSection($expression): string
@@ -62,8 +60,7 @@ trait TranspilesLayouts
     /**
      * Transpile the give statements into valid PHP.
      * 
-     * @param  string  $expression
-     * 
+     * @param  string  $expression 
      * @return string
      */
     protected function transpileGive($expression): string

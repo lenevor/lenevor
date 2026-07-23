@@ -88,7 +88,6 @@ class View implements ArrayAccess, Webable, Stringable, ViewContract
 	 * @param  string  $view
 	 * @param  string  $path
 	 * @param  array  $data
-	 *
 	 * @return void
 	 *
 	 * @throws \InvalidArgumentException
@@ -112,8 +111,7 @@ class View implements ArrayAccess, Webable, Stringable, ViewContract
 	 *
 	 * @example View::render();
 	 *
-	 * @param  callable|null  $callback  
-	 * 
+	 * @param  callable|null  $callback 
 	 * @return array|string
 	 * 
 	 * @throws \Throwable
@@ -197,8 +195,7 @@ class View implements ArrayAccess, Webable, Stringable, ViewContract
 	 * @example  $view->assign($content, $data);
 	 * 
 	 * @param  string|array  $key
-	 * @param  mixed  $value
-	 * 
+	 * @param  mixed  $value 
 	 * @return static
 	 */
 	public function assign($key, $value = null): static
@@ -221,7 +218,6 @@ class View implements ArrayAccess, Webable, Stringable, ViewContract
 	 * 
 	 * @param  string  $key  Variable name
 	 * @param  mixed  $value  Referenced variable
-	 * 
 	 * @return static
 	 */
 	public function bind($key, & $value): static
@@ -236,8 +232,7 @@ class View implements ArrayAccess, Webable, Stringable, ViewContract
      *
      * @param  string  $key
      * @param  string  $view
-     * @param  array  $data
-	 * 
+     * @param  array  $data 
      * @return static
      */
     public function nest($key, $view, array $data = []): static
@@ -249,7 +244,6 @@ class View implements ArrayAccess, Webable, Stringable, ViewContract
 	 * Add validation errors to the view.
 	 * 
 	 * @param  \Syscodes\Components\Contracts\Support\MessageProvider|array  $provider
-	 * 
 	 * @return static
      */
 	public function withErrors($provider): static
@@ -263,7 +257,6 @@ class View implements ArrayAccess, Webable, Stringable, ViewContract
 	 * Format the given message provider into a MessageBag.
 	 * 
 	 * @param  \Syscodes\Components\Contracts\Support\MessageProvider|array  $provider
-	 * 
 	 * @return \Syscodes\Components\Support\MessageBag
 	 */
 	protected function formatErrors($provider)
@@ -317,7 +310,6 @@ class View implements ArrayAccess, Webable, Stringable, ViewContract
 	 * Set the path to the view file.
 	 * 
 	 * @param  string  $path
-	 * 
 	 * @return void
 	 */
 	public function setPath($path): void
@@ -355,7 +347,6 @@ class View implements ArrayAccess, Webable, Stringable, ViewContract
 	 * Whether or not an offset exists.
 	 * 
 	 * @param  mixed  $offset
-	 * 
 	 * @return bool
 	 */
 	public function offsetExists(mixed $offset): bool
@@ -366,8 +357,7 @@ class View implements ArrayAccess, Webable, Stringable, ViewContract
 	/**
 	 * Returns the value at specified offset.
 	 * 
-	 * @param  mixed  $offset
-	 * 
+	 * @param  mixed  $offset 
 	 * @return mixed
 	 */
 	public function offsetGet(mixed $offset): mixed
@@ -380,7 +370,6 @@ class View implements ArrayAccess, Webable, Stringable, ViewContract
 	 * 
 	 * @param  mixed  $offset
 	 * @param  mixed  $value
-	 * 
 	 * @return void
 	 */
 	public function offsetSet(mixed $offset, mixed $value): void
@@ -392,7 +381,6 @@ class View implements ArrayAccess, Webable, Stringable, ViewContract
 	 * Unsets an offset.
 	 * 
 	 * @param  mixed  $offset
-	 * 
 	 * @return void
 	 */
 	public function offsetUnset(mixed $offset): void
@@ -409,7 +397,6 @@ class View implements ArrayAccess, Webable, Stringable, ViewContract
 	 * @example $value = $view->var;
 	 * 
 	 * @param  string  $key  Variable name
-	 *
 	 * @return mixed
 	 */
 	public function &__get($key) 
@@ -426,7 +413,6 @@ class View implements ArrayAccess, Webable, Stringable, ViewContract
 	 *
 	 * @param  string  $key    Variable name
 	 * @param  mixed   $value  Value
-	 *
 	 * @return void
 	 */
 	public function __set($key, $value) 
@@ -444,7 +430,6 @@ class View implements ArrayAccess, Webable, Stringable, ViewContract
 	 * Variables are not considered to be set.
 	 *
 	 * @param  string  $key  variable name
-	 *
 	 * @return boolean
 	 */
 	public function __isset($key) 
@@ -460,7 +445,6 @@ class View implements ArrayAccess, Webable, Stringable, ViewContract
 	 * @example unset($view->var);
 	 *
 	 * @param  string  $key  Variable name
-	 *
 	 * @return void
 	 */
 	public function __unset($key) 
@@ -472,8 +456,7 @@ class View implements ArrayAccess, Webable, Stringable, ViewContract
 	 * Magic Method for handling dynamic functions.
 	 * 
 	 * @param  string  $method
-	 * @param  array  $parameters
-	 * 
+	 * @param  array  $parameters 
 	 * @return mixed
 	 * 
 	 * @throws \BadMethodCallException

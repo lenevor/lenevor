@@ -30,8 +30,7 @@ trait TranspilesComponents
     /**
      * Transpile the component statements into valid PHP.
      * 
-     * @param  string  $expression
-     * 
+     * @param  string  $expression 
      * @return string
      */
     protected function transpileComponent($expression): string
@@ -52,8 +51,7 @@ trait TranspilesComponents
     /**
      * Transpile the slot statements into valid PHP.
      * 
-     * @param  string  $expression
-     * 
+     * @param  string  $expression 
      * @return string
      */
     protected function transpileSlot($expression): string

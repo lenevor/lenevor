@@ -50,8 +50,7 @@ class ViewException extends ErrorException
     /**
      * Render the exception into an HTTP response.
      * 
-     * @param  \Syscodes\Components\Http\Request  $request
-     * 
+     * @param  \Syscodes\Components\Http\Request  $request 
      * @return \Syscodes\Components\Http\Response|null
      */
     public function render($request)

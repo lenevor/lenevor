@@ -42,8 +42,7 @@ class ShareErrorsSession
     /**
      * Constructor. Create a new error binder instance.
      * 
-     * @param  \Syscodes\Components\Contracts\View\Factory  $view
-     * 
+     * @param  \Syscodes\Components\Contracts\View\Factory  $view 
      * @return void
      */
     public function __construct(ViewFactory $view)
@@ -55,8 +54,7 @@ class ShareErrorsSession
      * Handle an incoming request.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  \Closure(\Syscodes\Components\Http\Request): (\Syscodes\Components\Http\Response)  $next
-     * 
+     * @param  \Closure(\Syscodes\Components\Http\Request): (\Syscodes\Components\Http\Response)  $next 
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handle($request, Closure $next): Response

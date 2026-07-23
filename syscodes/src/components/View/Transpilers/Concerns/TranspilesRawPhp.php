@@ -30,8 +30,7 @@ trait TranspilesRawPhp
     /**
      * Transpile the raw PHP statements into valid PHP.
      * 
-     * @param  string  $expression
-     * 
+     * @param  string  $expression 
      * @return string
      */
     protected function transpilePhp($expression): string
@@ -46,8 +45,7 @@ trait TranspilesRawPhp
     /**
      * Transpile the unset statements into valid PHP.
      * 
-     * @param  string  $expression
-     * 
+     * @param  string  $expression 
      * @return string
      */
     protected function transpileUnset($expression): string

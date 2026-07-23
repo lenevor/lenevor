@@ -40,8 +40,7 @@ trait TranspilesHelpers
     /**
      * Transpile the 'dd' statements into valid PHP.
      * 
-     * @param  string  $value
-     * 
+     * @param  string  $value 
      * @return string
      */
     protected function transpileDd($value): string
@@ -52,8 +51,7 @@ trait TranspilesHelpers
     /**
      * Transpile the 'method' statements into valid PHP.
      * 
-     * @param  string  $method
-     * 
+     * @param  string  $method 
      * @return string
      */
     protected function transpileMethod($method): string
