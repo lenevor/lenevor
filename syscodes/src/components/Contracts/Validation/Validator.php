@@ -22,32 +22,52 @@
 
 namespace Syscodes\Components\Contracts\Validation;
 
-use Syscodes\Components\Validation\Rules;
-use Syscodes\Components\Validation\Validation;
+use Syscodes\Components\Contracts\Support\MessageProvider;
 
 /**
  * Get validator.
  */
-interface Validator
+interface Validator extends MessageProvider
 {
     /**
-     * Get validator object from given key.
-     * 
-     * @param  mixed  $key
-     * 
-     * @return mixed
+     * Add an after validation callback.
+     *
+     * @param  callable|array|string  $callback
+     * @return static
      */
-    public function getValidator($key): mixed;
+    public function after($callback): static;
 
     /**
-     * Register or override existing validator.
-     * 
-     * @param  mixed  $key
-     * @param  \Syscodes\Components\Validation\Rules  $rule
-     * 
-     * @return void
+     * Determine if the data fails the validation rules.
+     *
+     * @return bool
      */
-    public function setValidator(string $key, Rules $rule): void;
+    public function fails(): bool;
+
+    /**
+     * Run the validator's rules against its data.
+     *
+     * @return array
+     *
+     * @throws \Syscodes\Components\Validation\Exceptions\ValidationException
+     */
+    public function validate(): array;
+
+    /**
+     * Get the attributes and values that were validated.
+     *
+     * @return array
+     *
+     * @throws \Syscodes\Components\Validation\Exceptions\ValidationException
+     */
+    public function validated();
+
+    /**
+     * Get the failed validation rules.
+     *
+     * @return array
+     */
+    public function failed(): array;
 
     /**
      * An alternative more semantic shortcut to the message container.
@@ -55,75 +75,4 @@ interface Validator
      * @return \Syscodes\Components\Support\MessageBag
      */
     public function errors();
-
-    /**
-     * Determine if the data fails the validation rules.
-     * 
-     * @return bool
-     */
-    public function fails();
-
-    /**
-     * Validate the given data against the provided rules.
-     * 
-     * @param  array  $inputs
-     * @param  array  $rules
-     * @param  array  $messages
-     * 
-     * @return void
-     */
-    public function validate(array $inputs, array $rules, array $messages = []);
-
-    /**
-     * Given inputs, rules and messages to make the Validation class instance.
-     * 
-     * @param  array  $inputs
-     * @param  array  $rules
-     * @param  array  $messages
-     * 
-     * @return Validation
-     */
-    public function make(array $inputs, array $rules, array $messages = []): Validation;
-
-    /**
-     * Given ruleName and rule to add new validator.
-     * 
-     * @param  string  $ruleName
-     * @param  \Syscodes\Components\Validation\Rules  $rule
-     * 
-     * @return void
-     */
-    public function addValidator(string $ruleName, Rules $rule): void;
-
-    /**
-     * Set rule can allow to be overrided.
-     * 
-     * @param  boolean  $status
-     * 
-     * @return void
-     */
-    public function allowRuleOverride(bool $status = false): void;
-
-    /**
-     * Set this can use humanize keys.
-     * 
-     * @param  boolean  $useHumanizedKeys
-     * 
-     * @return void
-     */
-    public function setUseHumanizedKeys(bool $useHumanizedKeys = true): void;
-
-    /**
-     * Get can use humanized Keys value.
-     * 
-     * @return bool
-     */
-    public function isUsingHumanizedKey(): bool;
-
-    /**
-     * Get the messages for the instance.
-     *
-     * @return \Syscodes\Components\Support\MessageBag
-     */
-    public function getMessageBag();
 }
