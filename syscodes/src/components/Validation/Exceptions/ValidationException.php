@@ -22,12 +22,14 @@
 
 namespace Syscodes\Components\Validation\Exceptions;
 
-use RuntimeException;
+use Exception;
+use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Support\Facades\Validator as ValidatorFacade;
 
 /**
  * The validation to exception class instance.
  */
-class ValidationException extends RuntimeException
+class ValidationException extends Exception
 {
     /**
      * The name of the error bag.
@@ -82,6 +84,23 @@ class ValidationException extends RuntimeException
     }
 
     /**
+     * Create a new validation exception from a plain array of messages.
+     *
+     * @param  array  $messages
+     * @return static
+     */
+    public static function withMessages(array $messages)
+    {
+        return new static(take(ValidatorFacade::make([], []), function ($validator) use ($messages) {
+            foreach ($messages as $key => $value) {
+                foreach (Arr::wrap($value) as $message) {
+                    $validator->errors()->add($key, $message);
+                }
+            }
+        }));
+    }
+
+    /**
      * Create an error message summary from the validation errors.
      *
      * @param  \Syscodes\Components\Contracts\Validation\Validator  $validator 
@@ -90,6 +109,11 @@ class ValidationException extends RuntimeException
     protected static function summarize($validator)
     {
         $messages = $validator->errors()->all();
+
+        if ( ! count($messages) || ! is_string($messages[0])) {
+            return $validator->getTranslator()->get('The given data was invalid.');
+        }
+
         $message = array_shift($messages);        
 
         return $message;
