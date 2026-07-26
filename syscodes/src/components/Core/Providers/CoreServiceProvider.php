@@ -49,6 +49,7 @@ class CoreServiceProvider extends AggregateServiceProvider
     public function register()
     {
         parent::register();
+        
         $this->registerRequestValidation();
         $this->registerRequestSignatureValidation();
     }

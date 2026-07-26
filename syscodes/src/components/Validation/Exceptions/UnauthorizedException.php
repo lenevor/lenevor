@@ -27,4 +27,7 @@ use RuntimeException;
 /**
  * The unauthorized to exception class instance.
  */
-class UnauthorizedException extends RuntimeException {}
+class UnauthorizedException extends RuntimeException 
+{
+    //
+}
