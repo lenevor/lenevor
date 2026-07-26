@@ -293,12 +293,12 @@ if ( ! function_exists('take')) {
      * Call the given Closure if this activated then return the value.
      * 
      * @param  mixed  $value
-     * @param  \Closure|null  $callback 
+     * @param  callable|null  $callback 
      * @return mixed
      * 
      * @uses   \Syscodes\Components\Support\HigherOrderTakeProxy
      */
-    function take(mixed $value, ?\Closure $callback = null)
+    function take(mixed $value, $callback = null)
     {
         if (is_null($callback)) {
             return new HigherOrderTakeProxy($value);

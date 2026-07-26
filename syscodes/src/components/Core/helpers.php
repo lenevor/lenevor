@@ -43,7 +43,8 @@ use Syscodes\Components\Routing\Generators\Redirector;
 use Syscodes\Components\Routing\RouteResponse;
 use Syscodes\Components\Support\Facades\Date;
 use Syscodes\Components\Support\WebString;
-use Syscodes\Components\Contracts\Validation\Validator as ValidationContract;
+use Syscodes\Components\Contracts\Validation\Factory as ValidationFactory;
+use Syscodes\Components\Contracts\Validation\Validator as ValidatorContract;
 
 use function Syscodes\Components\Support\enum_value;
 
@@ -997,17 +998,18 @@ if ( ! function_exists('validator')) {
      * @param  array|null  $data
      * @param  array  $rules
      * @param  array  $messages
-     * @return \Syscodes\Components\Contracts\Validation\Validator
+     * @param  array  $attributes
+     * @return ($data is null ? \Syscodes\Components\Contracts\Validation\Factory : \Syscodes\Components\Contracts\Validation\Validator)
      */
-    function validator(?array $data = null, array $rules = [], array $messages = []): ValidationContract
+    function validator(?array $data = null, array $rules = [], array $messages = [], array $attributes = []): ValidatorContract|ValidationFactory
     {
-        $validator = app(ValidationContract::class);
+        $validator = app(ValidationFactory::class); 
 
         if (func_num_args() === 0) {
             return $validator;
         }
 
-        return $validator->make($data ?? [], $rules, $messages);
+        return $validator->make($data ?? [], $rules, $messages, $attributes);
     }
 }
 

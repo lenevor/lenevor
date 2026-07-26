@@ -48,8 +48,8 @@ class ValidationServiceProvider extends ServiceProvider implements Deferrable
      */
     protected function registerValidation()
     {
-        $this->app->singleton('validator', function () {
-            $validator = new Validator;
+        $this->app->singleton('validator', function ($app) {
+            $validator = new Factory($app['translator'], $app);
             
             // The validation presence verifier is responsible for determining
             // the existence of values in a given data collection which is typically 

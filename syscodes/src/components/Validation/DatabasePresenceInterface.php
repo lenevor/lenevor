@@ -25,7 +25,7 @@ namespace Syscodes\Components\Validation;
 /**
  * Allows connected to the dabase.
  */
-interface DatabasePresenceInterface extends PresenceInterface
+interface DatabasePresenceInterface extends PresenceVerifierInterface
 {
     /**
      * Set the connection to be used.

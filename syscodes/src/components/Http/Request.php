@@ -29,15 +29,12 @@ use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpFoundation\InputBag;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Syscodes\Components\Contracts\Support\Arrayable;
-use Syscodes\Components\Http\Concerns\CanBePrecognitive;
-use Syscodes\Components\Http\Concerns\InteractsWithInput;
-use Syscodes\Components\Http\Concerns\InteractsWithFlashData;
-use Syscodes\Components\Http\Concerns\InteractsWithContentTypes;
 use Syscodes\Components\Http\Exceptions\SessionNotFoundException;
 use Syscodes\Components\Session\SessionDecorator;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Support\Str;
+use Syscodes\Components\Support\Traits\Conditionable;
 use Syscodes\Components\Support\Traits\Macroable;
 
 /**
@@ -52,10 +49,11 @@ use Syscodes\Components\Support\Traits\Macroable;
  */
 class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 {
-	use CanBePrecognitive,	    
-	    InteractsWithInput,
-	    InteractsWithFlashData,
-	    InteractsWithContentTypes,
+	use Concerns\CanBePrecognitive,
+	    Concerns\InteractsWithContentTypes,
+		Concerns\InteractsWithFlashData,
+		Concerns\InteractsWithInput,
+		Conditionable,
 		Macroable;
 
 	/**
