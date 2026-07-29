@@ -766,9 +766,9 @@ class Validator implements ValidationContract
         }
 
         return $this->presentOrRuleIsImplicit($rule, $attribute, $value) &&
-               $this->passesOptionalCheck($attribute) &&
-               $this->isNotNullIfMarkedAsNullable($rule, $attribute) &&
-               $this->hasNotFailedPreviousRuleIfPresenceRule($rule, $attribute);
+            $this->passesOptionalCheck($attribute) &&
+            $this->isNotNullIfMarkedAsNullable($rule, $attribute) &&
+            $this->hasNotFailedPreviousRuleIfPresenceRule($rule, $attribute);
     }
 
     /**
@@ -786,7 +786,7 @@ class Validator implements ValidationContract
         }
 
         return $this->validatePresent($attribute, $value) ||
-               $this->isImplicit($rule);
+            $this->isImplicit($rule);
     }
 
     /**
@@ -1167,18 +1167,17 @@ class Validator implements ValidationContract
     public function addRules($rules): void 
     {
         // The primary purpose of this parser is to expand any "*" rules to the all
-        // of the explicit rules needed for the given data. For example the rule
-        // names.* would get expanded to names.0, names.1, etc. for this data.
-        // $response = (new ValidationRuleParser($this->data))
-        //     ->explode(ValidationRuleParser::filterConditionalRules($rules, $this->data));
+        // of the explicit rules needed for the given data.
+        $response = (new ValidationRuleParser($this->data))
+            ->explode(ValidationRuleParser::filterConditionalRules($rules, $this->data));
 
-        // foreach ($response->rules as $key => $rule) {
-        //     $this->rules[$key] = array_merge($this->rules[$key] ?? [], $rule);
-        // }
+        foreach ($response->rules as $key => $rule) {
+            $this->rules[$key] = array_merge($this->rules[$key] ?? [], $rule);
+        }
 
-        // $this->implicitAttributes = array_merge(
-        //     $this->implicitAttributes, $response->implicitAttributes
-        // );
+        $this->implicitAttributes = array_merge(
+            $this->implicitAttributes, $response->implicitAttributes
+        );
     }
 
     /**
@@ -1208,7 +1207,7 @@ class Validator implements ValidationContract
      * @param  \Syscodes\Components\Contracts\Translation\Translator  $translator
      * @return void
      */
-    public function setTranslator(Translator $translator)
+    public function setTranslator(Translator $translator): void
     {
         $this->translator = $translator;
     }
@@ -1219,7 +1218,7 @@ class Validator implements ValidationContract
      * @param  \Syscodes\Components\Contracts\Container\Container  $container
      * @return void
      */
-    public function setContainer(Container $container)
+    public function setContainer(Container $container): void
     {
         $this->container = $container;
     }
