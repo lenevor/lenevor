@@ -47,6 +47,7 @@ class ValidatedInput implements ValidatedData
      * Constructor. Create a new validated input container.
      *
      * @param  array  $input
+     * @return void
      */
     public function __construct(array $input)
     {
@@ -59,7 +60,7 @@ class ValidatedInput implements ValidatedData
      * @param  array  $items
      * @return static
      */
-    public function merge(array $items)
+    public function merge(array $items): static
     {
         return new static(array_merge($this->all(), $items));
     }
@@ -70,7 +71,7 @@ class ValidatedInput implements ValidatedData
      * @param  mixed  $keys
      * @return array
      */
-    public function all($keys = null)
+    public function all($keys = null): array
     {
         if (! $keys) {
             return $this->input;
@@ -102,7 +103,7 @@ class ValidatedInput implements ValidatedData
      *
      * @return array
      */
-    public function keys()
+    public function keys(): array
     {
         return array_keys($this->input());
     }
