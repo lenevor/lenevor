@@ -35,6 +35,7 @@ use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\MessageBag;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Support\Collection;
+use Syscodes\Components\Support\ValidatedInput;
 use Syscodes\Components\Validation\Exceptions\ValidationException;
 
 /**
