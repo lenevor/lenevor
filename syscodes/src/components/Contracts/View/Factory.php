@@ -60,6 +60,18 @@ interface Factory
 	 */
     public function make($view, $data = [], $mergeData = []);
 
+	/**
+     * Get the first view that actually exists from the given list.
+     *
+     * @param  array  $views  Views filename
+     * @param  \Syscodes\Components\Contracts\Support\Arrayable|array  $data  Array of values
+     * @param  array  $mergeData  Array of merge data
+     * @return \Syscodes\Components\Contracts\View\View
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function first(array $views, $data = [], $mergeData = []);
+
     /**
 	 * Call the creator for a given view.
 	 * 
