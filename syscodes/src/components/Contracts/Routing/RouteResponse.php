@@ -38,7 +38,7 @@ interface RouteResponse
      * @param  array  $headers 
      * @return \Syscodes\Components\Http\Response
      */
-    public function make($body = '', $status = 200, array $headers = []): Response;
+    public function make($body = '', $status = 200, array $headers = []);
 
     /**
      * Creates a new 'no content' response.
@@ -47,7 +47,7 @@ interface RouteResponse
      * @param  array  $headers 
      * @return \Syscodes\Components\Http\Response
      */
-    public function noContent($status = 204, array $headers = []): Response;
+    public function noContent($status = 204, array $headers = []);
 
     /**
      * Return a new View Response from the application.
@@ -58,12 +58,7 @@ interface RouteResponse
      * @param  array  $headers 
      * @return  \Syscodes\Components\Http\Response
      */
-    public function view(
-        $view,
-        array $data = [],
-        $status = 200,
-        array $headers = []
-    ): Response;
+    public function view($view, array $data = [], $status = 200, array $headers = []);
 
     /**
      * Create a new JSON response instance.
@@ -74,12 +69,19 @@ interface RouteResponse
      * @param  int  $options 
      * @return \Syscodes\Components\Http\JsonResponse
      */
-    public function json(
-        $data = [],
-        $status = 200,
-        array $headers = [],
-        $options = 0
-    );
+    public function json($data = [], $status = 200, array $headers = [], $options = 0);
+
+    /**
+     * Create a new JSONP response instance.
+     *
+     * @param  string  $callback
+     * @param  mixed  $data
+     * @param  int  $status
+     * @param  array  $headers
+     * @param  int  $options
+     * @return \Syscodes\Components\Http\JsonResponse
+     */
+    public function jsonp($callback, $data = [], $status = 200, array $headers = [], $options = 0);
 
     /**
      * Create a new redirect response to the given path.
@@ -90,12 +92,7 @@ interface RouteResponse
      * @param  bool|null  $secure 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
-    public function redirectTo(
-        $path, 
-        $status = 302, 
-        $headers = [], 
-        $secure = null
-    );
+    public function redirectTo($path, $status = 302, $headers = [], $secure = null);
     
     /**
      * Create a new redirect response to a named route.
@@ -106,12 +103,7 @@ interface RouteResponse
      * @param  array  $headers 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
-    public function redirectToRoute(
-        $route,
-        $parameters = [],
-        $status = 302,
-        $headers = []
-    );
+    public function redirectToRoute($route, $parameters = [], $status = 302, $headers = []);
     
     /**
      * Create a new redirect response to a controller action.
@@ -122,12 +114,7 @@ interface RouteResponse
      * @param  array  $headers 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
-    public function redirectToAction(
-        $action,
-        $parameters = [],
-        $status = 302,
-        $headers = []
-    );
+    public function redirectToAction($action, $parameters = [], $status = 302, $headers = []);
     
     /**
      * Create a new redirect response, while putting the current URL in the session.
@@ -138,12 +125,7 @@ interface RouteResponse
      * @param  bool|null  $secure 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
-    public function redirectGuest(
-        $path,
-        $status = 302,
-        $headers = [],
-        $secure = null
-    );
+    public function redirectGuest($path, $status = 302, $headers = [], $secure = null);
     
     /**
      * Create a new redirect response to the previously intended location.
@@ -154,10 +136,5 @@ interface RouteResponse
      * @param  bool|null  $secure 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
-    public function redirectToIntended(
-        $default = '/',
-        $status = 302,
-        $headers = [],
-        $secure = null
-    );
+    public function redirectToIntended($default = '/', $status = 302, $headers = [], $secure = null);
 }

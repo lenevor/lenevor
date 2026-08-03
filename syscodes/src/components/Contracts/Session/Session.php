@@ -47,7 +47,7 @@ interface Session
      * 
      * @return bool
      */
-    public function start(): bool;
+    public function start();
 
     /**
      * Get all of the session data.
@@ -93,14 +93,14 @@ interface Session
      * 
      * @return void
      */
-    public function save(): void;
+    public function save();
     
     /**
      * Age the flash data for the session.
      * 
      * @return void
      */
-    public function ageFlashData(): void;
+    public function ageFlashData();
 
     /**
      * Remove one or many items from the session.
@@ -109,7 +109,7 @@ interface Session
      * @param  mixed  $default 
      * @return mixed
      */
-    public function pull($key, $default = null): mixed;
+    public function pull($key, $default = null);
 
     /**
      * Push a value onto a session array.
@@ -118,7 +118,7 @@ interface Session
      * @param  mixed  $value 
      * @return void
      */
-    public function push($key, $value): void;
+    public function push($key, $value);
 
     /**
      * Checks if an a key is present and not null.
@@ -136,7 +136,7 @@ interface Session
      * @param  mixed  $default 
      * @return mixed
      */
-    public function get($key, $default = null): mixed;
+    public function get($key, $default = null);
 
     /**
      * Replace the given session attributes entirely.
@@ -144,7 +144,7 @@ interface Session
      * @param  array  $attributes 
      * @return void
      */
-    public function replace(array $attributes): void;
+    public function replace(array $attributes);
 
     /**
      * Put a key / value pair or array of key / value pairs in the session.
@@ -153,7 +153,7 @@ interface Session
      * @param  mixed  $value 
      * @return void
      */
-    public function put($key, $value = null): void;
+    public function put($key, $value = null);
 
     /**
      * Remove an key from the session.
@@ -161,7 +161,7 @@ interface Session
      * @param  string  $key 
      * @return mixed
      */
-    public function remove($key): mixed;
+    public function remove($key);
     
     /**
      * Remove one or many items from the session.
@@ -169,7 +169,7 @@ interface Session
      * @param  string|array  $keys 
      * @return void
      */
-    public function erase($keys): void;
+    public function erase($keys);
 
     /**
      * Checks if a key exists.
@@ -182,11 +182,11 @@ interface Session
     /**
      * Flash a key / value pair to the session.
      * 
-     * @param  string  $key
+     * @param  \UnitEnum|string  $key
      * @param  mixed  $value 
      * @return void
      */
-    public function flash(string $key, $value = true): void;
+    public function flash(\BackedEnum|\UnitEnum|string $key, $value = true);
 
     /**
      * Remove all of the keys from the session.
