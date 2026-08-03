@@ -209,20 +209,24 @@ class Arr
 	 * Unsets dot-notated key from an array.
 	 *
 	 * @param  array  $array  The search array
-	 * @param  mixed  $keys  The dot-notated key or array of keys
-	 * @return mixed
+	 * @param  array|string|int|float  $keys  The dot-notated key or array of keys
+	 * @return void
 	 */
-	public static function erase(array &$array, mixed $keys)
+	public static function erase(&$array, $keys): void
 	{
 		$original = &$array;
 
 		$keys = (array) $keys;
 
-		if (count($keys) === 0) {
+		if ($keys === []) {
 			return;
 		}
 
 		foreach ($keys as $key) {
+			// clean up before each pass
+            $array = &$original;
+
+			// if the exact key exists in the top-level, remove it
 			if (static::exists($array, $key)) {
 				unset($array[$key]);
 
@@ -238,7 +242,7 @@ class Arr
 			while (count($parts) > 1) {
 				$part = array_shift($parts);
 	
-				if (isset($array[$part]) && is_array($array[$part])) {
+				if (isset($array[$part]) && static::accessible($array[$part])) {
 					$array = &$array[$key];
 				} else {
 					continue 2;
