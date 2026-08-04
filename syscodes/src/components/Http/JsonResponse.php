@@ -55,10 +55,6 @@ class JsonResponse extends BaseJsonResponse
        $this->encodingOptions = $options;
 
         parent::__construct($data, $status, $headers, $json);
-        
-        $this->send();
-
-        exit;
     }
 
     /**
