@@ -30,7 +30,14 @@ use Throwable;
  * Loads the response trait of headers, status code and content message.
  */
 trait ResponseContent
-{    
+{
+     /**
+     * The original content of the response.
+     *
+     * @var mixed
+     */
+    public $original;
+
     /**
      * The exception that triggered the error response (if applicable).
      * 
@@ -46,6 +53,18 @@ trait ResponseContent
     public function content(): string
     {
         return $this->getContent();
+    }
+
+    /**
+     * Get the original response content.
+     *
+     * @return mixed
+     */
+    public function getOriginalContent()
+    {
+        $original = $this->original;
+
+        return $original instanceof self ? $original->{__FUNCTION__}() : $original;
     }
 
     /**
