@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Http;
 
 use Symfony\Component\HttpFoundation\RedirectResponse as BaseRedirectResponse;
+use Symfony\Component\HttpFoundation\File\UploadedFile as SymfonyUploadedFile;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Support\MessageBag;
@@ -90,6 +91,62 @@ class RedirectResponse extends BaseRedirectResponse
         
         return $this;
     }
+
+    /**
+     * Flash an array of input to the session.
+     *
+     * @param  array|null  $input
+     * @return static
+     */
+    public function withInput(?array $input = null): static
+    {
+        $this->session->flashInput($this->removeFilesFromInput(
+            ! is_null($input) ? $input : $this->request->input()
+        ));
+
+        return $this;
+    }
+
+    /**
+     * Remove all uploaded files form the given input array.
+     *
+     * @param  array  $input
+     * @return array
+     */
+    protected function removeFilesFromInput(array $input): array
+    {
+        foreach ($input as $key => $value) {
+            if (is_array($value)) {
+                $input[$key] = $this->removeFilesFromInput($value);
+            }
+
+            if ($value instanceof SymfonyUploadedFile) {
+                unset($input[$key]);
+            }
+        }
+
+        return $input;
+    }
+
+    /**
+     * Flash an array of input to the session.
+     *
+     * @return static
+     */
+    public function exceptInput()
+    {
+        return $this->withInput($this->request->except(func_get_args()));
+    }
+
+    /**
+     * Flash an array of input to the session.
+     *
+     * @return static
+     */
+    public function onlyInput()
+    {
+        return $this->withInput($this->request->only(func_get_args()));
+    }
     
     /**
      * Add multiple cookies to the response.
@@ -115,7 +172,8 @@ class RedirectResponse extends BaseRedirectResponse
      */
     public function withErrors($provider, $key = 'default'): static
     {
-        $value  = $this->parseErrors($provider);
+        $value = $this->parseErrors($provider);
+
         $errors = $this->session->get('errors', new ViewErrorBag);
         
         if ( ! $errors instanceof ViewErrorBag) {
