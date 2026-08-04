@@ -30,13 +30,17 @@ use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Contracts\Support\Jsonable;
 use Syscodes\Components\Contracts\Support\Renderable;
+use Syscodes\Components\Support\Traits\Macroable;
 
 /**
  * Response represents an HTTP response.
  */
 class Response extends SymfonyResponse
 {
-	use Concerns\ResponseContent;
+	use Concerns\ResponseContent, 
+	    Macroable {
+		    Macroable::__call as macroCall;
+	    }
 
 	/**
 	 * Sets up the response with a content and a status code.
@@ -44,15 +48,19 @@ class Response extends SymfonyResponse
 	 * @param  mixed  $content  The response content 
 	 * @param  int  $status  The response status  
 	 * @param  array  $headers  Array of HTTP headers for this response
-	 * @return string
+	 * @return void
 	 */
 	public function __construct($content = '', int $status = 200, array $headers = [])
 	{
-		$this->headers = new ResponseHeaderBag($headers);
-		
+		if (method_exists($this, 'setHeaders')) {
+            parent::__construct('', $status, new ResponseHeaderBag($headers));
+        } else {
+			$this->headers = new ResponseHeaderBag($headers);
+			$this->setStatusCode($status);
+			$this->setProtocolVersion('1.0');
+		}
+
 		$this->setContent($content);
-		$this->setStatusCode($status);
-		$this->setProtocolVersion('1.0');
 	}
 
 	/**
@@ -88,6 +96,10 @@ class Response extends SymfonyResponse
 	#[\Override]
 	public function setContent(mixed $content): static
 	{
+		$this->original = $content;
+
+		// If the content is "JSONable" we will set the appropriate header and convert
+        // the content to JSON.
 		if ($this->shouldBeJson($content)) {
             $this->header('Content-Type', 'application/json');
 
