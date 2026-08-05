@@ -32,6 +32,8 @@ use Syscodes\Components\Support\MessageBag;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Support\ViewErrorBag;
 
+use function Syscodes\Components\Support\enum_value;
+
 /**
  * Implementation of Lenevor session container.
  */
@@ -105,7 +107,7 @@ class Store implements Session
      * 
      * @return bool
      */
-    public function start(): bool
+    public function start()
     {
         $this->loadSession();
 
@@ -210,7 +212,7 @@ class Store implements Session
      * @param  array  $keys 
      * @return array
      */
-    public function except(array $keys)
+    public function except(array $keys): array
     {
         return Arr::except($this->items, $keys);
     }
@@ -263,7 +265,7 @@ class Store implements Session
      * 
      * @return void
      */
-    public function save(): void
+    public function save()
     {
         $this->ageFlashData();
 
@@ -304,13 +306,14 @@ class Store implements Session
      * 
      * @return void
      */
-    public function ageFlashData(): void
+    public function ageFlashData()
     {
         foreach($this->get('_flash.old', []) as $old) {
             $this->erase($old);
         }
 
         $this->put('_flash.old', $this->get('_flash.new', []));
+
         $this->put('_flash.new', []);        
     }
     
@@ -332,7 +335,7 @@ class Store implements Session
      * @param  mixed  $default 
      * @return mixed
      */
-    public function pull($key, $default = null): mixed
+    public function pull($key, $default = null)
     {
         return Arr::pull($this->items, $key, $default);
     }
@@ -344,7 +347,7 @@ class Store implements Session
      * @param  mixed  $value 
      * @return void
      */
-    public function push($key, $value): void
+    public function push($key, $value)
     {
         $array = $this->get($key, []);
 
@@ -456,9 +459,9 @@ class Store implements Session
      * @param  mixed  $default 
      * @return mixed
      */
-    public function get($key, $default = null): mixed
+    public function get($key, $default = null)
     {
-        return Arr::get($this->items, $key, $default);
+        return Arr::get($this->items, enum_value($key), $default);
     }
 
     /**
@@ -467,7 +470,7 @@ class Store implements Session
      * @param  array  $attributes 
      * @return void
      */
-    public function replace(array $attributes): void
+    public function replace(array $attributes)
     {
         $this->put($attributes);
     }
@@ -479,26 +482,26 @@ class Store implements Session
      * @param  mixed  $value 
      * @return void
      */
-    public function put($key, $value = null): void
+    public function put($key, $value = null)
     {
         if ( ! is_array($key)) {
-            $key = [$key => $value];
+            $key = [enum_value($key) => $value];
         }
 
         foreach ($key as $itemKey => $itemValue) {
-            Arr::set($this->items, $itemKey, $itemValue);
+            Arr::set($this->items, enum_value($itemKey), $itemValue);
         }
     }
 
     /**
      * Remove an key from the session.
      * 
-     * @param  string  $key 
+     * @param  \UnitEnum|string  $key 
      * @return mixed
      */
-    public function remove($key): mixed
+    public function remove($key)
     {
-        return Arr::pull($this->items, $key);
+        return Arr::pull($this->items, enum_value($key));
     }
 
     /**
@@ -507,23 +510,43 @@ class Store implements Session
      * @param  string|array  $keys 
      * @return void
      */
-    public function erase($keys): void
+    public function erase($keys)
     {
-        Arr::erase($this->items, $keys);
+        Arr::erase($this->items, (new Collection((array) $keys))->map(fn ($key) => enum_value($key))->all());
     }
 
     /**
      * Flash a key / value pair to the session.
      * 
-     * @param  string  $key
+     * @param  \UnitEnum|string  $key
      * @param  mixed  $value 
      * @return void
      */
-    public function flash(string $key, $value = true): void
+    public function flash(\BackedEnum|\UnitEnum|string $key, $value = true)
     {
+        $key = enum_value($key);
+
         $this->put($key, $value);
+
         $this->push('_flash.new', $value);
+
         $this->removeOldFlashData([$key]);
+    }
+
+    /**
+     * Flash a key / value pair to the session for immediate use.
+     *
+     * @param  \UnitEnum|string  $key
+     * @param  mixed  $value
+     * @return void
+     */
+    public function now($key, $value)
+    {
+        $key = enum_value($key);
+
+        $this->put($key, $value);
+
+        $this->push('_flash.old', $key);
     }
 
     /**
@@ -532,7 +555,7 @@ class Store implements Session
      * @param  array  $keys 
      * @return void
      */
-    protected function removeOldFlashData(array $keys): void
+    protected function removeOldFlashData(array $keys)
     {
         $this->put('_flash.old', array_diff($this->get('_flash.old', []), $keys));
     }
@@ -543,7 +566,7 @@ class Store implements Session
      * @param  array  $value 
      * @return void
      */
-    public function flashInput(array $value): void
+    public function flashInput(array $value)
     {
         $this->flash('_old_input', $value);
     }
