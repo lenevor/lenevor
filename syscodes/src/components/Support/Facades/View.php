@@ -27,6 +27,7 @@ namespace Syscodes\Components\Support\Facades;
  * 
  * @method static bool viewExists(string $view)
  * @method static \Syscodes\Components\Contracts\View\View make(string $view, array $data = [])
+ * @method static \Syscodes\Components\Contracts\View\View first(array $views, \Syscodes\Components\Contracts\Support\Arrayable|array $data = [], array $mergeData = [])
  * @method static \Syscodes\Components\Contracts\View\Engine getEngineFromPath(string $path)
  * @method static array getExtensions()
  * @method static mixed share(array|string $key, mixed $value = null)

@@ -24,8 +24,23 @@ namespace Syscodes\Components\Support\Facades;
 
 /**
  * Initialize the View class facade.
+ * 
+ * @method static \Syscodes\Components\Validation\Validator make(array $data, array $rules, array $messages = [], array $attributes = [])
+ * @method static array validate(array $data, array $rules, array $messages = [], array $attributes = [])
+ * @method static void extend(string $rule, \Closure|string $extension, string|null $message = null)
+ * @method static void extendImplicit(string $rule, \Closure|string $extension, string|null $message = null)
+ * @method static void extendDependent(string $rule, \Closure|string $extension, string|null $message = null)
+ * @method static void replacer(string $rule, \Closure|string $replacer)
+ * @method static void includeUnvalidatedArrayKeys()
+ * @method static void excludeUnvalidatedArrayKeys()
+ * @method static void resolver(\Closure $resolver)
+ * @method static \Syscodes\Components\Contracts\Translation\Translator getTranslator()
+ * @method static \Syscodes\Components\Validation\PresenceVerifierInterface getPresenceVerifier()
+ * @method static void setPresenceVerifier(\Syscodes\Components\Validation\PresenceVerifierInterface $presenceVerifier)
+ * @method static \Syscodes\Components\Contracts\Container\Container|null getContainer()
+ * @method static \Syscodes\Components\Validation\Factory setContainer(\Syscodes\Components\Contracts\Container\Container $container)
  *  
- * @see \Syscodes\Components\Validation\Validator
+ * @see \Syscodes\Components\Validation\Factory
  */
 class Validator extends Facade
 {
