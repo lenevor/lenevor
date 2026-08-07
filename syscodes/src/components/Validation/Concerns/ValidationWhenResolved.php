@@ -54,7 +54,7 @@ trait ValidationWhenResolved
      */
     protected function getValidatorInstance()
     {
-        return $this->validator();
+        return validator();
     }
 
     /**
@@ -73,7 +73,7 @@ trait ValidationWhenResolved
      *
      * @return bool
      */
-    protected function passesAuthorization()
+    protected function passesAuthorization(): bool
     {
         if (method_exists($this, 'authorize')) {
             return $this->authorize();
