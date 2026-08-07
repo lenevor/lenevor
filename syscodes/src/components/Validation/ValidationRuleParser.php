@@ -127,7 +127,7 @@ class ValidationRuleParser
             $rule = new ClosureValidationRule($rule);
         }
 
-        if (! is_object($rule) ||
+        if ( ! is_object($rule) ||
             $rule instanceof RuleContract ||
             ($rule instanceof Exists && $rule->queryCallbacks()) ||
             ($rule instanceof Unique && $rule->queryCallbacks())) {
@@ -304,8 +304,8 @@ class ValidationRuleParser
      */
     public static function filterConditionalRules($rules, array $data = []): array
     {
-        return collect($rules)->mapWithKeys(function ($attributeRules, $attribute) use ($data) {
-            if (! is_array($attributeRules) &&
+        return collect($rules)->mapKeys(function ($attributeRules, $attribute) use ($data) {
+            if ( ! is_array($attributeRules) &&
                 ! $attributeRules instanceof ConditionalRules) {
                 return [$attribute => $attributeRules];
             }
