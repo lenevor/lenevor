@@ -43,7 +43,8 @@ use Syscodes\Components\Validation\Exceptions\ValidationException;
  */
 class Validator implements ValidationContract
 {
-    use Concerns\ValidatesAttributes;
+    use Concerns\FormatsMessages,
+        Concerns\ValidatesAttributes;
 
     /**
      * All of the registered "after" callbacks.
@@ -455,7 +456,7 @@ class Validator implements ValidationContract
      *
      * @return bool
      */
-    public function passes()
+    public function passes(): bool
     {
         $this->messages = new MessageBag;
 
@@ -520,8 +521,14 @@ class Validator implements ValidationContract
      */
     protected function shouldBeExcluded($attribute): bool
     {
-        return array_any($this->excludeAttributes, fn ($excludeAttribute) => $attribute === $excludeAttribute ||
-            Str::startsWith($attribute, $excludeAttribute.'.'));
+        foreach ($this->excludeAttributes as $excludeAttribute) {
+            if ($attribute === $excludeAttribute ||
+                Str::startsWith($attribute, $excludeAttribute.'.')) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -674,6 +681,77 @@ class Validator implements ValidationContract
         if ($validatable && ! $this->$method($attribute, $value, $parameters, $this)) {
             $this->addFailure($attribute, $rule, $parameters);
         }
+    }
+
+    /**
+     * Add a failed rule and error message to the collection.
+     *
+     * @param  string  $attribute
+     * @param  string  $rule
+     * @param  array  $parameters
+     * @return void
+     */
+    public function addFailure($attribute, $rule, $parameters = [])
+    {
+        if (! $this->messages) {
+            $this->passes();
+        }
+
+        $attribute = str_replace(
+            ['__dot__'.static::$placeholderHash, '__asterisk__'],
+            ['.', '*'],
+            $attribute
+        );
+
+        if (in_array($rule, $this->excludeRules)) {
+            return $this->excludeAttribute($attribute);
+        }
+
+        $this->messages->add($attribute, $this->makeReplacements(
+            $this->getMessage($attribute, $rule), $attribute, $rule, $parameters
+        ));
+
+        $this->failedRules[$attribute][$rule] = $parameters;
+    }
+
+    /**
+     * Check if we should stop further validations on a given attribute.
+     *
+     * @param  string  $attribute
+     * @return bool
+     */
+    protected function shouldStopValidating($attribute): bool
+    {
+        $cleanedAttribute = $this->replacePlaceholderInString($attribute);
+
+        if ($this->hasRule($attribute, ['Bail'])) {
+            return $this->messages->has($cleanedAttribute);
+        }
+
+        if (isset($this->failedRules[$cleanedAttribute]) &&
+            array_key_exists('uploaded', $this->failedRules[$cleanedAttribute])) {
+            return true;
+        }
+
+        // In case the attribute has any rule that indicates that the field is required
+        // and that rule already failed then we should stop validation at this point
+        // as now there is no point in calling other rules with this field empty.
+        return $this->hasRule($attribute, $this->implicitRules) &&
+            isset($this->failedRules[$cleanedAttribute]) && 
+            array_intersect(array_keys($this->failedRules[$cleanedAttribute]), $this->implicitRules);
+    }
+
+    /**
+     * Add the given attribute to the list of excluded attributes.
+     *
+     * @param  string  $attribute
+     * @return void
+     */
+    protected function excludeAttribute(string $attribute): void
+    {
+        $this->excludeAttributes[] = $attribute;
+
+        $this->excludeAttributes = array_unique($this->excludeAttributes);
     }
 
     /**
@@ -1064,6 +1142,42 @@ class Validator implements ValidationContract
     public function getMessageBag()
     {
         return $this->messages();
+    }
+
+     /**
+     * Determine if the given attribute has a rule in the given set.
+     *
+     * @param  string  $attribute
+     * @param  string|array  $rules
+     * @return bool
+     */
+    public function hasRule($attribute, $rules): bool
+    {
+        return ! is_null($this->getRule($attribute, $rules));
+    }
+
+    /**
+     * Get a rule and its parameters for a given attribute.
+     *
+     * @param  string  $attribute
+     * @param  string|array  $rules
+     * @return array|null
+     */
+    protected function getRule($attribute, $rules)
+    {
+        if ( ! array_key_exists($attribute, $this->rules)) {
+            return;
+        }
+
+        $rules = (array) $rules;
+
+        foreach ($this->rules[$attribute] as $rule) {
+            [$rule, $parameters] = ValidationRuleParser::parse($rule);
+
+            if (in_array($rule, $rules)) {
+                return [$rule, $parameters];
+            }
+        }
     }
 
     /**
