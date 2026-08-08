@@ -27,13 +27,14 @@ use BadMethodCallException;
 use Stringable;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Contracts\Support\Webable;
-use Syscodes\Components\Support\MessageBag;
 use Syscodes\Components\Contracts\Support\MessageProvider;
 use Syscodes\Components\Contracts\Support\Renderable;
 use Syscodes\Components\Contracts\View\Engine;
 use Syscodes\Components\Contracts\View\View as ViewContract;
+use Syscodes\Components\Support\MessageBag;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Support\Traits\Macroable;
+use Syscodes\Components\Support\ViewErrorBag;
 use Throwable;
 
 /**
@@ -244,13 +245,14 @@ class View implements ArrayAccess, Webable, Stringable, ViewContract
 	 * Add validation errors to the view.
 	 * 
 	 * @param  \Syscodes\Components\Contracts\Support\MessageProvider|array  $provider
+	 * @param  string  $bag
 	 * @return static
      */
-	public function withErrors($provider): static
+	public function withErrors($provider, $bag = 'default'): static
 	{
-		$this->with('errors', $this->formatErrors($provider));
-		
-		return $this;
+		return $this->assign('errors', (new ViewErrorBag)->put(
+            $bag, $this->formatErrors($provider)
+        ));
 	}
 	
 	/**
@@ -262,8 +264,8 @@ class View implements ArrayAccess, Webable, Stringable, ViewContract
 	protected function formatErrors($provider)
 	{
 		return $provider instanceof MessageProvider
-		    ? $provider->getMessageBag() : new MessageBag((array) $provider);
-				
+		    ? $provider->getMessageBag()
+			: new MessageBag((array) $provider);				
 	}
 
 	/**

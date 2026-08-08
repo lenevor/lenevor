@@ -23,6 +23,8 @@
 namespace Syscodes\Components\View\Engines;
 
 use Syscodes\Components\Core\Http\Exceptions\HttpException;
+use Syscodes\Components\Database\Exceptions\RecordNotFoundException;
+use Syscodes\Components\Database\Exceptions\RecordsNotFoundException;
 use Syscodes\Components\Filesystem\Filesystem;
 use Syscodes\Components\Http\Exceptions\HttpResponseException;
 use Syscodes\Components\View\Exceptions\ViewException;
@@ -114,7 +116,10 @@ class TranspilerEngine extends PhpEngine
      */
     protected function handleViewException(Throwable $e, $obLevel): void
     {
-        if ($e instanceof HttpException || $e instanceof HttpResponseException) {
+        if ($e instanceof HttpException || 
+            $e instanceof HttpResponseException ||
+            $e instanceof RecordNotFoundException ||
+            $e instanceof RecordsNotFoundException) {
             parent::handleViewException($e, $obLevel);
         }
         
