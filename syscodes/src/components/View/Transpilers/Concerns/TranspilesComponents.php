@@ -35,7 +35,7 @@ trait TranspilesComponents
      */
     protected function transpileComponent($expression): string
     {
-        return "<?php \$__env->beginComponent{$expression}; ?>";
+        return "<?php \$__env->startComponent{$expression}; ?>";
     }
 
     /**

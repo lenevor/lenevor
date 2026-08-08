@@ -176,7 +176,7 @@ class Factory implements FactoryContract
 		return take($this->viewInstance($view, $path, $data), fn ($view) => $this->callCreator($view));
 	}
 
-	 /**
+	/**
      * Get the first view that actually exists from the given list.
      *
      * @param  array  $views  Views filename

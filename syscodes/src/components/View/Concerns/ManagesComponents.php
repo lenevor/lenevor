@@ -24,6 +24,7 @@ namespace Syscodes\Components\View\Concerns;
 
 use Syscodes\Components\Support\WebString;
 use Syscodes\Components\View\Exceptions\ViewException;
+use Syscodes\Components\Support\Arr;
 
 /**
  * Trait ManagesComponents.
@@ -31,28 +32,72 @@ use Syscodes\Components\View\Exceptions\ViewException;
 trait ManagesComponents
 {
     /**
-     * Component data.
-     * 
+     * The original data passed to the component.
+     *
      * @var array
      */
-    protected $components = [];
+    protected $componentData = [];
 
     /**
-     * Begin a components for rendered view.
+     * The components being rendered.
+     *
+     * @var array
+     */
+    protected $componentRendered = [];
+
+    /**
+     * The component data for the component that is currently being rendered.
+     *
+     * @var array
+     */
+    protected $currentComponentData = [];
+
+    /**
+     * The slot contents for the component.
+     *
+     * @var array
+     */
+    protected $slots = [];
+
+    /**
+     * The names of the slots being rendered.
+     *
+     * @var array
+     */
+    protected $slotRendered = [];
+
+    /**
+     * Start a components for rendered view.
      * 
      * @param  string  $view
      * @param  array  $data 
-     * @return array
+     * @return void
      */
-    public function beginComponent($view, array $data = [])
+    public function startComponent($view, array $data = [])
     {
         if (ob_start()) {
-            $this->components[] = [
-                'view' => $view,
-                'data' => $data,
-                'slots' => $data
-            ];
+            $this->componentRendered[] = $view;
+
+            $this->componentData[$this->currentComponent()] = $data;
+
+            $this->slots[$this->currentComponent()] = [];
         }
+    }
+
+    /**
+     * Get the first view that actually exists from the given list, and start a component.
+     *
+     * @param  array  $names
+     * @param  array  $data
+     * @return void
+     */
+    public function startComponentFirst(array $names, array $data = [])
+    {
+        $name = Arr::first($names, function ($item) {
+            return $this->exists($item);
+        });
+
+        $this->startComponent($name, $data);
     }
 
     /**
@@ -95,7 +140,7 @@ trait ManagesComponents
      */
     public function slot($name, $content = null)
     {
-        if (func_num_args() > 2) {
+        if (func_num_args() > 2 || $content !== null) {
             throw new ViewException("You passed too many arguments to the [$name] slot.");
         } elseif (func_num_args() === 2) {
             $this->components[$this->currentComponent()]['slots'][$name] = $content;
