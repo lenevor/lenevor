@@ -24,12 +24,15 @@ namespace Syscodes\Components\Routing\Generators;
 
 use Syscodes\Components\Http\RedirectResponse;
 use Syscodes\Components\Session\Store as SessionStore;
+use Syscodes\Components\Support\Traits\Macroable;
 
 /**
  * Returns redirect of the routes defined by the user.
  */
 class Redirector
 {
+    use Macroable;
+    
     /**
      * The URL generator instance.
      * 
@@ -100,12 +103,8 @@ class Redirector
      * @param  bool|null  $secure
      * @return \Syscodes\Components\Http\RedirectResponse
      */
-    public function guest(
-        $path, 
-        $status = 302, 
-        $headers = [], 
-        $secure = null
-    ) {
+    public function guest($path, $status = 302, $headers = [], $secure = null)
+    {
         $request = $this->generator->getRequest();
         
         $intended = $request->isMethod('GET') && $request->route()
@@ -128,12 +127,8 @@ class Redirector
      * @param  bool|null  $secure 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
-    public function intended(
-        $default = '/', 
-        $status = 302, 
-        $headers = [], 
-        $secure = null
-    ) {
+    public function intended($default = '/', $status = 302, $headers = [], $secure = null)
+    {
         $path = $this->session->pull('url.intended', $default);
         
         return $this->to($path, $status, $headers, $secure);
@@ -148,12 +143,8 @@ class Redirector
      * @param  bool|null  $secure 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
-    public function to(
-        $path, 
-        $status = 302, 
-        $headers = [], 
-        $secure = null
-    ) {
+    public function to($path, $status = 302, $headers = [], $secure = null)
+    {
         return $this->createRedirect($this->generator->to($path, [], $secure), $status, $headers);
     }
 
@@ -192,12 +183,8 @@ class Redirector
      * @param  array  $headers 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
-    public function route(
-        $route, 
-        $parameters = [], 
-        $status = 302, 
-        $headers = []
-    ) {
+    public function route($route, $parameters = [], $status = 302, $headers = [])
+    {
         $path = $this->generator->route($route, $parameters);
 
         return $this->to($path, $status, $headers);
@@ -212,12 +199,8 @@ class Redirector
      * @param  array  $headers 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
-    public function action(
-        $route, 
-        $parameters = [], 
-        $status = 302, 
-        $headers = []
-    ) {
+    public function action($route, $parameters = [], $status = 302, $headers = [])
+    {
         $path = $this->generator->action($route, $parameters);
 
         return $this->to($path, $status, $headers);

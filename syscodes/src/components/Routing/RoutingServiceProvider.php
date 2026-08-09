@@ -23,8 +23,9 @@
 namespace Syscodes\Components\Routing;
 
 use Closure;
-use Syscodes\Components\Contracts\Routing\RouteResponse as ResponseContract;
+use Syscodes\Components\Contracts\Routing\RouteResponse as RouteResponseContract;
 use Syscodes\Components\Contracts\Routing\UrlGenerator as UrlGeneratorContract;
+use Syscodes\Components\Contracts\View\Factory as ViewFactoryContract;
 use Syscodes\Components\Routing\Contracts\ControllerDispatcher as ControllerDispatcherContract;
 use Syscodes\Components\Routing\ControllerDispatcher;
 use Syscodes\Components\Routing\Generators\Redirector;
@@ -58,7 +59,9 @@ class RoutingServiceProvider extends ServiceProvider
      */
     protected function registerRouter()
     {
-        $this->app->singleton('router', fn ($app) => new Router($app));
+        $this->app->singleton('router', function ($app) {
+            return new Router($app['events'], $app);
+        }); 
     }
 
     /**
@@ -68,7 +71,9 @@ class RoutingServiceProvider extends ServiceProvider
      */
     protected function registerRouteResponse()
     {
-        $this->app->singleton(ResponseContract::class, fn($app) => new RouteResponse($app['view'], $app['redirect']));
+        $this->app->singleton(RouteResponseContract::class, function ($app) { 
+            return new RouteResponse($app[ViewFactoryContract::class], $app['redirect']);
+        });
     }
 
     /**
@@ -91,6 +96,8 @@ class RoutingServiceProvider extends ServiceProvider
         });
 
         $this->app->extend('url', function (UrlGeneratorContract $url, $app) {
+            // Next we will set a few service resolvers on the URL generator so it can
+            // get the information it needs to function.
             $url->setSessionResolver(function () {
                 return $this->app['session'] ?? null;
             });
@@ -134,6 +141,8 @@ class RoutingServiceProvider extends ServiceProvider
         $this->app->singleton('redirect', function ($app) {
             $redirector = new Redirector($app['url']);
             
+            // If the session is set on the application instance, we'll inject it into
+            // the redirector instance.
             if (isset($app['session.store'])) {
                 $redirector->setSession($app['session.store']);
             }
