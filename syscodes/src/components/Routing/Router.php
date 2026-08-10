@@ -33,6 +33,7 @@ use Syscodes\Components\Routing\RouteFileRegister;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Support\Traits\Macroable;
+use Syscodes\Components\Contracts\Events\Dispatcher;
 
 /**
  * The Router class allows the integration of an easy-to-use routing system.
@@ -40,6 +41,7 @@ use Syscodes\Components\Support\Traits\Macroable;
 class Router implements Routable
 {
 	use Concerns\Mapper,
+	    Concerns\Resolver,
 	    Macroable {
 		    __call as macroCall;
 	    }
@@ -57,6 +59,20 @@ class Router implements Routable
 	 * @var \Syscodes\Components\Container\Container
 	 */
 	protected $container;
+
+	/**
+	 * The currently dispatched route instance.
+	 * 
+	 * @var \Syscodes\Components\Routing\Route|null
+	 */
+	protected $current;
+
+	/**
+     * The event dispatcher instance.
+     *
+     * @var \Syscodes\Components\Contracts\Events\Dispatcher
+     */
+    protected $events;
 
 	/**
 	 * Variable of group route.
@@ -94,13 +110,6 @@ class Router implements Routable
 	protected $patterns = [];
 
 	/**
-	 * Resolve the given route.
-	 * 
-	 * @var \Syscodes\Components\Routing\RouteResolver
-	 */
-	protected $resolves;
-
-	/**
 	 * The Resource instance.
 	 * 
 	 * @var \Syscodes\Components\Routing\Resources\ResourceRegister
@@ -117,14 +126,15 @@ class Router implements Routable
 	/**
 	 * Constructor. Create a new Router instance.
 	 *
+	 * @param  \Syscodes\Components\Contracts\Events\Dispatcher  $events
 	 * @param  \Syscodes\Components\Container\Container|null  $container 
 	 * @return void
 	 */
-	public function __construct(?Container $container = null)
+	public function __construct(Dispatcher $events, ?Container $container = null)
 	{
+		$this->events = $events;
 		$this->routes = new RouteCollection;
 		$this->container = $container ?: new Container;
-		$this->resolves = new RouteResolver($this, $this->routes, $this->container);
 	}
 
 	/**
@@ -239,7 +249,7 @@ class Router implements Routable
 		
 		return $this->addRoute('GET', "{{$placeholder}}", $action)
 		    ->where($placeholder, '.*')
-		   ->fallback();
+		    ->fallback();
 	}
 
 	/**
@@ -282,12 +292,12 @@ class Router implements Routable
 	public function view($uri, $view, $data = [], $status = 200, array $headers = [])
 	{
 		return $this->match(['GET', 'HEAD'], $uri, '\Syscodes\Components\Routing\Controllers\ViewController')
-		->setDefaults([
-			'view' => $view,
-			'data' => $data,
-			'status' => is_array($status) ? 200 : $status,
-			'headers' => is_array($status) ? $status : $headers,
-		]);
+		    ->setDefaults([
+				'view' => $view,
+				'data' => $data,
+				'status' => is_array($status) ? 200 : $status,
+				'headers' => is_array($status) ? $status : $headers,
+		    ]);
 	}
 
 	/**
@@ -409,6 +419,7 @@ class Router implements Routable
 	public function newRoute($method, $uri, $action): route
 	{
 		return take(new Route($method, $uri, $action))
+		    ->setRouter($this)
 		    ->setContainer($this->container);
 	}
 	
@@ -421,6 +432,16 @@ class Router implements Routable
 	{
 		return ! empty($this->groupStack);
 	}
+
+	/**
+     * Get the current group stack for the router.
+     *
+     * @return array
+     */
+    public function getGroupStack(): array
+    {
+        return $this->groupStack;
+    }
 	
 	/**
 	 * Merge the group stack with the controller action.
@@ -447,10 +468,20 @@ class Router implements Routable
 	protected function addWhereClausesToRoute($route): Route
 	{
 		$route->where(array_merge(
-			$this->patterns, Arr::get($route->getAction(), 'where', [])
+			$this->patterns, $route->getAction()['where'] ?? []
 		));
 
 		return $route;
+	}
+
+	/**
+	 * Get the currently dispatched route instance.
+	 * 
+	 * @return \Syscodes\Components\Routing\Route|null
+	 */
+	public function current()
+	{
+		return $this->current;
 	}
 
 	/**
@@ -511,7 +542,7 @@ class Router implements Routable
 	 */
 	public function dispatch(Request $request)
 	{
-		return $this->resolves->resolve($request);
+		return $this->resolve($request);
 	}
 
 	/**
@@ -609,6 +640,16 @@ class Router implements Routable
 		return true;
 	}
 
+	 /**
+     * Get the current route name.
+     *
+     * @return string|null
+     */
+    public function currentRouteName()
+    {
+        return $this->current() ? $this->current()->getName() : null;
+    }
+
 	/**
 	 * Determine if the current route matches a pattern.
 	 * 
@@ -628,8 +669,50 @@ class Router implements Routable
 	 */
 	public function currentRouteNamed(...$patterns): bool
 	{
-		return $this->resolves->current() && $this->resolves->current()->named(...$patterns);
+		return $this->current() && $this->current()->named(...$patterns);
 	}
+
+	/**
+     * Get the current route action.
+     *
+     * @return string|null
+     */
+    public function currentRouteAction()
+    {
+        if ($this->current()) {
+            return $this->current()->getAction()['controller'] ?? null;
+        }
+    }
+
+	/**
+     * Alias for the "currentRouteUses" method.
+     *
+     * @param  array|string  ...$patterns
+     * @return bool
+     */
+    public function uses(...$patterns): bool
+    {
+		$action = $this->currentRouteAction();
+
+		foreach ($patterns as $pattern) {
+			if (Str::is($pattern, $action)) {
+				return true;
+			}
+		}
+
+		return false;
+    }
+
+	/**
+     * Determine if the current route action matches a given action.
+     *
+     * @param  string  $action
+     * @return bool
+     */
+    public function currentRouteUses($action): bool
+    {
+        return $this->currentRouteAction() == $action;
+    }
 
 	/**
 	 * Register an array of resource controllers.

@@ -47,16 +47,74 @@ class RouteGroup
 			unset($old['controller']);
 		}
 
+		$metadata = static::formatMetadata($new, $old);
+
+        unset($new['metadata']);
+
 		$new = array_merge(static::formatUseAs($new, $old), [
 			'namespace' => static::formatUseNamespace($new, $old),
 			'prefix' => static::formatUsePrefix($new, $old, $existsPrefix),
 			'where' => static::formatUseWhere($new, $old)
 		]);
+
+		if ($metadata !== []) {
+            $new['metadata'] = $metadata;
+        }
 		
-		return array_merge_recursive(
-			Arr::except($old, array('namespace', 'prefix', 'where', 'as')), $new
-		);
+		return array_merge_recursive(Arr::except(
+			$old, ['metadata', 'namespace', 'prefix', 'where', 'as']
+		), $new);
 	}
+
+	/**
+     * Format the metadata for the new group attributes.
+     *
+     * @param  array  $new
+     * @param  array  $old
+     * @return array
+     */
+    protected static function formatMetadata($new, $old): array
+    {
+        return static::mergeMetadata(
+            $old['metadata'] ?? [],
+            $new['metadata'] ?? []
+        );
+    }
+
+    /**
+     * Merge the given route metadata.
+     *
+     * @param  array  $old
+     * @param  array  $new
+     * @return array
+     */
+    public static function mergeMetadata(array $old, array $new): array
+    {
+        foreach ($new as $key => $value) {
+            if (isset($old[$key]) && static::mergableMetadata($old[$key], $value)) {
+                $value = static::mergeMetadata($old[$key], $value);
+            }
+
+            $old[$key] = $value;
+        }
+
+        return $old;
+    }
+
+    /**
+     * Determine if the given metadata values should be merged.
+     *
+     * @param  mixed  $old
+     * @param  mixed  $new
+     * @return bool
+     */
+    protected static function mergableMetadata($old, $new): bool
+    {
+        return is_array($old) &&
+            is_array($new) &&
+            Arr::isAssoc($old) &&
+            Arr::isAssoc($new);
+    }
 
 	/**
 	 * Format the uses namespace for the new group attributes.
@@ -68,7 +126,7 @@ class RouteGroup
 	protected static function formatUseNamespace($new, $old): ?string
 	{
 		if (isset($new['namespace'])) {
-			return isset($old['namespace'])
+			return isset($old['namespace']) && ! str_starts_with($new['namespace'], '\\')
 			    ? trim($old['namespace'], '\\').'\\'.trim($new['namespace'], '\\')
 			    : trim($new['namespace'], '\\');
 		}
@@ -86,7 +144,7 @@ class RouteGroup
 	 */
 	protected static function formatUsePrefix($new, $old, bool $existsPrefix = true): string|null
 	{
-		$old = $old['prefix'] ?? null;
+		$old = $old['prefix'] ?? '';
 		
 		if ($existsPrefix) {
 			return isset($new['prefix']) ? trim($old, '/').'/'.trim($new['prefix'], '/') : $old;

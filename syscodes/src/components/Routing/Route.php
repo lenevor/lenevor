@@ -40,6 +40,8 @@ use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Support\Traits\Macroable;
 
+use function Syscodes\Components\Support\enum_value;
+
 /**
  * A Route describes a route and its parameters.
  */
@@ -132,6 +134,13 @@ class Route
 	 * @var array|null
 	 */
 	public $parameterNames;
+
+	/**
+     * The router instance used by the route.
+     *
+     * @var \Syscodes\Components\Routing\Router
+     */
+    protected $router;
 
 	/**
 	 * The URI pattern the route responds to.
@@ -497,6 +506,43 @@ class Route
 	}
 
 	/**
+     * Set the handler for the route.
+     *
+     * @param  \Closure|array|string  $action
+     * @return static
+     */
+    public function uses($action): static
+    {
+        if (is_array($action)) {
+            $action = $action[0].'@'.$action[1];
+        }
+
+        $action = is_string($action) ? $this->addGroupNamespaceToStringUses($action) : $action;
+
+        return $this->setAction(array_merge($this->action, $this->parseAction([
+            'uses' => $action,
+            'controller' => $action,
+        ])));
+    }
+
+    /**
+     * Parse a string based action for the "uses" fluent method.
+     *
+     * @param  string  $action
+     * @return string
+     */
+    protected function addGroupNamespaceToStringUses($action)
+    {
+        $groupStack = last($this->router->getGroupStack());
+
+        if (isset($groupStack['namespace']) && ! str_starts_with($action, '\\')) {
+            return $groupStack['namespace'].'\\'.$action;
+        }
+
+        return $action;
+    }
+
+	/**
 	 * Set a default value for the route.
 	 * 
 	 * @param  string  $key
@@ -557,8 +603,8 @@ class Route
 	 */
 	public function where($name, $expression = null): static
 	{
-		 foreach ($this->parseWhere($name, $expression) as $name => $expression) {
-            $this->wheres[$name] = $expression;
+		 foreach ($this->parseWhere($name, $expression) as $key => $value) {
+            $this->wheres[$key] = $value;
         }
 
 		return $this;
@@ -782,6 +828,22 @@ class Route
 			$this->getControllerMethod()
 		);
 	}
+
+	/**
+     * Specify that the "Authorize" / "can" middleware should be applied to the route with the given options.
+     *
+     * @param  \UnitEnum|string  $ability
+     * @param  array|string  $models
+     * @return static
+     */
+    public function can($ability, $models = []): static
+    {
+        $ability = enum_value($ability);
+
+        return empty($models)
+            ? $this->middleware(['can:'.$ability])
+            : $this->middleware(['can:'.$ability.','.implode(',', Arr::wrap($models))]);
+    }
 	
 	/**
 	 * Convert the route to a Symfony route.
@@ -912,6 +974,19 @@ class Route
 	{
 		return $this->action['as'] ?? null;
 	}
+
+	 /**
+     * Set the router instance on the route.
+     *
+     * @param  \Syscodes\Components\Routing\Router  $router
+     * @return static
+     */
+    public function setRouter(Router $router): static
+    {
+        $this->router = $router;
+
+        return $this;
+    }
 
 	/**
 	 * Set the container instance on the route.
