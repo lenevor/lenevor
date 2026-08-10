@@ -113,7 +113,7 @@ class RouteParameter
         
         return array_filter(
             $parameters,
-            fn ($value) => is_string($value) && strlen($value) > 0
+            fn ($value) => is_string($value) && $value !== ''
         );
     }
     

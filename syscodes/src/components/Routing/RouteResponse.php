@@ -27,6 +27,7 @@ use Syscodes\Components\Contracts\View\Factory;
 use Syscodes\Components\Http\JsonResponse;
 use Syscodes\Components\Http\Response;
 use Syscodes\Components\Routing\Generators\Redirector;
+use Syscodes\Components\Support\Traits\Macroable;
 
 /**
  * This class allows you to control the use of the HTTP response 
@@ -34,6 +35,8 @@ use Syscodes\Components\Routing\Generators\Redirector;
  */
 class RouteResponse implements ResponseContract
 {
+    use Macroable;
+
     /**
      * The View class instance.
      * 
@@ -69,7 +72,7 @@ class RouteResponse implements ResponseContract
      * @param  array  $headers 
      * @return \Syscodes\Components\Http\Response
      */
-    public function make($body = '', $status = 200, array $headers = []): Response
+    public function make($body = '', $status = 200, array $headers = [])
     {
         return new Response($body, $status, $headers);
     }
@@ -81,7 +84,7 @@ class RouteResponse implements ResponseContract
      * @param  array  $headers 
      * @return \Syscodes\Components\Http\Response
      */
-    public function noContent($status = 204, array $headers = []): Response
+    public function noContent($status = 204, array $headers = [])
     {
         return $this->make('', $status, $headers);
     }
@@ -89,21 +92,19 @@ class RouteResponse implements ResponseContract
     /**
      * Return a new View Response from the application.
      *
-     * @param  string  $view
+     * @param  string|array  $view
      * @param  array  $data
      * @param  int  $status
      * @param  array  $headers 
      * @return  \Syscodes\Components\Http\Response
      */
-    public function view(
-        $view, 
-        array $data = [], 
-        $status = 200, 
-        array $headers = []
-    ): Response {
-        return $this->make(
-            $this->view->make($view, $data), $status, $headers
-        );
+    public function view($view, array $data = [], $status = 200, array $headers = [])
+    {
+        if (is_array($view)) {
+            return $this->make($this->view->first($view, $data), $status, $headers);
+        }
+
+        return $this->make($this->view->make($view, $data), $status, $headers);
     }
 
     /**
@@ -115,13 +116,24 @@ class RouteResponse implements ResponseContract
      * @param  int  $options 
      * @return \Syscodes\Components\Http\JsonResponse
      */
-    public function json(
-        $data = [], 
-        $status = 200, 
-        array $headers = [], 
-        $options = 0
-    ) {
+    public function json($data = [], $status = 200, array $headers = [], $options = 0)
+    {
         return new JsonResponse($data, $status, $headers, $options);
+    }
+
+    /**
+     * Create a new JSONP response instance.
+     *
+     * @param  string  $callback
+     * @param  mixed  $data
+     * @param  int  $status
+     * @param  array  $headers
+     * @param  int  $options
+     * @return \Syscodes\Components\Http\JsonResponse
+     */
+    public function jsonp($callback, $data = [], $status = 200, array $headers = [], $options = 0)
+    {
+        return $this->json($data, $status, $headers, $options)->setCallback($callback);
     }
 
     /**
@@ -133,12 +145,8 @@ class RouteResponse implements ResponseContract
      * @param  bool|null  $secure 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
-    public function redirectTo(
-        $path, 
-        $status = 302, 
-        $headers = [], 
-        $secure = null
-    ) {
+    public function redirectTo($path, $status = 302, $headers = [], $secure = null)
+    {
         return $this->redirector->to($path, $status, $headers, $secure);
     }
 
@@ -151,12 +159,8 @@ class RouteResponse implements ResponseContract
      * @param  array  $headers 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
-    public function redirectToRoute(
-        $route,
-        $parameters = [],
-        $status = 302,
-        $headers = []
-    ) {
+    public function redirectToRoute($route, $parameters = [], $status = 302, $headers = [])
+    {
         return $this->redirector->route($route, $parameters = [], $status, $headers);   
     }
     
@@ -169,12 +173,8 @@ class RouteResponse implements ResponseContract
      * @param  array  $headers 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
-    public function redirectToAction(
-        $action,
-        $parameters = [],
-        $status = 302,
-        $headers = []
-    ) {
+    public function redirectToAction($action, $parameters = [], $status = 302, $headers = [])
+    {
         return $this->redirector->action($action, $parameters, $status, $headers);
     }
 
@@ -187,12 +187,8 @@ class RouteResponse implements ResponseContract
      * @param  bool|null  $secure 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
-    public function redirectGuest(
-        $path,
-        $status = 302,
-        $headers = [],
-        $secure = null
-    ) {
+    public function redirectGuest($path, $status = 302, $headers = [], $secure = null)
+    {
         return $this->redirector->guest($path, $status, $headers, $secure);
     }
 
@@ -205,12 +201,8 @@ class RouteResponse implements ResponseContract
      * @param  bool|null  $secure 
      * @return \Syscodes\Components\Http\RedirectResponse
      */
-    public function redirectToIntended(
-        $default = '/',
-        $status = 302,
-        $headers = [],
-        $secure = null
-    ) {
+    public function redirectToIntended($default = '/', $status = 302, $headers = [], $secure = null)
+    {
         return $this->redirector->intended($default, $status, $headers, $secure);
     }
 }

@@ -41,15 +41,22 @@ class RouteAction
      */
     public static function parse($uri, $action): array
     {
+        // If no action is passed in right away, we assume the user will make use of
+        // fluent routing.
         if (is_null($action)) {
             return static::usesAction($uri);
         }
 
+        // If the action is already a Closure instance, we will just set that instance
+        // as the "uses" property, because there is nothing else we need to do when
+        // it is available.
         if (is_callable($action, true)) {
             return ! is_array($action) ? ['uses' => $action] : [
                 'uses' => $action[0].'@'.$action[1],
                 'controller' => $action[0].'@'.$action[1],
             ];
+        // If no "uses" property has been set, we will dig through the array to find a
+        // Closure instance within this list.
         } elseif ( ! isset($action['uses'])) {
             $action['uses'] = static::findClosureAction($action);
         }
