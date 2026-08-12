@@ -228,9 +228,9 @@ class RouteUrlGenerator
      * @param  string  $domain 
      * @return string
      */
-    protected function getRouteRoot($route, $domain): string
+    protected function getRouteRoot($route, $domain)
     {
-        return $this->url->getRootUrl($this->getRouteScheme($route), $domain);
+        return $this->url->formatRoot($this->getRouteScheme($route), $domain);
     }
 
     /**
@@ -242,12 +242,12 @@ class RouteUrlGenerator
     protected function getRouteScheme($route): string
     {
         if ($route->httpOnly()) {
-            return $this->url->getScheme(false);
+            return $this->url->formatScheme(false);
         } elseif ($route->httpsOnly()) {
-            return $this->url->getScheme(true);
+            return $this->url->formatScheme(true);
         }
 
-        return $this->url->getScheme();
+        return $this->url->formatScheme();
     }
     
     /**

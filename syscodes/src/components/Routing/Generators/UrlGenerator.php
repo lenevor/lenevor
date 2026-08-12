@@ -115,7 +115,7 @@ class UrlGenerator implements UrlGeneratorContract
     /**
      * The route URL generator instance.
      * 
-     * @var \Syscodes\Components\Routing\Generators\RouteUrlGenerator|null
+     * @var \Syscodes\Components\Routing\RouteUrlGenerator|null
      */
     protected $routeGenerator;
 
