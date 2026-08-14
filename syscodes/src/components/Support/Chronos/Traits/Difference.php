@@ -62,8 +62,8 @@ trait Difference
     protected function getDifferenceTime(\DateTime $currentTime, \DateTime $testTime): self
     {
         $this->difference = $currentTime->getTimestamp() - $testTime->getTimestamp();
-        $this->currentTime = IntlCalendar::fromDateTime($currentTime->format('Y-m-d H:i:s'), $this->locale);
-        $this->testTime = IntlCalendar::fromDateTime($testTime->format('Y-m-d H:i:s'), $this->locale)->getTime();
+        $this->currentTime = IntlCalendar::fromDateTime($currentTime->format('Y-m-d H:i:s'));
+        $this->testTime = IntlCalendar::fromDateTime($testTime->format('Y-m-d H:i:s'))->getTime();
 
         return $this;
     }
