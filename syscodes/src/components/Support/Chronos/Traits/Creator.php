@@ -79,7 +79,6 @@ trait Creator
         
         try {
             parent::__construct($time ?: 'now', $this->timezone ?: null);
-
         } catch(Exception $exception) {
             throw new InvalidFormatException($exception->getMessage(), 0, $exception);
         }    
