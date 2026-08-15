@@ -101,12 +101,8 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
      * @param  bool  $fallback 
      * @return string|array
      */
-    public function get(
-        $key,
-        array $replace = [],
-        ?string $locale = null,
-        bool $fallback = true
-    ) {
+    public function get($key, array $replace = [], ?string $locale = null, bool $fallback = true)
+    {
         $locale = $locale ?: $this->locale;
 
         $this->load('*', $locale);
@@ -120,9 +116,9 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
 
             $locales = $fallback ? $this->localeArray($locale) : [$locale];
             
-            foreach ($locales as $locale) {
+            foreach ($locales as $lineLocale) {
                 if ( ! is_null($line = $this->getLine(
-                        $group, $locale, $item, $replace
+                    $group, $lineLocale, $item, $replace
                 ))) {
                     return $line;
                 }
@@ -142,22 +138,18 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
      * @param  array  $replace 
      * @return string|array  Returns line
      */
-    protected function getLine(
-        $group, 
-        $locale, 
-        $item, 
-        array $replace = []
-    ) {   
+    protected function getLine($group, $locale, $item, array $replace = [])
+    {   
         $this->load($group, $locale);       
         
         $line = Arr::get($this->loaded[$group][$locale], $item);
 
         if (is_string($line)) {
             return $this->makeReplacements($line, $replace);
-        } elseif (is_array($line) && count($line) > 0) {
-            foreach ($line as $key => $value) {
-                $line[$key] = $this->makeReplacements($value, $replace);
-            }
+        } elseif (is_array($line) && $line !== []) {
+            array_walk_recursive($line, function (&$value, $key) use ($replace) {
+                $value = $this->makeReplacements($value, $replace);
+            });
 
             return $line;
         }
@@ -231,9 +223,9 @@ class Translator extends NamespacedParseResolver implements TranslatorContract
         $shouldReplace = [];
 
         foreach ($replace as $key => $value) {
+            $shouldReplace[':'.Str::ucfirst($key)] = Str::ucfirst($value ?? '');
+            $shouldReplace[':'.Str::upper($key)] = Str::upper($value ?? ''); 
             $shouldReplace[':'.$key] = $value;
-            $shouldReplace[':'.Str::upper($key)] = Str::upper($value); 
-            $shouldReplace[':'.Str::ucfirst($key)] = Str::ucfirst($value);
         }
 
         return strtr($line, $shouldReplace);
