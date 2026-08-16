@@ -40,6 +40,13 @@ use function Syscodes\Components\Support\enum_value;
 class Store implements Session
 {
     /**
+     * The length of session ID strings.
+     *
+     * @var int
+     */
+    protected const SESSION_ID_LENGTH = 40;
+
+    /**
      * The session ID.
      * 
      * @var string
@@ -90,12 +97,8 @@ class Store implements Session
      * @param  string  $serialization 
      * @return void
      */
-    public function __construct(
-        $name, 
-        SessionHandlerInterface $handler, 
-        $id = null, 
-        $serialization = 'php'
-    ) {
+    public function __construct($name, SessionHandlerInterface $handler, $id = null, $serialization = 'php')
+    {
         $this->setId($id);
         $this->name = $name;
         $this->handler = $handler;
@@ -247,7 +250,7 @@ class Store implements Session
      */
     public function isValidId($id): bool
     {
-        return is_string($id) && ctype_alnum($id) && strlen($id) === 40;
+        return is_string($id) && ctype_alnum($id) && strlen($id) === self::SESSION_ID_LENGTH;
     }
     
     /**
@@ -257,7 +260,7 @@ class Store implements Session
      */
     protected function generateSessionId(): string
     {
-        return Str::random(40);
+        return Str::random(self::SESSION_ID_LENGTH);
     }
 
     /**
@@ -610,7 +613,7 @@ class Store implements Session
      */
     public function regenerateToken(): void
     {
-        $this->put('_token', Str::random(40));
+        $this->put('_token', Str::random(self::SESSION_ID_LENGTH));
     }
 
     /**
@@ -675,6 +678,17 @@ class Store implements Session
     }
 
     /**
+     * Set the underlying session handler implementation.
+     *
+     * @param  \SessionHandlerInterface  $handler
+     * @return \SessionHandlerInterface
+     */
+    public function setHandler(SessionHandlerInterface $handler)
+    {
+        return $this->handler = $handler;
+    }
+
+    /**
      * Determine if the session has been started.
      * 
      * @return bool
@@ -689,7 +703,7 @@ class Store implements Session
      *
      * @return bool
      */
-    public function handlerNeedsRequest(): bool
+    public function handlerNeedsRequest()
     {
         return $this->handler instanceof CookieSessionHandler;
     }
@@ -698,7 +712,7 @@ class Store implements Session
     /**
      * Set the request on the handler instance.
      *
-     * @param  \Symfony\Component\HttpFoundation\Request $request 
+     * @param  \Syscodes\Components\Http\Request $request 
      * @return void
      */
     public function setRequestOnHandler($request): void
