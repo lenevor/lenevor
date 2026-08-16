@@ -266,7 +266,7 @@ interface Session
      *
      * @return bool
      */
-    public function handlerNeedsRequest(): bool;
+    public function handlerNeedsRequest();
 
     /**
      * Set the request on the handler instance.
