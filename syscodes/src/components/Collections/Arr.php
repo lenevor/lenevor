@@ -46,7 +46,7 @@ class Arr
 	 * @param  mixed  $value The default value
 	 * @return bool
 	 */
-	public static function accessible($value): bool
+	public static function accessible($value)
 	{
 		return is_array($value) || $value instanceof ArrayAccess;
 	}
@@ -59,7 +59,7 @@ class Arr
 	 * @param  mixed  $value  The default value
 	 * @return array 
 	 */
-	public static function add(array $array, string $key, mixed $value): array
+	public static function add($array, $key, $value)
 	{
 		if (is_null(static::get($array, $key))) {
 			static::set($array, $key, $value);
@@ -69,12 +69,75 @@ class Arr
 	}
 
 	/**
+     * Determine whether the given value is arrayable.
+     *
+     * @param  mixed  $value
+     * @return ($value is array
+     *     ? true
+     *     : ($value is \Syscodes\Components\Contracts\Support\Arrayable
+     *         ? true
+     *         : ($value is \Traversable
+     *             ? true
+     *             : ($value is \Syscodes\Components\Contracts\Support\Jsonable
+     *                 ? true
+     *                 : ($value is \JsonSerializable ? true : false)
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    public static function arrayable($value)
+    {
+        return is_array($value)
+            || $value instanceof Arrayable
+            || $value instanceof Traversable
+            || $value instanceof Jsonable
+            || $value instanceof JsonSerializable;
+    }
+
+	/**
+     * Get an array item from an array using "dot" notation.
+     *
+     * @throws \InvalidArgumentException
+     */
+    public static function array(ArrayAccess|array $array, string|int|null $key, ?array $default = null): array
+    {
+        $value = Arr::get($array, $key, $default);
+
+        if ( ! is_array($value)) {
+            throw new InvalidArgumentException(
+                sprintf('Array value for key [%s] must be an array, %s found.', $key, gettype($value))
+            );
+        }
+
+        return $value;
+    }
+
+	/**
+     * Get a boolean item from an array using "dot" notation.
+     *
+     * @throws \InvalidArgumentException
+     */
+    public static function boolean(ArrayAccess|array $array, string|int|null $key, ?bool $default = null): bool
+    {
+        $value = Arr::get($array, $key, $default);
+
+        if ( ! is_bool($value)) {
+            throw new InvalidArgumentException(
+                sprintf('Array value for key [%s] must be a boolean, %s found.', $key, gettype($value))
+            );
+        }
+
+        return $value;
+    }
+
+	/**
      * Collapse the collection items into a single array.
 	 * 
 	 * @param  array  $array 
      * @return array
      */
-    public static function collapse(array $array): array
+    public static function collapse($array): array
     {
         $results = [];
 
@@ -97,7 +160,7 @@ class Arr
      * @param  iterable  ...$arrays
      * @return array
      */
-    public static function crossJoin(...$arrays): array
+    public static function crossJoin(...$arrays)
     {
         $results = [[]];
 
@@ -124,7 +187,7 @@ class Arr
 	 * @param  array  $array
 	 * @return array
 	 */
-	public static function divide(array $array): array
+	public static function divide($array): array
 	{
 		return [array_keys($array), array_values($array)];
 	}
@@ -133,25 +196,48 @@ class Arr
 	 * Flatten a multi-dimensional associative array with dots.
 	 * 
 	 * @param  iterable  $array
-	 * @param  string  $prepend 
+	 * @param  string  $prepend
+	 * @param  int  $depth
 	 * @return array
 	 */
-	public static function dot($array, $prepend = ''): array
+	public static function dot($array, $prepend = '', $depth = INF): array
 	{
 		$results = [];
 		
-		foreach ($array as $key => $value) {
-			if (is_array($value) && ! empty($value)) {
-				$results = array_merge($results, static::dot($value, $prepend.$key.'.'));
-			} else {
-				$results[$prepend.$key] = $value;
-			}
-		}
+		$flatten = function ($data, $prefix, $current) use (&$results, &$flatten, $depth): void {
+            foreach ($data as $key => $value) {
+                $newKey = $prefix.$key;
+
+                if (is_array($value) && ! empty($value) && $current < $depth) {
+                    $flatten($value, $newKey.'.', $current + 1);
+                } else {
+                    $results[$newKey] = $value;
+                }
+            }
+        };
+
+        $flatten($array, $prepend, 0);
+
+        $flatten = null;
 		
 		return $results;
 	}
 
-	 /**
+	/**
+	 * Get all of the given array except for a specified array of items.
+	 *
+	 * @param  array  $array
+	 * @param  array|string|int|float  $keys
+	 * @return array
+	 */
+	public static function except($array, $keys)
+	{
+		static::erase($array, $keys);
+
+		return $array;
+	}
+
+	/**
      * Explode the "value" and "key" arguments passed to "pluck".
      *
      * @param  Closure|array|string  $value
@@ -166,20 +252,6 @@ class Arr
 
         return [$value, $key];
     }
-
-	/**
-	 * Get all of the given array except for a specified array of items.
-	 *
-	 * @param  array  $array
-	 * @param  string|array  $keys
-	 * @return array
-	 */
-	public static function except(array $array, string|array $keys): array
-	{
-		static::erase($array, $keys);
-
-		return $array;
-	}
 	
 	/**
 	 * Determine if the given key exists in the provided array.
@@ -188,7 +260,7 @@ class Arr
 	 * @param  string|int|float  $key  The key exist
 	 * @return bool
 	 */
-	public static function exists($array, $key): bool
+	public static function exists($array, $key)
 	{
 		if ($array instanceof Collectable) {
             return $array->has($key);
@@ -212,7 +284,7 @@ class Arr
 	 * @param  array|string|int|float  $keys  The dot-notated key or array of keys
 	 * @return void
 	 */
-	public static function erase(&$array, $keys): void
+	public static function erase(&$array, $keys)
 	{
 		$original = &$array;
 
@@ -243,7 +315,7 @@ class Arr
 				$part = array_shift($parts);
 	
 				if (isset($array[$part]) && static::accessible($array[$part])) {
-					$array = &$array[$key];
+					$array = &$array[$part];
 				} else {
 					continue 2;
 				}
@@ -264,36 +336,6 @@ class Arr
 	{
 		return array_all($array, $callback);
 	}
-
-	/**
-	 * Flatten a multi-dimensional array into a single level.
-	 * 
-	 * @param  array  $array
-	 * @param  int  $depth
-	 * @return array
-	 */
-	public static function flatten(array $array, $depth = INF): array
-	{
-		$result = [];
-
-		foreach ($array as $item) {
-            $item = $item instanceof Collection ? $item->all() : $item;
-
-            if ( ! is_array($item)) {
-                $result[] = $item;
-            } else {
-                $values = $depth === 1
-                    ? array_values($item)
-                    : static::flatten($item, $depth - 1);
-
-                foreach ($values as $value) {
-                    $result[] = $value;
-                }
-            }
-        }
-
-		return $result;
-	}
 	
 	/**
 	 * Fetch a flattened array of a nested array element.
@@ -302,7 +344,7 @@ class Arr
 	 * @param  string  $key
 	 * @return array
 	 */
-	public static function fetch(array $array, string $key): array
+	public static function fetch($array, $key): array
 	{
 		$segments = explode('.', $key);
 		
@@ -310,7 +352,7 @@ class Arr
 			$results = [];
 			
 			foreach ($array as $value) {
-				if (array_key_exists($segment, $value = (array) $value)) {
+				if (static::exists($value = (array) $value, $segment)) {
 					$results = $value[$segment];
 				}
 			}
@@ -329,7 +371,7 @@ class Arr
 	 * @param  mixed  $default
 	 * @return mixed
 	 */
-	public static function first(array $array, ?callable $callback = null, mixed $default = null)
+	public static function first($array, ?callable $callback = null, $default = null)
 	{
 		if (is_null($callback)) {
 			if (empty($array)) {
@@ -357,6 +399,54 @@ class Arr
 
 		return value($default);
 	}
+
+	/**
+	 * Flatten a multi-dimensional array into a single level.
+	 * 
+	 * @param  array  $array
+	 * @param  int  $depth
+	 * @return array
+	 */
+	public static function flatten($array, $depth = INF)
+	{
+		$result = [];
+
+		foreach ($array as $item) {
+            $item = $item instanceof Collection ? $item->all() : $item;
+
+            if ( ! is_array($item)) {
+                $result[] = $item;
+            } else {
+                $values = $depth === 1
+                    ? array_values($item)
+                    : static::flatten($item, $depth - 1);
+
+                foreach ($values as $value) {
+                    $result[] = $value;
+                }
+            }
+        }
+
+		return $result;
+	}
+
+	/**
+     * Get a float item from an array using "dot" notation.
+     *
+     * @throws \InvalidArgumentException
+     */
+    public static function float(ArrayAccess|array $array, string|int|null $key, ?float $default = null): float
+    {
+        $value = Arr::get($array, $key, $default);
+
+        if ( ! is_float($value)) {
+            throw new InvalidArgumentException(
+                sprintf('Array value for key [%s] must be a float, %s found.', $key, gettype($value))
+            );
+        }
+
+        return $value;
+    }
 	
 	/**
 	 * Get the underlying array of items from the given argument.
@@ -426,14 +516,14 @@ class Arr
 	 * @param  bool  $exclude 
 	 * @return int
 	 */
-	public static function getMaxWidth(array $data, bool $exclude = true): int
+	public static function getMaxWidth($data, $exclude = true): int
 	{
 		$maxWidth = 0;
 		
 		foreach ($data as $key => $value) {
 			// key is not a integer
 			if ( ! $exclude || ! is_numeric($key)) {
-				$width    = mb_strlen((string) $key, 'UTF-8');
+				$width = mb_strlen((string) $key, 'UTF-8');
 				$maxWidth = $width > $maxWidth ? $width : $maxWidth;
 			}
 		}
@@ -463,7 +553,9 @@ class Arr
                 continue;
             }
 
-            foreach (explode('.', $key) as $segment) {
+			$segments = explode('.', $key);
+
+            foreach ($segments as $segment) {
                 if (static::accessible($subKeyArray) && static::exists($subKeyArray, $segment)) {
                     $subKeyArray = $subKeyArray[$segment];
                 } else {
@@ -583,7 +675,7 @@ class Arr
      * @param  callable|array|string  $keyBy 
      * @return array
      */
-    public static function keyBy($array, $keyBy): array
+    public static function keyBy($array, $keyBy)
     {
         return (new Collection($array))->keyBy($keyBy)->all();
     }
@@ -596,7 +688,7 @@ class Arr
 	 * @param  mixed  $default
 	 * @return mixed
 	 */
-	public static function last(array $array, ?callable $callback = null, mixed $default = null)
+	public static function last($array, ?callable $callback = null, $default = null)
 	{
 		if (is_null($callback)) {
 			return empty($array) ? value($default) : array_last($array);
@@ -612,7 +704,7 @@ class Arr
 	 * @param  callable  $callback 
 	 * @return array
 	 */
-	public static function map(array $array, callable $callback): array
+	public static function map(array $array, callable $callback)
 	{
 		$keys = array_keys($array);
 		
@@ -626,46 +718,37 @@ class Arr
 	}
 
 	/**
+     * Run an associative map over each of the items.
+     *
+     * @param  array  $array
+     * @param  callable  $callback
+     * @return array
+     */
+    public static function mapKeys(array $array, callable $callback)
+    {
+        $result = [];
+
+        foreach ($array as $key => $value) {
+            $assoc = $callback($value, $key);
+
+            foreach ($assoc as $mapKey => $mapValue) {
+                $result[$mapKey] = $mapValue;
+            }
+        }
+
+        return $result;
+    }
+
+	/**
 	 * Get a subset of the items from the given array.
 	 * 
 	 * @param  array  $array
 	 * @param  array|string  $keys
 	 * @return array
 	 */
-	public static function only($array, $keys): array
+	public static function only($array, $keys)
 	{
 		return array_intersect_key($array, array_flip((array) $keys));
-	}
-
-	/**
-	 * Sets a value in an array using "dot" notation.
-	 *
-	 * @param  array  $array  The search array
-	 * @param  string|int|null  $key  The dot-notated key or array of keys
-	 * @param  mixed  $value  The default value
-	 * @return array
-	 */
-	public static function set(&$array, $key, $value): array
-	{
-		if (is_null($key)) {
-			return $array = $value;
-		}
-
-		$keys = explode('.', $key);
-
-		while (count($keys) > 1) {
-			$key = array_shift($keys);
-
-			if ( ! static::exists($array, $key)) {
-				$array[$key] = [];
-			}
-
-			$array = &$array[$key];
-		}
-
-		$array[array_shift($keys)] = $value;
-
-		return $array;
 	}
 	
 	/**
@@ -699,7 +782,7 @@ class Arr
 	 * @param  mixed  $key 
 	 * @return array
 	 */
-	public static function prepend($array, $value, $key = null): array
+	public static function prepend($array, $value, $key = null)
 	{
 		if (func_num_args() == 2) {
 			array_unshift($array, $value);
@@ -714,11 +797,11 @@ class Arr
 	 * Get a value from the array, and remove it.
 	 * 
 	 * @param  array  $array
-	 * @param  string  $key
+	 * @param  string|int  $key
 	 * @param  mixed  $default 
 	 * @return mixed
 	 */
-	public static function pull(&$array, $key, $default = null): mixed
+	public static function pull(&$array, $key, $default = null)
 	{
 		$value = static::get($array, $key, $default);
 
@@ -735,7 +818,7 @@ class Arr
 	 * @param  string|array|null  $key 
 	 * @return array
 	 */
-	public static function pluck($array, $value, $key = null): array
+	public static function pluck($array, $value, $key = null)
 	{
 		$results = [];
 		
@@ -778,6 +861,44 @@ class Arr
 	}
 
 	/**
+	 * Sets a value in an array using "dot" notation.
+	 *
+	 * @param  array  $array  The search array
+	 * @param  string|int|null  $key  The dot-notated key or array of keys
+	 * @param  mixed  $value  The default value
+	 * @return array
+	 */
+	public static function set(&$array, $key, $value)
+	{
+		if (is_null($key)) {
+			return $array = $value;
+		}
+
+		$keys = explode('.', $key);
+
+		foreach ($keys as $i => $k) {
+            if (count($keys) === 1) {
+                break;
+            }
+
+            unset($keys[$i]);
+
+            // If the key doesn't exist at this depth, we will just create an empty array
+            // to hold the next value, allowing us to create the arrays to hold final
+            // values at the correct depth. Then we'll keep digging into the array.
+            if ( ! isset($array[$k]) || ! is_array($array[$k])) {
+                $array[$k] = [];
+            }
+
+            $array = &$array[$k];
+        }
+
+		$array[array_shift($keys)] = $value;
+
+		return $array;
+	}
+
+	/**
 	 * Determine if some items pass the given truth test.
 	 * 
 	 * @param  iterable  $array
@@ -800,14 +921,30 @@ class Arr
 	{
 		return Collection::make($array)->sortBy($callback)->all();
 	}
+
+	/**
+     * Take the first or last {$limit} items from an array.
+     *
+     * @param  array  $array
+     * @param  int  $limit
+     * @return array
+     */
+    public static function take($array, $limit)
+    {
+        if ($limit < 0) {
+            return array_slice($array, $limit, abs($limit));
+        }
+
+        return array_slice($array, 0, $limit);
+    }
 	
 	/**
 	 * Convert a flatten "dot" notation array into an expanded array.
 	 * 
 	 * @param  iterable  $array 
-	 * @return mixed
+	 * @return array
 	 */
-	public static function undot($array): mixed
+	public static function undot($array)
 	{
 		$results = [];
 		
@@ -825,10 +962,21 @@ class Arr
 	 * @param  callable  $callback 
 	 * @return array
 	 */
-	public static function where($array, callable $callback): array
+	public static function where($array, callable $callback)
 	{
 		return array_filter($array, $callback, ARRAY_FILTER_USE_BOTH);
 	}
+
+	/**
+     * Filter items where the value is not null.
+     *
+     * @param  array  $array
+     * @return array
+     */
+    public static function whereNotNull($array)
+    {
+        return static::where($array, fn ($value) => ! is_null($value));
+    }
 
 	/**
 	 * If the given value is not an array and not null, wrap it in one.
