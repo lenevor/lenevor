@@ -154,6 +154,19 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     }
 
     /**
+     * Determine if an item is not contained in the collection.
+     *
+     * @param  mixed  $key
+     * @param  mixed  $operator
+     * @param  mixed  $value
+     * @return bool
+     */
+    public function doesntContain($key, $operator = null, $value = null): bool
+    {
+        return ! $this->contains(...func_get_args());
+    }
+
+    /**
      * Chunk the underlying collection array.
      * 
      * @param  int  $size 
