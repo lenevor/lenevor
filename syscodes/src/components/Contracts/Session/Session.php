@@ -54,7 +54,7 @@ interface Session
      * 
      * @return array
      */
-    public function all(): array;
+    public function all();
     
     /**
      * Get a subset of the session data.
@@ -63,7 +63,7 @@ interface Session
      * 
      * @return array
      */
-    public function only(array $keys): array;
+    public function only(array $keys);
 
     /**
      * Get the current session ID.
@@ -126,7 +126,7 @@ interface Session
      * @param  string|array  $key 
      * @return bool
      */
-    public function has($key): bool;
+    public function has($key);
 
     /**
      * Get an key from the session, if it doesn´t exists can be use
@@ -177,7 +177,7 @@ interface Session
      * @param  string|array  $key 
      * @return bool
      */
-    public function exists($key): bool;
+    public function exists($key);
 
     /**
      * Flash a key / value pair to the session.
