@@ -51,7 +51,7 @@ interface Validator extends MessageProvider
      *
      * @throws \Syscodes\Components\Validation\Exceptions\ValidationException
      */
-    public function validate(): array;
+    public function validate();
 
     /**
      * Get the attributes and values that were validated.
@@ -75,4 +75,19 @@ interface Validator extends MessageProvider
      * @return \Syscodes\Components\Support\MessageBag
      */
     public function errors();
+
+    /**
+     * Instruct the validator to stop validating after the first rule failure.
+     *
+     * @param  bool  $stopOnFirstFailure
+     * @return static
+     */
+    public function stopOnFirstFailure($stopOnFirstFailure = true): static;
+
+    /**
+     * Get the Translator implementation.
+     *
+     * @return \Syscodes\Components\Contracts\Translation\Translator
+     */
+    public function getTranslator();
 }

@@ -120,6 +120,16 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
     public function contains($key, mixed $operator = null, mixed $value = null): bool;
 
     /**
+     * Determine if an item is not contained in the collection.
+     *
+     * @param  mixed  $key
+     * @param  mixed  $operator
+     * @param  mixed  $value
+     * @return bool
+     */
+    public function doesntContain($key, $operator = null, $value = null): bool;
+
+    /**
      * Chunk the underlying collection array.
      * 
      * @param  int  $size 
