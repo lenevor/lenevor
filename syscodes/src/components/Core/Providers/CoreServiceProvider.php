@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Core\Providers;
 
+use Syscodes\Components\Core\Precognition;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Support\AggregateServiceProvider;
 use Syscodes\Components\Support\Facades\URL;
@@ -64,12 +65,19 @@ class CoreServiceProvider extends AggregateServiceProvider
     public function registerRequestValidation()
     {
         Request::macro('validate', function (array $rules, ...$params) {
-            return take(validator(Request::all(), $rules, ...$params))->validate();
+            return take(validator($this->all(), $rules, ...$params), function ($validator) {
+                if ($this->isPrecognitive()) {
+                    $validator->after(Precognition::afterValidationHook($this))
+                        ->setRules(
+                            $this->filterPrecognitiveRules($validator->getRulesWithoutPlaceholders())
+                        );
+                }
+            })->validate();
         });
 
         Request::macro('validateWithBag', function (string $errorBag, array $rules, ...$params) {
             try {
-                return Request::validate($rules, ...$params);
+                return $this->validate($rules, ...$params);
             } catch (ValidationException $e) {
                 $e->errorBag = $errorBag;
 
