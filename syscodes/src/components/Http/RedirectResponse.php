@@ -195,9 +195,11 @@ class RedirectResponse extends BaseRedirectResponse
      */
     protected function parseErrors($provider)
     {
-        return $provider instanceof MessageProvider 
-            ? $provider->getMessageBag() 
-            : new MessageBag((array) $provider);
+        if ($provider instanceof MessageProvider) {
+            return $provider->getMessageBag();
+        }
+
+        return new MessageBag((array) $provider);
     }
     
     /**
@@ -253,7 +255,7 @@ class RedirectResponse extends BaseRedirectResponse
      * 
      * @throws \BadMethodCallException
      */
-    public function __call(string $method, array $parameters): mixed
+    public function __call($method, $parameters): mixed
     {
         if ( ! static::hasMacro($method)) {
             static::BadMethodCallException($method);
