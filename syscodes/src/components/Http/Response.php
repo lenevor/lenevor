@@ -43,7 +43,7 @@ class Response extends SymfonyResponse
 	    }
 
 	/**
-	 * Sets up the response with a content and a status code.
+	 * Contructor. Sets up the response with a content and a status code.
 	 *
 	 * @param  mixed  $content  The response content 
 	 * @param  int  $status  The response status  
@@ -138,7 +138,7 @@ class Response extends SymfonyResponse
 	 * @param  mixed  $content 
 	 * @return string|false
      */
-	protected function convertToJson($content): string|false
+	protected function convertToJson($content)
 	{
 		if ($content instanceof Jsonable) {
 			return $content->toJson();
