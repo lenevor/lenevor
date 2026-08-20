@@ -193,7 +193,7 @@ class Store implements Session
      * 
      * @return array
      */
-    public function all(): array
+    public function all()
     {
         return $this->items;
     }
@@ -204,7 +204,7 @@ class Store implements Session
      * @param  array  $keys 
      * @return array
      */
-    public function only(array $keys): array
+    public function only(array $keys)
     {
         return Arr::only($this->items, $keys);
     }
@@ -215,7 +215,7 @@ class Store implements Session
      * @param  array  $keys 
      * @return array
      */
-    public function except(array $keys): array
+    public function except(array $keys)
     {
         return Arr::except($this->items, $keys);
     }
@@ -311,9 +311,7 @@ class Store implements Session
      */
     public function ageFlashData()
     {
-        foreach($this->get('_flash.old', []) as $old) {
-            $this->erase($old);
-        }
+        $this->erase($this->get('_flash.old', []));
 
         $this->put('_flash.old', $this->get('_flash.new', []));
 
@@ -346,7 +344,7 @@ class Store implements Session
     /**
      * Push a value onto a session array.
      * 
-     * @param  string  $key
+     * @param  \UnitEnum|string  $key
      * @param  mixed  $value 
      * @return void
      */
@@ -365,11 +363,11 @@ class Store implements Session
      * @param  string|array  $key 
      * @return bool
      */
-    public function exists($key): bool
+    public function exists($key)
     {
         $placeholder = new \stdClass;
         
-        return ! (new Collection(is_array($key) ? $key : func_get_args()))->contains(function ($key) use ($placeholder) {
+        return (new Collection(is_array($key) ? $key : func_get_args()))->doesntContain(function ($key) use ($placeholder) {
             return $this->get($key, $placeholder) === $placeholder;
         });
     }
@@ -380,7 +378,7 @@ class Store implements Session
      * @param  string|array  $key 
      * @return bool
      */
-    public function missing($key): bool
+    public function missing($key)
     {
         return ! $this->exists($key);
     }
@@ -391,7 +389,7 @@ class Store implements Session
      * @param  string|null  $key 
      * @return bool
      */
-    public function hasOldInput($key = null): bool
+    public function hasOldInput($key = null)
     {
         $old = $this->getOldInput($key);
         
@@ -447,10 +445,23 @@ class Store implements Session
      * @param  string|array  $key 
      * @return bool
      */
-    public function has($key): bool
+    public function has($key)
     {
-        return ! (new Collection(is_array($key) ? $key : func_get_args()))->contains(function ($key) {
+        return (new Collection(is_array($key) ? $key : func_get_args()))->doesntContain(function ($key) {
             return is_null($this->get($key));
+        });
+    }
+
+    /**
+     * Determine if any of the given keys are present and not null.
+     *
+     * @param  \UnitEnum|string|array  $key
+     * @return bool
+     */
+    public function hasAny($key)
+    {
+        return (new Collection(is_array($key) ? $key : func_get_args()))->contains(function ($key) {
+            return ! is_null($this->get($key));
         });
     }
 
@@ -481,7 +492,7 @@ class Store implements Session
     /**
      * Put a key / value pair or array of key / value pairs in the session.
      * 
-     * @param  string|array  $key
+     * @param  \UnitEnum|string|array  $key
      * @param  mixed  $value 
      * @return void
      */
@@ -510,7 +521,7 @@ class Store implements Session
     /**
      * Remove one or many items from the session.
      * 
-     * @param  string|array  $keys 
+     * @param  \UnitEnum|string|array  $keys 
      * @return void
      */
     public function erase($keys)
