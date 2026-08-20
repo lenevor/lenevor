@@ -133,7 +133,7 @@ final class Factory implements FactoryContract
 
         // The presence verifier is responsible for checking the unique and exists data
         // for the validator.
-        if (  is_null($this->presenceVerifier)) {
+        if ( ! is_null($this->presenceVerifier)) {
             $validator->setPresenceVerifier($this->presenceVerifier);
         }
 

@@ -31,17 +31,18 @@ use Syscodes\Components\Support\Str;
  */
 class PlazeTranspiler extends Transpiler implements TranspilerInterface
 {
-    use Concerns\TranspilesJson,
-        Concerns\TranspilesEchos,
-        Concerns\TranspilesLoops,
-        Concerns\TranspilesStacks,
-        Concerns\TranspilesRawPhp,
-        Concerns\TranspilesHelpers,
-        Concerns\TranspilesLayouts,
+    use Concerns\TranspilesConditionals,
         Concerns\TranspilesComments,
-        Concerns\TranspilesIncludes,
         Concerns\TranspilesComponents,
-        Concerns\TranspilesConditionals,
+        Concerns\TranspilesEchos,
+        Concerns\TranspilesErrors,
+        Concerns\TranspilesHelpers,
+        Concerns\TranspilesIncludes,
+        Concerns\TranspilesJson,
+        Concerns\TranspilesLayouts,
+        Concerns\TranspilesLoops,
+        Concerns\TranspilesRawPhp,
+        Concerns\TranspilesStacks,
         Concerns\TranspilesTranslations;
 
     /**
@@ -113,7 +114,7 @@ class PlazeTranspiler extends Transpiler implements TranspilerInterface
      * @var array
      */
     protected $transpilers = [
-        'Comments',
+        // 'Comments',
         'Extensions',
         'Statements',
         'Echos',

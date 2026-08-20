@@ -302,8 +302,8 @@ class Factory implements FactoryContract
 	{
 		$keys = is_array($key) ? $key : [$key => $value];
 		
-		foreach ($keys as $key => $value) {
-			$this->shared[$key] = $value;
+		foreach ($keys as $k => $v) {
+			$this->shared[$k] = $v;
 		}
 		
 		return $value;
