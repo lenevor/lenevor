@@ -215,7 +215,7 @@ class StartSession
      * @param  \Syscodes\Components\Http\Request  $request 
      * @return void
      */
-    protected function saveSession($request): void
+    protected function saveSession($request)
     {
         if ( ! $request->isPrecognitive()) {
             $this->manager->driver()->save();
