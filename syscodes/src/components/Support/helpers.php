@@ -105,8 +105,8 @@ if ( ! function_exists('class_recursive'))
 
         $results = [];
 
-        foreach (array_reverse(class_parents($class) ?: []) + [$class => $class] as $class) {
-            $results += trait_recursive($class);
+        foreach (array_reverse(class_parents($class) ?: []) + [$class => $class] as $value) {
+            $results += trait_recursive($value);
         }
         
         return array_unique($results);
@@ -295,10 +295,8 @@ if ( ! function_exists('take')) {
      * @param  mixed  $value
      * @param  callable|null  $callback 
      * @return mixed
-     * 
-     * @uses   \Syscodes\Components\Support\HigherOrderTakeProxy
      */
-    function take(mixed $value, $callback = null)
+    function take($value, $callback = null)
     {
         if (is_null($callback)) {
             return new HigherOrderTakeProxy($value);

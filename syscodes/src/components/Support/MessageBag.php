@@ -133,8 +133,8 @@ class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagCo
         
         $keys = is_array($key) ? $key : func_get_args();
         
-        foreach ($keys as $key) {
-            if ($this->first($key) === '') {
+        foreach ($keys as $k) {
+            if ($this->first($k) === '') {
                 return false;
             }
         }
