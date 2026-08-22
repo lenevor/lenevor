@@ -125,11 +125,13 @@ trait DependencyResolver
      * 
      * @param  array  $parameters
      * @param  string  $key
-     * @param  mixed  $instance
+     * @param  mixed  $value
      * @return void
      */
-    protected function spliceOnParameters(array &$parameters, $key, $instance): void
+    protected function spliceOnParameters(array &$parameters, $key, $value): void
     {
-        array_splice($parameters, $key, 0, [$instance]);
+        array_splice(
+            $parameters, $key, 0, [$value]
+        );
     }
 }
