@@ -305,9 +305,7 @@ class Route
 	{
 		$callable = $this->action['uses'];
 
-		return $callable(...array_values($this->resolveMethodDependencies(
-			$this->parametersWithoutNulls(), new ReflectionFunction($callable)
-		)));
+		return $this->container[CallableDispatcher::class]->dispatch($this, $callable);
 	}
 
 	/**
