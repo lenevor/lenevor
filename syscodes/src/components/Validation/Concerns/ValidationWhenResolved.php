@@ -54,7 +54,7 @@ trait ValidationWhenResolved
      */
     protected function getValidatorInstance()
     {
-        return validator();
+        return $this->validator();
     }
 
     /**
