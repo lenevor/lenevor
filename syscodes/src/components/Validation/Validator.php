@@ -37,6 +37,8 @@ use Syscodes\Components\Support\Str;
 use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Support\ValidatedInput;
 use Syscodes\Components\Validation\Exceptions\ValidationException;
+use RuntimeException;
+use InvalidArgumentException;
 
 /**
  * Entry point for the Validation component.
@@ -296,6 +298,13 @@ class Validator implements ValidationContract
     protected static $placeholderHash;
 
     /**
+     * The Presence Verifier implementation.
+     *
+     * @var \Syscodes\Components\Validation\PresenceVerifierInterface
+     */
+    protected $presenceVerifier;
+
+    /**
      * The rules to be applied to the data.
      *
      * @var array
@@ -341,7 +350,7 @@ class Validator implements ValidationContract
         array $data,
         array $rules,
         array $messages = [],
-        array $attributes = [],
+        array $attributes = []
     ) {
         if ( ! isset(static::$placeholderHash)) {
             static::$placeholderHash = Str::random();
@@ -389,7 +398,7 @@ class Validator implements ValidationContract
      * @param  array  $data
      * @return array
      */
-    protected function replacePlaceholders($data): array
+    protected function replacePlaceholders($data)
     {
         $originalData = [];
 
@@ -550,9 +559,11 @@ class Validator implements ValidationContract
      *
      * @throws \Syscodes\Components\Validation\Exceptions\ValidationException
      */
-    public function validate(): array
+    public function validate()
     {
-        throw_if($this->fails(), $this->exception, $this);
+        if ($this->fails()) {
+            throw is_string($this->exception) ? new $this->exception($this) : $this->exception;
+        }
 
         return $this->validated();
     }
@@ -602,7 +613,9 @@ class Validator implements ValidationContract
             $this->passes();
         }
 
-        throw_if($this->messages->isNotEmpty(), $this->exception, $this);
+        if ($this->messages->isNotEmpty()) {
+            throw is_string($this->exception) ? new $this->exception($this) : $this->exception;
+        }
 
         $results = [];
 
@@ -619,7 +632,7 @@ class Validator implements ValidationContract
             }
 
             if ($value !== $missingValue) {
-                Arr::set($results, $key, $value);
+                $results = Arr::set($results, $key, $value);
             }
         }
 
@@ -693,22 +706,24 @@ class Validator implements ValidationContract
      */
     public function addFailure($attribute, $rule, $parameters = [])
     {
-        if (! $this->messages) {
+        if ( ! $this->messages) {
             $this->passes();
         }
 
-        $attribute = str_replace(
-            ['__dot__'.static::$placeholderHash, '__asterisk__'],
-            ['.', '*'],
-            $attribute
-        );
+        $attributeWithPlaceholders = $attribute;
+
+        $attribute = $this->replacePlaceholderInString($attribute);
 
         if (in_array($rule, $this->excludeRules)) {
             return $this->excludeAttribute($attribute);
         }
 
+        if ($this->dependsOnOtherFields($rule)) {
+            $parameters = $this->replaceDotPlaceholderInParameters($parameters);
+        }
+
         $this->messages->add($attribute, $this->makeReplacements(
-            $this->getMessage($attribute, $rule), $attribute, $rule, $parameters
+            $this->getMessage($attributeWithPlaceholders, $rule), $attribute, $rule, $parameters
         ));
 
         $this->failedRules[$attribute][$rule] = $parameters;
@@ -942,7 +957,7 @@ class Validator implements ValidationContract
 
         $attribute = match (true) {
             $rule instanceof Rules\Email => $attribute,
-            $rule instanceof Rules\File => $attribute,
+            // $rule instanceof Rules\File => $attribute,
             $rule instanceof Rules\Password => $attribute,
             default => $originalAttribute,
         };
@@ -964,9 +979,9 @@ class Validator implements ValidationContract
         }
 
         if ( ! $rule->passes($attribute, $value)) {
-            $ruleClass = $rule instanceof InvokableValidationRule ?
-                get_class($rule->invokable()) :
-                get_class($rule);
+            $ruleClass = $rule instanceof InvokableValidationRule 
+                ? get_class($rule->invokable()) 
+                : get_class($rule);
 
             $this->failedRules[$originalAttribute][$ruleClass] = [];
 
@@ -984,6 +999,19 @@ class Validator implements ValidationContract
         }
     }
 
+    /**
+     * Instruct the validator to stop validating after the first rule failure.
+     *
+     * @param  bool  $stopOnFirstFailure
+     * @return static
+     */
+    public function stopOnFirstFailure($stopOnFirstFailure = true): static
+    {
+        $this->stopOnFirstFailure = $stopOnFirstFailure;
+
+        return $this;
+    }
+    
     /**
      * Register an array of custom validator extensions.
      *
@@ -1181,6 +1209,20 @@ class Validator implements ValidationContract
     }
 
     /**
+     * Get the validation rules with key placeholders removed.
+     *
+     * @return array
+     */
+    public function getRulesWithoutPlaceholders(): array
+    {
+        return (new Collection($this->rules))
+            ->mapKeys(fn ($value, $key) => [
+                static::decodeAttributeWithPlaceholder($key) => $value,
+            ])
+            ->all();
+    }
+
+    /**
      * Get the data under validation.
      *
      * @return array
@@ -1296,6 +1338,70 @@ class Validator implements ValidationContract
     }
 
     /**
+     * Get the exception to throw upon failed validation.
+     *
+     * @return class-string<\Syscodes\Components\Validation\Exceptions\ValidationException>
+     */
+    public function getException()
+    {
+        return $this->exception;
+    }
+
+    /**
+     * Set the exception to throw upon failed validation.
+     *
+     * @param  class-string<\Syscodes\Components\Validation\Exceptions\ValidationException>  $exception
+     * @return $this
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function setException($exception)
+    {
+        if ( ! is_a($exception, ValidationException::class, true)) {
+            throw new InvalidArgumentException(
+                sprintf('Exception [%s] is invalid. It must extend [%s].', $exception, ValidationException::class)
+            );
+        }
+
+        $this->exception = $exception;
+
+        return $this;
+    }
+
+
+    /**
+     * Get the Presence Verifier implementation.
+     *
+     * @param  string|null  $connection
+     * @return \Syscodes\Components\Validation\PresenceVerifierInterface
+     *
+     * @throws \RuntimeException
+     */
+    public function getPresenceVerifier($connection = null)
+    {
+        if ( ! isset($this->presenceVerifier)) {
+            throw new RuntimeException('Presence verifier has not been set.');
+        }
+
+        if ($this->presenceVerifier instanceof DatabasePresenceInterface) {
+            $this->presenceVerifier->setConnection($connection);
+        }
+
+        return $this->presenceVerifier;
+    }
+
+    /**
+     * Set the Presence Verifier implementation.
+     *
+     * @param  \Syscodes\Components\Validation\PresenceVerifierInterface  $presenceVerifier
+     * @return void
+     */
+    public function setPresenceVerifier(PresenceVerifierInterface $presenceVerifier): void
+    {
+        $this->presenceVerifier = $presenceVerifier;
+    }
+
+    /**
      * Set the fallback messages for the validator.
      *
      * @param  array  $messages
@@ -1379,6 +1485,17 @@ class Validator implements ValidationContract
     protected static function encodeAttributeWithPlaceholder(string $attribute): string
     {
         return str_replace('\.', '__dot__'.static::$placeholderHash, $attribute);
+    }
+
+    /**
+     * Decode an attribute with a placeholder hash.
+     *
+     * @param  string  $attribute
+     * @return string
+     */
+    protected static function decodeAttributeWithPlaceholder(string $attribute): string
+    {
+        return str_replace('__dot__'.static::$placeholderHash, '\\.', $attribute);
     }
 
     /**
