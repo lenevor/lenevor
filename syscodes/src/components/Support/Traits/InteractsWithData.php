@@ -457,7 +457,7 @@ trait InteractsWithData
 
         $results = $this->all();
 
-        Arr::forget($results, $keys);
+        Arr::erase($results, $keys);
 
         return $results;
     }
