@@ -63,6 +63,21 @@ interface Validator extends MessageProvider
     public function validated();
 
     /**
+     * Set the validation rules.
+     *
+     * @param  array  $rules
+     * @return static
+     */
+    public function setRules(array $rules): static;
+
+    /**
+     * Get the validation rules with key placeholders removed.
+     *
+     * @return array
+     */
+    public function getRulesWithoutPlaceholders(): array;
+
+    /**
      * Get the failed validation rules.
      *
      * @return array
@@ -75,6 +90,14 @@ interface Validator extends MessageProvider
      * @return \Syscodes\Components\Support\MessageBag
      */
     public function errors();
+
+    /**
+     * Get a validated input container for the validated input.
+     *
+     * @param  array|null  $keys
+     * @return \Syscodes\Components\Support\ValidatedInput|array
+     */
+    public function safe(?array $keys = null);
 
     /**
      * Instruct the validator to stop validating after the first rule failure.
