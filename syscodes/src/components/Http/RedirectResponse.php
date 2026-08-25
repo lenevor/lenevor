@@ -113,7 +113,7 @@ class RedirectResponse extends BaseRedirectResponse
      * @param  array  $input
      * @return array
      */
-    protected function removeFilesFromInput(array $input): array
+    protected function removeFilesFromInput(array $input)
     {
         foreach ($input as $key => $value) {
             if (is_array($value)) {
