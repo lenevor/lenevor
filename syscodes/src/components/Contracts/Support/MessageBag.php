@@ -22,10 +22,12 @@
 
 namespace Syscodes\Components\Contracts\Support;
 
+use Countable;
+
 /**
  * Gets the messages to the bag.
  */
-interface MessageBag extends Arrayable
+interface MessageBag extends Arrayable, Countable
 {
     /**
      * Get the keys present in the message bag.
