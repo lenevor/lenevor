@@ -167,6 +167,8 @@ class JsonResponse extends BaseJsonResponse
     
     /**
      * {@inheritdoc}
+     * 
+     * @param  int  $options
      */
     #[\Override]
     public function setEncodingOptions($options): static
