@@ -24,14 +24,16 @@ namespace Syscodes\Components\Support;
 
 use Countable;
 use JsonSerializable;
+use Stringable;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Contracts\Support\MessageBag as MessageBagContract;
+use Syscodes\Components\Contracts\Support\MessageProvider;
 
 /**
  * Allows the messages into the bag.
  */
-class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagContract
+class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagContract, MessageProvider, Stringable
 {
     /**
      * All of the registered messages.
@@ -110,6 +112,10 @@ class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagCo
      */
     public function merge($messages): static
     {
+        if ($messages instanceof MessageProvider) {
+            $messages = $messages->getMessageBag()->getMessages();
+        }
+        
         $this->messages = array_merge_recursive($this->messages, $messages);
         
         return $this;
@@ -170,7 +176,9 @@ class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagCo
         $format = $this->checkFormat($format);
         
         if (array_key_exists($key, $this->messages)) {
-            return $this->transform($this->messages[$key], $format, $key);
+            return $this->transform(
+                $this->messages[$key], $format, $key
+            );
         }
         
         return [];
@@ -189,11 +197,36 @@ class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagCo
         $all = [];
         
         foreach ($this->messages as $key => $messages) {
-            $all = array_merge($all, $this->transform($messages, $format, $key));
+            array_push($all, ...$this->transform($messages, $format, $key));
         }
         
         return $all;
     }
+
+    /**
+     * Get all of the unique messages for every key in the message bag.
+     *
+     * @param  string|null  $format
+     * @return array
+     */
+    public function unique($format = null): array
+    {
+        return array_unique($this->all($format));
+    }
+
+    /**
+     * Remove a message from the message bag.
+     *
+     * @param  string  $key
+     * @return static
+     */
+    public function erase($key): static
+    {
+        unset($this->messages[$key]);
+
+        return $this;
+    }
+
     
     /**
      * Format an array of messages.
@@ -209,7 +242,7 @@ class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagCo
             return (array) $messages;
         }
 
-        return collect((array) $messages)
+        return (new collection((array) $messages))
             ->map(function ($message) use ($format, $key) {
                 return str_replace([':message', ':key'], [$message, $key], $format);
             })->all();
@@ -249,9 +282,9 @@ class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagCo
     /**
      * Get the messages for the instance.
      * 
-     * @return static
+     * @return \Syscodes\Components\Support\MessageBag
      */
-    public function getMessageBag(): static
+    public function getMessageBag()
     {
         return $this;
     }
@@ -351,13 +384,24 @@ class MessageBag implements Arrayable, Countable, JsonSerializable, MessageBagCo
     }
 
     /**
+     * Convert the object to pretty print formatted JSON.
+     *
+     * @param  int  $options
+     * @return string
+     */
+    public function toPrettyJson(int $options = 0): string
+    {
+        return $this->toJson(JSON_PRETTY_PRINT | $options);
+    }
+
+    /**
      * Magic method.
      * 
      * Convert the message bag to its string representation.
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toJson();
     }    
