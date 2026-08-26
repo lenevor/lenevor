@@ -25,12 +25,17 @@ namespace Syscodes\Components\Support;
 use Closure;
 use InvalidArgumentException;
 use Syscodes\Components\Contracts\Container\Container;
+use Syscodes\Components\Support\Traits\RebindsCallbacksToSelf;
+use ReflectionException;
+use RuntimeException;
 
 /**
  * This class manage the creation of driver based components.
  */
 abstract class Manager
 {
+    use RebindsCallbacksToSelf;
+
     /**
      * The configuration repository instance.
      * 
@@ -88,7 +93,7 @@ abstract class Manager
      */
     public function driver($driver = null)
     {
-        $driver = $driver ?: $this->getDefaultDriver();
+        $driver = enum_value($driver) ?: $this->getDefaultDriver();
 
         if (is_null($driver)) {
             throw new InvalidArgumentException(
@@ -96,11 +101,7 @@ abstract class Manager
             );
         }
 
-        if ( ! isset($this->drivers[$driver])) {
-            $this->drivers[$driver] = $this->createDriver($driver);
-        }
-
-        return $this->drivers[$driver];
+        return $this->drivers[$driver] ??= $this->createDriver($driver);
     }
 
     /**
@@ -115,12 +116,12 @@ abstract class Manager
     {
         if (isset($this->customCreators[$driver])) {
             return $this->callCustomCreator($driver);
-        } else {
-            $method = 'create'.Str::studlycaps($driver).'Driver';
+        } 
 
-            if (method_exists($this, $method)) {
-                return $this->$method();
-            }
+        $method = 'create'.Str::studlycaps($driver).'Driver';
+
+        if (method_exists($this, $method)) {
+            return $this->$method();
         }
 
         throw new InvalidArgumentException(
@@ -148,6 +149,12 @@ abstract class Manager
      */
     public function extend($driver, Closure $callback): static
     {
+        try {
+            $callback = $this->bindCallbackToSelf($callback) ?? throw new RuntimeException('Unable to bind custom driver callback');
+        } catch (ReflectionException $e) {
+            throw new RuntimeException('Unable to bind custom driver callback', previous: $e);
+        }
+        
         $this->customCreators[$driver] = $callback;
 
         return $this;
