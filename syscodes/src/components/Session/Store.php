@@ -30,6 +30,7 @@ use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Support\Facades\Cache;
 use Syscodes\Components\Support\MessageBag;
 use Syscodes\Components\Support\Str;
+use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\Support\ViewErrorBag;
 
 use function Syscodes\Components\Support\enum_value;
@@ -39,6 +40,8 @@ use function Syscodes\Components\Support\enum_value;
  */
 class Store implements Session
 {
+    use Macroable;
+
     /**
      * The length of session ID strings.
      *
@@ -126,9 +129,9 @@ class Store implements Session
      * 
      * @return void
      */
-    protected function loadSession(): void
+    protected function loadSession()
     {
-        $this->items = array_merge($this->items, $this->readToHandler());
+        $this->items = array_replace($this->items, $this->readToHandler());
 
         $this->getErrorBag();
     }
@@ -138,7 +141,7 @@ class Store implements Session
      * 
      * @return array
      */
-    protected function readToHandler(): array
+    protected function readToHandler()
     {
         if ($data = $this->handler->read($this->getId())) {
             if ($this->serialization === 'json') {
@@ -171,16 +174,16 @@ class Store implements Session
      * 
      * @return void
      */
-    protected function getErrorBag(): void
+    protected function getErrorBag()
     {
-        if ($this->serialization !== 'json' || ! $this->exists('errors')) {
+        if ($this->serialization !== 'json' || $this->missing('errors')) {
             return;
         }
         
         $errorBag = new ViewErrorBag;
         
         foreach ($this->get('errors') as $key => $value) {
-            $messageBag = new MessageBag($value['messages']);
+            $messageBag = new MessageBag($value['message']);
             
             $errorBag->put($key, $messageBag->setFormat($value['format']));
         }
@@ -225,7 +228,7 @@ class Store implements Session
      * 
      * @return string
      */
-    public function getId(): string
+    public function getId()
     {
         return $this->id;
     }
@@ -236,7 +239,7 @@ class Store implements Session
      * @param  string|null  $id 
      * @return void
      */
-    public function setId($id): void
+    public function setId($id)
     {
         $this->id = $this->isValidId($id) ? $id : $this->generateSessionId();
     }
@@ -662,7 +665,7 @@ class Store implements Session
      * 
      * @return string|null
      */
-    public function previousUrl(): string|null
+    public function previousUrl()
     {
         return $this->get('_previous.url');
     }
@@ -673,9 +676,30 @@ class Store implements Session
      * @param  string  $url 
      * @return void
      */
-    public function setPreviousUrl($url): void
+    public function setPreviousUrl($url)
     {
         $this->put('_previous.url', $url);
+    }
+
+    /**
+     * Get the previous route name from the session.
+     *
+     * @return string|null
+     */
+    public function previousRoute()
+    {
+        return $this->get('_previous.route');
+    }
+
+    /**
+     * Set the "previous" route name in the session.
+     *
+     * @param  string|null  $route
+     * @return void
+     */
+    public function setPreviousRoute($route)
+    {
+        $this->put('_previous.route', $route);
     }
 
     /**
