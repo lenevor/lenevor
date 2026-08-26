@@ -70,7 +70,7 @@ interface Session
      * 
      * @return string
      */
-    public function getId(): string;
+    public function getId();
 
     /**
      * Set the session ID.
@@ -78,7 +78,7 @@ interface Session
      * @param  string  $id 
      * @return void
      */
-    public function setId($id): void;
+    public function setId($id);
 
     /**
      * Determine if this is a valid session ID.
@@ -244,7 +244,7 @@ interface Session
      * 
      * @return string|null
      */
-    public function previousUrl(): ?string;
+    public function previousUrl();
     
     /**
      * Set the "previous" URL in the session.
@@ -252,7 +252,7 @@ interface Session
      * @param  string  $url 
      * @return void
      */
-    public function setPreviousUrl($url): void;
+    public function setPreviousUrl($url);
     
     /**
      * Get the session handler instance.
