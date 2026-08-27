@@ -23,16 +23,18 @@
 namespace Syscodes\Components\Support;
 
 use Countable;
+use Stringable;
+use Syscodes\Components\Contracts\Support\MessageBag as MessageBagContract;
 
 /**
  * Gets the messages in the default bag.
  */
-class ViewErrorBag implements Countable
+class ViewErrorBag implements Countable, Stringable
 {
     /**
      * The array of the view error bags.
      * 
-     * @var array
+     * @var array<string, \Syscodes\Components\Contracts\Support\MessageBag>
      */
     protected $bags = [];
     
@@ -75,7 +77,7 @@ class ViewErrorBag implements Countable
      * @param  \Syscodes\Components\Contracts\Support\MessageBag  $bag 
      * @return static
      */
-    public function put($key, $bag): static
+    public function put($key, MessageBagContract $bag): static
     {
         $this->bags[$key] = $bag;
         
