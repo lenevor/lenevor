@@ -204,10 +204,11 @@ class StartSession
                     $this->getCookieExpirationDate(),
                     $config['path'], 
                     $config['domain'], 
-                    $config['secure'] ?? false,
+                    $config['secure'],
                     $config['httpOnly'] ?? true, 
                     false, 
-                    $config['sameSite'] ?? null
+                    $config['sameSite'] ?? null,
+                    $config['partitioned'] ?? false
                 )
             );
         }
@@ -243,11 +244,11 @@ class StartSession
      */
     protected function getCookieExpirationDate()
     {
-        $config = $this->manager->getSessionConfig();
-
-        return $config['expireOnClose'] ? 0 : Date::instance(
-            Chronos::now()->addMinutes($config['lifetime'])
-        );
+        return $this->manager->getSessionConfig()['expireOnClose'] 
+            ? 0 
+            : Date::instance(
+                Chronos::now()->addSeconds($this->getSessionLifetimeInSeconds())
+            );
     }
     
     /**

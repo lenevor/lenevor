@@ -351,9 +351,13 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      */
     public function except(mixed $keys): static
     {
-        if ($keys instanceof static) {
+        if (is_null($keys)) {
+            return $this->newInstance($this->items);
+        }
+
+        if ($keys instanceof Collectable) {
             $keys = $keys->all();
-        } else {
+        } elseif ( ! is_array($keys)) {
             $keys = func_get_args();
         }
 

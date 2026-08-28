@@ -36,7 +36,7 @@ class CookieManager implements CookieFactory
     /**
      * The default domain (if specified).
      *
-     * @var string
+     * @var string|null
      */
     protected $domain;
 
@@ -83,15 +83,15 @@ class CookieManager implements CookieFactory
      * @return \Symfony\Component\HttpFoundation\Cookie
      */
     public function make(
-        string $name,
-        string $value,
-        int $minutes = 0,
-        ?string $path = null,
-        ?string $domain = null,
-        ?bool $secure = null,
-        bool $httpOnly = true,
-        bool $raw = false,
-        ?string $sameSite = null
+        $name,
+        $value,
+        $minutes = 0,
+        $path = null,
+        $domain = null,
+        $secure = null,
+        $httpOnly = true,
+        $raw = false,
+        $sameSite = null
     ) {
         [$path, $domain, $secure, $sameSite] = $this->getPathAndDomain($path, $domain, $secure, $sameSite);
         
@@ -114,14 +114,14 @@ class CookieManager implements CookieFactory
      * @return\Symfony\Component\HttpFoundation\Cookie
      */
     public function forever(
-        string $name,
-        string $value,
-        ?string $path = null,
-        ?string $domain = null,
-        ?bool $secure = null,
-        bool $httpOnly = true,
-        bool $raw = false,
-        ?string $sameSite = null
+        $name,
+        $value,
+        $path = null,
+        $domain = null,
+        $secure = null,
+        $httpOnly = true,
+        $raw = false,
+        $sameSite = null
     ) {
         return $this->make($name, $value, 2628000, $path, $domain, $secure, $httpOnly, $raw, $sameSite);
     }
@@ -134,7 +134,7 @@ class CookieManager implements CookieFactory
      * @param  string|null  $domain 
      * @return \Symfony\Component\HttpFoundation\Cookie
      */
-    public function erase(string $name, ?string $path = null, ?string $domain = null) 
+    public function erase($name, $path = null, $domain = null) 
     {
         return $this->make($name, '', -2628000, $path, $domain);
     }
@@ -146,7 +146,7 @@ class CookieManager implements CookieFactory
      * @param  string|null  $path 
      * @return bool
      */
-    public function hasQueued(string $key, ?string $path = null): bool
+    public function hasQueued($key, $path = null): bool
     {
         return ! is_null($this->queued($key, null, $path));
     }
@@ -159,7 +159,7 @@ class CookieManager implements CookieFactory
      * @param  string|null  $path 
      * @return \Symfony\Component\HttpFoundation\Cookie|null
      */
-    public function queued(string $key, mixed $default = null, ?string $path = null)
+    public function queued($key, $default = null, $path = null)
     {
         $queued = Arr::get($this->queued, $key, $default);
         
@@ -173,7 +173,7 @@ class CookieManager implements CookieFactory
     /**
      * Queue a cookie to send with the next response.
      * 
-     * @param  array  $parameters 
+     * @param  array  ...$parameters 
      * @return void
      */
     public function queue(...$parameters): void
@@ -199,7 +199,7 @@ class CookieManager implements CookieFactory
      * @param  string|null  $domain 
      * @return void
      */
-    public function expire(string $name, ?string $path = null, ?string $domain = null): void
+    public function expire($name, $path = null, $domain = null): void
     {
         $this->queue($this->erase($name, $path, $domain));
     }
@@ -211,7 +211,7 @@ class CookieManager implements CookieFactory
      * @param  string|null  $path 
      * @return void
      */
-    public function unqueue(string $name, ?string $path = null): void
+    public function unqueue($name, $path = null): void
     {
         if (null === $path) {
             unset($this->queued[$name]);
@@ -230,12 +230,12 @@ class CookieManager implements CookieFactory
      * Get the path and domain, or the default values.
      * 
      * @param  string  $path
-     * @param  string  $domain
+     * @param  string|null  $domain
      * @param  bool|null  $secure
      * @param  string|null  $sameSite 
      * @return array
      */
-    protected function getPathAndDomain(string $path, string $domain, ?bool $secure = null, ?string $sameSite = null): array
+    protected function getPathAndDomain($path, $domain, $secure = null, $sameSite = null): array
     {
         return [$path ?: $this->path, $domain ?: $this->domain, is_bool($secure) ? $secure : $this->secure, $sameSite ?: $this->sameSite];
     }
@@ -244,12 +244,12 @@ class CookieManager implements CookieFactory
      * Set the default path and domain for the cookie.
      * 
      * @param  string  $path
-     * @param  string  $domain
+     * @param  string|null  $domain
      * @param  bool  $secure
      * @param  string|null  $sameSite 
      * @return static
      */
-    public function setDefaultPathAndDomain(string $path, string $domain, bool $secure = false, ?string $sameSite = null): static
+    public function setDefaultPathAndDomain($path, $domain, $secure = false, $sameSite = null): static
     {
         [$this->path, $this->domain, $this->secure, $this->sameSite] = [$path, $domain, $secure, $sameSite];
 
