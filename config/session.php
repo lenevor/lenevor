@@ -30,9 +30,22 @@ return [
     |
     */
 
-    'lifetime' => env('SESSION_LIFETIME', 120),
+    'lifetime' => (int) env('SESSION_LIFETIME', 120),
     
     'expireOnClose' => env('SESSION_EXPIRE_ON_CLOSE', false),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Session Encryption
+    |--------------------------------------------------------------------------
+    |
+    | This option allows you to easily specify that all of your session data
+    | should be encrypted before it's stored. All encryption is performed
+    | automatically by Lenevor and you may use the session like normal.
+    |
+    */
+
+    'encrypt' => env('SESSION_ENCRYPT', false),
     
     /*
     |--------------------------------------------------------------------------
@@ -69,7 +82,7 @@ return [
     | provided for you; however, you are free to change this as needed.
     */
 
-    'table' => 'sessions',
+    'table' => env('SESSION_TABLE', 'sessions'),
 
     /*
     |--------------------------------------------------------------------------
@@ -126,7 +139,7 @@ return [
     |
     */
 
-    'path' => '/',
+    'path' =>  env('SESSION_PATH', '/'),
 
     /*
     |---------------------------------------------------------------------------
@@ -139,7 +152,7 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN', ''),
+    'domain' => env('SESSION_DOMAIN'),
 
     /*
     |---------------------------------------------------------------------------
@@ -152,7 +165,7 @@ return [
     |
     */
 
-    'secure' => env('SESSION_SECURE_COOKIE', false),
+    'secure' => env('SESSION_SECURE_COOKIE'),
     
     /*
     |---------------------------------------------------------------------------
@@ -165,7 +178,7 @@ return [
     |
     */
     
-    'httpOnly' => true,
+    'httpOnly' => env('SESSION_HTTP_ONLY', true),
     
     /*
     |---------------------------------------------------------------------------
@@ -180,6 +193,35 @@ return [
     |
     */
     
-    'sameSite' => 'lax',
+    'sameSite' => env('SESSION_SAME_SITE', 'lax'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Partitioned Cookies
+    |--------------------------------------------------------------------------
+    |
+    | Setting this value to true will tie the cookie to the top-level site for
+    | a cross-site context. Partitioned cookies are accepted by the browser
+    | when flagged "secure" and the Same-Site attribute is set to "none".
+    |
+    */
+
+    'partitioned' => env('SESSION_PARTITIONED_COOKIE', false),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Session Serialization
+    |--------------------------------------------------------------------------
+    |
+    | This value controls the serialization strategy for session data, which
+    | is JSON by default. Setting this to "php" allows the storage of PHP
+    | objects in the session but can make an application vulnerable to
+    | "gadget chain" serialization attacks if the APP_KEY is leaked.
+    |
+    | Supported: "json", "php"
+    |
+    */
+
+    'serialization' => 'json',
 
 ];
