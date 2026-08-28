@@ -336,7 +336,7 @@ class AuthManager implements Factory
      * @param  array  $parameters 
      * @return mixed
      */
-    public function __call(string $method, array $parameters): mixed
+    public function __call(string $method, array $parameters)
     {
         return $this->guard()->{$method}(...$parameters);
     }

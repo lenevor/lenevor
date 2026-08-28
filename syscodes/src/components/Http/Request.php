@@ -301,7 +301,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	 * @param  \Syscodes\Components\Contracts\Session\Session  $session 
 	 * @return void
 	 */
-	public function setLenevorSession($session): void
+	public function setLenevorSession($session)
 	{
 		$this->session = new SessionDecorator($session);
 	}
@@ -316,7 +316,9 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	public function json($key = null, $default = null)
 	{
 		if ( ! isset($this->json)) {
-			$this->json = new InputBag((array) json_decode($this->getContent() ?: '[]', true));
+			$content = $this->getContent();
+
+			$this->json = new InputBag((array) json_decode(trim($content) === '' ? '[]' : $content, true));
 		}
 
 		if (is_null($key)) {
