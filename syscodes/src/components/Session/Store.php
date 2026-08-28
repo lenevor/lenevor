@@ -183,7 +183,7 @@ class Store implements Session
         $errorBag = new ViewErrorBag;
         
         foreach ($this->get('errors') as $key => $value) {
-            $messageBag = new MessageBag($value['message']);
+            $messageBag = new MessageBag($value['messages']);
             
             $errorBag->put($key, $messageBag->setFormat($value['format']));
         }
@@ -289,7 +289,7 @@ class Store implements Session
      * 
      * @return void
      */
-    protected function getErrorBagToSerialization(): void
+    protected function getErrorBagToSerialization()
     {
         if ($this->serialization !== 'json' || $this->missing('errors')) {
             return;
@@ -335,7 +335,7 @@ class Store implements Session
     /**
      * Remove one or many items from the session.
      * 
-     * @param  string  $key
+     * @param  \UnitEnum|string  $key
      * @param  mixed  $default 
      * @return mixed
      */
@@ -472,7 +472,7 @@ class Store implements Session
      * Get an key from the session, if it doesn´t exists can be use
      * the default value as the second argument to the get method.
      * 
-     * @param  string  $key
+     * @param  \UnitEnum|string  $key
      * @param  mixed  $default 
      * @return mixed
      */
