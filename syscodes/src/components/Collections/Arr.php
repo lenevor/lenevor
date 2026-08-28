@@ -474,7 +474,7 @@ class Arr
 	 * Get an item from an array using "dot" notation.
 	 *
 	 * @param  \ArrayAccess|array  $array  The search array
-	 * @param  string|array|null  $key  The dot-notated key or array of keys or null
+	 * @param  string|int|null  $key  The dot-notated key or array of keys or null
 	 * @param  mixed  $default  The default value
 	 * @return mixed
 	 */
@@ -848,6 +848,23 @@ class Arr
 		
 		return $results;
 	}
+
+	/**
+     * Push an item into an array using "dot" notation.
+     *
+     * @param  \ArrayAccess|array  $array
+     * @param  string|int|null  $key
+     * @param  mixed  $values
+     * @return array
+     */
+    public static function push(ArrayAccess|array &$array, string|int|null $key, mixed ...$values): array
+    {
+        $target = static::array($array, $key, []);
+
+        array_push($target, ...$values);
+
+        return static::set($array, $key, $target);
+    }
 
 	/**
 	 * Convert the array into a query string.
