@@ -198,11 +198,30 @@ class SessionManager extends Manager
      */
     protected function buildSession($handler)
     {
-        return new Store(
+        return $this->config->get('session.encrypt')
+            ? $this->buildEncryptedSession($handler)
+            : new Store(
             $this->config->get('session.cookie'),
             $handler,
             $id = null,
             $this->config->get('session.serialization', 'php')
+        );
+    }
+
+    /**
+     * Build the encrypted session instance.
+     *
+     * @param  \SessionHandlerInterface  $handler
+     * @return \Syscodes\Components\Session\EncryptedStore
+     */
+    protected function buildEncryptedSession($handler)
+    {
+        return new EncryptedStore(
+            $this->config->get('session.cookie'),
+            $handler,
+            $this->container->make('encrypter'),
+            $id = null,
+            $this->config->get('session.serialization', 'php'),
         );
     }
     
