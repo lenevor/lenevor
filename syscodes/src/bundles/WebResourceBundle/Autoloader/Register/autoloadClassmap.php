@@ -674,6 +674,7 @@ return [
     'Syscodes\\Components\\Session\\Handlers\\NullSessionHandler' => SYS_PATH.'src/components/Session/Handlers/NullSessionHandler.php',
     'Syscodes\\Components\\Session\\Middleware\\AuthenticateSession' => SYS_PATH.'src/components/Session/Middleware/AuthenticateSession.php',
     'Syscodes\\Components\\Session\\Middleware\\StartSession' => SYS_PATH.'src/components/Session/Middleware/StartSession.php',
+    'Syscodes\\Components\\Session\\EncryptedStore' => SYS_PATH.'src/components/Session/EncryptedStore.php',
     'Syscodes\\Components\\Session\\SessionDecorator' => SYS_PATH.'src/components/Session/SessionDecorator.php',
     'Syscodes\\Components\\Session\\SessionManager' => SYS_PATH.'src/components/Session/SessionManager.php',
     'Syscodes\\Components\\Session\\SessionServiceProvider' => SYS_PATH.'src/components/Session/SessionServiceProvider.php',
