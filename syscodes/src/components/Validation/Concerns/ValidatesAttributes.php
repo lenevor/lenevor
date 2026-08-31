@@ -31,6 +31,22 @@ use Syscodes\Components\Support\Arr;
 trait ValidatesAttributes
 {
     /**
+     * Validate that an attribute was "accepted".
+     *
+     * This validation rule implies the attribute is "required".
+     *
+     * @param  string  $attribute
+     * @param  mixed  $value
+     * @return bool
+     */
+    public function validateAccepted($attribute, $value): bool
+    {
+        $acceptable = ['yes', 'on', '1', 1, true, 'true'];
+
+        return $this->validateRequired($attribute, $value) && in_array($value, $acceptable, true);
+    }
+
+    /**
      * Validate that an attribute exists even if not filled.
      *
      * @param  string  $attribute
@@ -40,6 +56,64 @@ trait ValidatesAttributes
     public function validatePresent($attribute, $value): bool
     {
         return Arr::has($this->data, $attribute);
+    }
+
+    /**
+     * Validate that an attribute is a valid Base64 string.
+     *
+     * @param  string  $attribute
+     * @param  mixed  $value
+     * @return bool
+     */
+    public function validateBase64($attribute, $value): bool
+    {
+        if ( ! is_string($value) || $value === '') {
+            return false;
+        }
+
+        $decoded = base64_decode($value, true);
+
+        return $decoded !== false && base64_encode($decoded) === $value;
+    }
+
+    /**
+     * Validate that an attribute is an array.
+     *
+     * @param  string  $attribute
+     * @param  mixed  $value
+     * @param  array<int, int|string>  $parameters
+     * @return bool
+     */
+    public function validateArray($attribute, $value, $parameters = []): bool
+    {
+        if ( ! is_array($value)) {
+            return false;
+        }
+
+        if (empty($parameters)) {
+            return true;
+        }
+
+        return empty(array_diff_key($value, array_fill_keys($parameters, '')));
+    }
+
+    /**
+     * Validate that an attribute is a boolean.
+     *
+     * @param  string  $attribute
+     * @param  mixed  $value
+     * @param  array{0?: 'strict'}  $parameters
+     * @return bool
+     */
+    public function validateBoolean($attribute, $value, $parameters): bool
+    {
+        $acceptable = [true, false, 0, 1, '0', '1'];
+
+        if (($parameters[0] ?? null) === 'strict') {
+            $acceptable = [true, false];
+        }
+
+        return in_array($value, $acceptable, true);
     }
 
     /**
@@ -88,6 +162,18 @@ trait ValidatesAttributes
         }
 
         return mb_strlen($value);
+    }
+
+    /**
+     * Validate that an attribute is a string.
+     *
+     * @param  string  $attribute
+     * @param  mixed  $value
+     * @return bool
+     */
+    public function validateString($attribute, $value): bool
+    {
+        return is_string($value);
     }
 
     /**
