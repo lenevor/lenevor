@@ -28,6 +28,8 @@ use Syscodes\Components\Contracts\Support\MessageBag as MessageBagContract;
 
 /**
  * Gets the messages in the default bag.
+ * 
+ * @mixin \Syscodes\Components\Contracts\Support\MessageBag
  */
 class ViewErrorBag implements Countable, Stringable
 {

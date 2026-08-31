@@ -288,15 +288,18 @@ if ( ! function_exists('config')) {
      */
     function config($key = null, $value = null)
     {
+        /** @var \Syscodes\Components\Config\Configure */
+        $config = app('config');
+
         if ($key === null) {
-            return app('config');
+            return $config;
         }
 
         if (is_array($key)) {
-            return app('config')->set($key, $value);
+            return $config->set($key, $value);
         }
         
-        return app('config')->get($key, $value);
+        return $config->get($key, $value);
     }
 }
 
@@ -340,6 +343,7 @@ if ( ! function_exists('cookie')) {
         bool $raw = false, 
         ?string $sameSite = null
     ): CookieManager|Cookie {
+        /** @var CookieFactory */
         $cookie = app(CookieFactory::class);
         
         if (is_null($name)) {
@@ -838,15 +842,18 @@ if ( ! function_exists('session')) {
      */
     function session($key = null, $default = null)
     {
+        /** @var \Syscodes\Components\Session\Store */
+        $session = app('session');
+
         if (is_null($key)) {
-            return app('session');
+            return $session;
         }
 
         if (is_array($key)) {
-            return app('session')->put($key, $default);
+            return $session->put($key, $default);
         }
 
-        return app('session')->get($key, $default);
+        return $session->get($key, $default);
     }
 }
 
@@ -944,11 +951,14 @@ if ( ! function_exists('trans')) {
      */
     function trans($key = null, array $replace = [], $locale = null): Translator|array|string
     {
-        if (is_null($key)) {
-            return app('translator');
-        }
+        /** @var Translator|array|string */
+        $translator = app('translator');
 
-        return app('translator')->get($key, $replace, $locale);
+        if (is_null($key)) {
+            return $translator;
+        }
+        
+        return $translator->get($key, $replace, $locale);
     }
 }
 
@@ -1003,6 +1013,7 @@ if ( ! function_exists('validator')) {
      */
     function validator(?array $data = null, array $rules = [], array $messages = [], array $attributes = []): ValidatorContract|ValidationFactory
     {
+        /** @var ValidationFactory */
         $validator = app(ValidationFactory::class); 
 
         if (func_num_args() === 0) {
@@ -1027,6 +1038,7 @@ if ( ! function_exists('view')) {
      */
     function view($file = null, $data = [], $mergeData = []): ViewFactory|ViewContract
     {
+        /** @var ViewFactory */
         $factory = app(ViewFactory::class);
 
         if (func_num_args() === 0) {
