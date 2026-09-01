@@ -244,7 +244,7 @@ class MiddlewareBootstrap
                 \Syscodes\Components\Cookie\Middleware\AddQueuedCookiesResponse::class,
                 \Syscodes\Components\Session\Middleware\StartSession::class,
                 \Syscodes\Components\View\Middleware\ShareErrorsSession::class,
-                \Syscodes\Components\Core\Http\Middleware\ValidateCsrfToken::class,
+                \Syscodes\Components\Core\Http\Middleware\PreventRequestForgery::class,
                 $this->authenticatedSessions ? 'auth.session' : null,
             ])),
 
