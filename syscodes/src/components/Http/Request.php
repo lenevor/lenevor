@@ -196,6 +196,16 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	}
 
 	/**
+     * Return the Request instance.
+     *
+     * @return static
+     */
+    public function instance(): static
+    {
+        return $this;
+    }
+
+	/**
 	 * Get the specified URI segment, return default if it doesn't exist.
 	 * Segment index is 1 based, not 0 based.
 	 *
@@ -242,7 +252,19 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	#[\Override]
 	public function get(string $key, mixed $default = null): mixed
 	{
-		return parent::get($key, $default);
+		if ($this !== $result = $this->attributes->get($key, $this)) {
+            return $result;
+        }
+
+        if ($this->query->has($key)) {
+            return $this->query->all()[$key];
+        }
+
+        if ($this->request->has($key)) {
+            return $this->request->all()[$key];
+        }
+
+        return $default;
 	}
 	
 	/**
@@ -256,9 +278,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	}
 
 	/**
-	 * Gets the Session.
-	 * 
-	 * @return \Symfony\Component\HttpFoundation\Session\SessionInterface
+	 * {@inheritdoc}
 	 * 
 	 * @throws \Syscodes\Components\Http\Exceptions\SessionNotFoundException
 	 */
@@ -270,21 +290,16 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	}
 
 	/**
-	 * Whether the request contains a Session object.
-	 * 
-	 * @return bool
+	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function hasSession(bool $skipIfUninitialized = false): bool
 	{
 		return $this->session instanceof SessionDecorator;
 	}
 
 	/**
-	 * Get the session associated with the request.
-	 * 
-	 * @return \Syscodes\Components\Contracts\Session\Session
-	 * 
-	 * @throws RuntimeException
+	 * {@inheritdoc}
 	 */
 	public function session()
 	{
@@ -471,6 +486,18 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 	}
 
 	/**
+     * Determine if the current request URL and query string match a pattern.
+     *
+     * @param  mixed  ...$patterns
+     * @return bool
+     */
+    public function fullUrlIs(...$patterns): bool
+    {
+        return (new Collection($patterns))
+            ->contains(fn ($pattern) => Str::is($pattern, $this->fullUrl()));
+    }
+
+	/**
 	 * Get the route handling the request.
 	 * 
 	 * @param  string|null  $param  
@@ -564,6 +591,38 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 		
 		return $query ? $this->url().$question.$query : $this->url();
 	}
+
+	/**
+     * Get the full URL for the request with the added query string parameters.
+     *
+     * @param  array  $query
+     * @return string
+     */
+    public function fullUrlWithQuery(array $query): string
+    {
+        $question = $this->getBaseUrl().$this->getPathInfo() === '/' ? '/?' : '?';
+
+        return count($this->query()) > 0
+            ? $this->url().$question.Arr::query(array_merge($this->query(), $query))
+            : $this->fullUrl().$question.Arr::query($query);
+    }
+
+    /**
+     * Get the full URL for the request without the given query string parameters.
+     *
+     * @param  array|string  $keys
+     * @return string
+     */
+    public function fullUrlWithoutQuery($keys): string
+    {
+        $query = Arr::except($this->query(), $keys);
+
+        $question = $this->getBaseUrl().$this->getPathInfo() === '/' ? '/?' : '?';
+
+        return count($query) > 0
+            ? $this->url().$question.Arr::query($query)
+            : $this->url();
+    }
 
 	/**
 	 * Get the root URL for the application.
