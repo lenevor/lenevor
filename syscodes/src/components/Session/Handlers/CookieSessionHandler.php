@@ -163,7 +163,7 @@ class CookieSessionHandler implements SessionHandlerInterface
      * @param  \Symfony\Component\HttpFoundation\Request  $request 
      * @return void
      */
-    public function setRequest(Request $request): void
+    public function setRequest(Request $request)
     {
         $this->request = $request;
     }

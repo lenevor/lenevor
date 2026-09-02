@@ -68,7 +68,7 @@ interface MessageBag extends Arrayable, Countable
      * @param  string|null  $format 
      * @return string
      */
-    public function first($key = null, $format = null): string;
+    public function first($key = null, $format = null);
     
     /**
      * Get all of the messages from the bag for a given key.
