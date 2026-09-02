@@ -25,7 +25,7 @@ namespace Syscodes\Components\Core\Http\Middleware;
 /**
  * Alias of VerifyCsrfToken class.
  */
-class ValidateCsrfToken extends VerifyCsrfToken
+class ValidateCsrfToken extends PreventRequestForgery
 {
     //
-}
+}     
