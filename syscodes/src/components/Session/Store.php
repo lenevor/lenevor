@@ -22,7 +22,10 @@
 
 namespace Syscodes\Components\Session;
 
+use BackedEnum;
+use Closure;
 use SessionHandlerInterface;
+use Syscodes\Components\Contracts\Session\ExistenceAwareOfSession;
 use Syscodes\Components\Contracts\Session\Session;
 use Syscodes\Components\Session\Handlers\CookieSessionHandler;
 use Syscodes\Components\Support\Arr;
@@ -32,6 +35,7 @@ use Syscodes\Components\Support\MessageBag;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\Support\ViewErrorBag;
+use UnitEnum;
 
 use function Syscodes\Components\Support\enum_value;
 
@@ -225,6 +229,16 @@ class Store implements Session
 
     /**
      * Get the current session ID.
+     *
+     * @return string
+     */
+    public function id()
+    {
+        return $this->getId();
+    }
+
+    /**
+     * Get the current session ID.
      * 
      * @return string
      */
@@ -306,20 +320,6 @@ class Store implements Session
         
         $this->items['errors'] = $errors;
     }
-
-    /**
-     * Age the flash data for the session.
-     * 
-     * @return void
-     */
-    public function ageFlashData()
-    {
-        $this->erase($this->get('_flash.old', []));
-
-        $this->put('_flash.old', $this->get('_flash.new', []));
-
-        $this->put('_flash.new', []);        
-    }
     
     /**
      * Prepare the serialized session data for storage.
@@ -333,31 +333,17 @@ class Store implements Session
     }
 
     /**
-     * Remove one or many items from the session.
+     * Age the flash data for the session.
      * 
-     * @param  \UnitEnum|string  $key
-     * @param  mixed  $default 
-     * @return mixed
-     */
-    public function pull($key, $default = null)
-    {
-        return Arr::pull($this->items, $key, $default);
-    }
-
-    /**
-     * Push a value onto a session array.
-     * 
-     * @param  \UnitEnum|string  $key
-     * @param  mixed  $value 
      * @return void
      */
-    public function push($key, $value)
+    public function ageFlashData()
     {
-        $array = $this->get($key, []);
+        $this->erase($this->get('_flash.old', []));
 
-        $array[] = $value;
+        $this->put('_flash.old', $this->get('_flash.new', []));
 
-        $this->put($key, $array);
+        $this->put('_flash.new', []);        
     }
     
     /**
@@ -412,6 +398,42 @@ class Store implements Session
     }
 
     /**
+     * Put a key / value pair or array of key / value pairs in the session.
+     * 
+     * @param  \UnitEnum|string|array  $key
+     * @param  mixed  $value 
+     * @return void
+     */
+    public function put($key, $value = null)
+    {
+        if ( ! is_array($key)) {
+            $key = [enum_value($key) => $value];
+        }
+
+        foreach ($key as $itemKey => $itemValue) {
+            Arr::set($this->items, enum_value($itemKey), $itemValue);
+        }
+    }
+
+    /**
+     * Get an item from the session, or store the default value.
+     *
+     * @param  \UnitEnum|string  $key
+     * @param  \Closure  $callback
+     * @return mixed
+     */
+    public function remember($key, Closure $callback)
+    {
+        if ( ! is_null($value = $this->get($key))) {
+            return $value;
+        }
+
+        return take($callback(), function ($value) use ($key) {
+            $this->put($key, $value);
+        });
+    }
+
+    /**
      * Get the name of the session.
      * 
      * @return string
@@ -463,7 +485,7 @@ class Store implements Session
      */
     public function hasAny($key)
     {
-        return (new Collection(is_array($key) ? $key : func_get_args()))->contains(function ($key) {
+         return (new Collection(is_array($key) ? $key : func_get_args()))->contains(function ($key) {
             return ! is_null($this->get($key));
         });
     }
@@ -472,7 +494,7 @@ class Store implements Session
      * Get an key from the session, if it doesn´t exists can be use
      * the default value as the second argument to the get method.
      * 
-     * @param  \UnitEnum|string  $key
+     * @param  \BackedEnum|\UnitEnum|string  $key
      * @param  mixed  $default 
      * @return mixed
      */
@@ -493,21 +515,57 @@ class Store implements Session
     }
 
     /**
-     * Put a key / value pair or array of key / value pairs in the session.
+     * Remove one or many items from the session.
      * 
-     * @param  \UnitEnum|string|array  $key
+     * @param  \UnitEnum|string  $key
+     * @param  mixed  $default 
+     * @return mixed
+     */
+    public function pull($key, $default = null)
+    {
+        return Arr::pull($this->items, $key, $default);
+    }
+
+    /**
+     * Push a value onto a session array.
+     * 
+     * @param  \UnitEnum|string  $key
      * @param  mixed  $value 
      * @return void
      */
-    public function put($key, $value = null)
+    public function push($key, $value)
     {
-        if ( ! is_array($key)) {
-            $key = [enum_value($key) => $value];
-        }
+        $array = $this->get($key, []);
 
-        foreach ($key as $itemKey => $itemValue) {
-            Arr::set($this->items, enum_value($itemKey), $itemValue);
-        }
+        $array[] = $value;
+
+        $this->put($key, $array);
+    }
+
+    /**
+     * Increment the value of an item in the session.
+     *
+     * @param  \BackedEnum|\UnitEnum|string  $key
+     * @param  int  $amount
+     * @return mixed
+     */
+    public function increment($key, $amount = 1)
+    {
+        $this->put($key, $value = $this->get($key, 0) + $amount);
+
+        return $value;
+    }
+
+    /**
+     * Decrement the value of an item in the session.
+     *
+     * @param  \BackedEnum|\UnitEnum|string  $key
+     * @param  int  $amount
+     * @return int
+     */
+    public function decrement($key, $amount = 1)
+    {
+        return $this->increment($key, $amount * -1);
     }
 
     /**
@@ -539,7 +597,7 @@ class Store implements Session
      * @param  mixed  $value 
      * @return void
      */
-    public function flash(\BackedEnum|\UnitEnum|string $key, $value = true)
+    public function flash(BackedEnum|UnitEnum|string $key, $value = true)
     {
         $key = enum_value($key);
 
@@ -655,6 +713,8 @@ class Store implements Session
             $this->handler->destroy($this->getId());
         }
 
+        $this->setExists(false);
+
         $this->setId($this->generateSessionId());
 
         return true;
@@ -700,6 +760,19 @@ class Store implements Session
     public function setPreviousRoute($route)
     {
         $this->put('_previous.route', $route);
+    }
+
+     /**
+     * Set the existence of the session on the handler if applicable.
+     *
+     * @param  bool  $value
+     * @return void
+     */
+    public function setExists($value)
+    {
+        if ($this->handler instanceof ExistenceAwareOfSession) {
+            $this->handler->setExists($value);
+        }
     }
 
     /**
@@ -750,7 +823,7 @@ class Store implements Session
      * @param  \Syscodes\Components\Http\Request $request 
      * @return void
      */
-    public function setRequestOnHandler($request): void
+    public function setRequestOnHandler($request)
     {
         if ($this->handlerNeedsRequest()) {
             $this->handler->setRequest($request);
