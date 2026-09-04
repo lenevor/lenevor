@@ -46,7 +46,7 @@ trait InteractsWithContentTypes
      */
     public function expectsJson(): bool
     {
-        return ($this->ajax() && ! $this->pjax()) || $this->wantsJson();
+        return ($this->ajax() && ! $this->pjax() && $this->acceptsAnyContentType()) || $this->wantsJson();
     }
     
     /**
@@ -59,5 +59,19 @@ trait InteractsWithContentTypes
         $acceptable = $this->getAcceptableContentTypes();
         
         return isset($acceptable[0]) && Str::contains(strtolower($acceptable[0]), ['/json', '+json']);
+    }
+
+     /**
+     * Determine if the current request accepts any content type.
+     *
+     * @return bool
+     */
+    public function acceptsAnyContentType(): bool
+    {
+        $acceptable = $this->getAcceptableContentTypes();
+
+        return count($acceptable) === 0 || (
+            isset($acceptable[0]) && ($acceptable[0] === '*/*' || $acceptable[0] === '*')
+        );
     }
 }

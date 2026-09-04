@@ -25,12 +25,15 @@ namespace Syscodes\Components\Http\Concerns;
 use Symfony\Component\HttpFoundation\InputBag;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
+use Syscodes\Components\Support\Traits\InteractsWithData;
 
 /**
  * Trait InteractsWithInput.
  */
 trait InteractsWithInput
 {
+    use InteractsWithData;
+
     /**
      * Retrieve a server variable from the request.
      * 
@@ -149,8 +152,7 @@ trait InteractsWithInput
             Arr::set($results, $key, Arr::get($input, $key));
         }
         
-        return $results;
-    
+        return $results;    
     }
     
     /**
@@ -169,7 +171,6 @@ trait InteractsWithInput
         
         return $results;
     }
-
 
     /**
      * Retrieve a 'query' item from the request.
@@ -204,7 +205,9 @@ trait InteractsWithInput
      */
     public function all($keys = null): array
     {
-        $input = array_merge_recursive($this->input(), $this->allFiles());
+        $input = $this->input();
+
+        $input = array_replace_recursive($input, $this->allFiles(), $input);
 
         if ( ! $keys) {
             return $input;
@@ -250,7 +253,7 @@ trait InteractsWithInput
      */
     public function keys(): array
     {
-        return array_merge($this->input(), $this->files->keys());
+        return array_merge(array_keys($this->input()), $this->files->keys());
     }
 
     /**
@@ -286,6 +289,18 @@ trait InteractsWithInput
     }
 
     /**
+     * Retrieve data from the instance.
+     *
+     * @param  string|null  $key
+     * @param  mixed  $default
+     * @return mixed
+     */
+    protected function data($key = null, $default = null)
+    {
+        return $this->input($key, $default);
+    }
+
+    /**
      * Retrieve a parameter item from a given source.
      * 
      * @param  string  $source
@@ -304,5 +319,20 @@ trait InteractsWithInput
         }
 
         return $this->$source->get($key, $default);
+    }
+
+    /**
+     * Dump the items.
+     *
+     * @param  mixed  $keys
+     * @return static
+     */
+    public function dump($keys = []): static
+    {
+        $keys = is_array($keys) ? $keys : func_get_args();
+
+        dump($keys !== [] ? $this->only($keys) : $this->all());
+
+        return $this;
     }
 }

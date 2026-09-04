@@ -26,6 +26,8 @@ use Closure;
 use RuntimeException;
 use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Contracts\Pipeline\Pipeline as PipelineContract;
+use Syscodes\Components\Support\Traits\Conditionable;
+use Syscodes\Components\Support\Traits\Macroable;
 use Throwable;
 
 /**
@@ -33,7 +35,10 @@ use Throwable;
  * of task and finally return the resulting value.
  */
 class Pipeline implements PipelineContract
-{
+{ 
+    use Conditionable,
+        Macroable;
+
     /**
      * The container instance.
      * 
@@ -89,7 +94,7 @@ class Pipeline implements PipelineContract
     /**
      * Set the array of pipes.
      * 
-     * @param  array|mixed  $pipes 
+     * @param  mixed  $pipes 
      * @return static
      */
     public function through($pipes): static
@@ -121,7 +126,7 @@ class Pipeline implements PipelineContract
     public function then(Closure $destination)
     {
         $pipeline = array_reduce(
-            array_reverse($this->getPipes()), $this->call(), $this->prepareDestination($destination)
+            array_reverse($this->pipes()), $this->call(), $this->prepareDestination($destination)
         );
         
         return $pipeline($this->passable);
@@ -130,11 +135,31 @@ class Pipeline implements PipelineContract
     /**
      * Get the array of configured pipes.
      * 
-     * @return array
+     * @param  mixed  $pipes
+     * @return static
      */
-    protected function getPipes(): array
+    public function getPipe($pipes): static
     {
-        return $this->pipes;
+        array_push($this->pipes, ...(is_array($pipes) ? $pipes : func_get_args()));
+
+        return $this;
+    }
+
+    /**
+     * Get the initial slice to begin the stack call.
+     * 
+     * @param  \Closure  $destination 
+     * @return \Closure
+     */
+    protected function prepareDestination(Closure $destination): Closure
+    {
+        return function ($passable) use ($destination) {
+            try {
+                return $destination($passable);
+            } catch(Throwable $e)  {
+                return $this->handleException($passable, $e);
+            }
+        };
     }
 
     /**
@@ -163,7 +188,7 @@ class Pipeline implements PipelineContract
                         ? $pipe->{$this->method}(...$parameters)
                         : $pipe(...$parameters);
                                 
-                    return $pipeline;
+                    return $this->handleCall($pipeline);
                 } catch (Throwable $e) {
                     return $this->handleException($passable, $e);
                 }
@@ -179,30 +204,25 @@ class Pipeline implements PipelineContract
      */
     protected function parsePipeString($pipe): array
     {
-        [$name, $parameters] = array_pad(explode(':', $pipe, 2), 2, []);
+        [$name, $parameters] = array_pad(explode(':', $pipe, 2), 2, null);
         
-        if (is_string($parameters)) {
+        if ( ! is_null($parameters)) {
             $parameters = explode(',', $parameters);
+        } else {
+            $parameters = [];
         }
         
         return [$name, $parameters];
     }
 
     /**
-     * Get the initial slice to begin the stack call.
-     * 
-     * @param  \Closure  $destination 
-     * @return \Closure
+     * Get the array of configured pipes.
+     *
+     * @return array
      */
-    protected function prepareDestination(Closure $destination): Closure
+    protected function pipes(): array
     {
-        return function ($passable) use ($destination) {
-            try {
-                return $destination($passable);
-            } catch(Throwable $e)  {
-                return $this->handleException($passable, $e);
-            }
-        };
+        return $this->pipes;
     }
 
     /**
@@ -217,6 +237,17 @@ class Pipeline implements PipelineContract
     protected function handleException($passable, Throwable $e)
     {
         throw $e;
+    }
+
+    /**
+     * Handle the value returned from each pipe before passing it to the next.
+     *
+     * @param  mixed  $pipe
+     * @return mixed
+     */
+    protected function handleCall($pipe)
+    {
+        return $pipe;
     }
 
     /**
