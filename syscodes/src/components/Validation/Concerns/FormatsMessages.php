@@ -129,14 +129,26 @@ trait FormatsMessages
                     $pattern = str_replace('\*', '([^.]*)', preg_quote($sourceKey, '#'));
 
                     if (preg_match('#^'.$pattern.'\z#u', $key) === 1) {
-                        return $source[$sourceKey];
+                        $message = $source[$sourceKey];
+
+                        if (is_array($message) && isset($message[$lowerRule])) {
+                            return $message[$lowerRule];
+                        }
+
+                        return $message;
                     }
 
                     continue;
                 }
 
                 if (Str::is($sourceKey, $key)) {
-                    return $source[$sourceKey];
+                    $message = $source[$sourceKey];
+
+                    if ($sourceKey === $attribute && is_array($message)) {
+                        return $message[$lowerRule] ?? null;
+                    }
+
+                    return $message;
                 }
             }
         }
