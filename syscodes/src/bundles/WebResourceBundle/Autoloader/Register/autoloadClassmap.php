@@ -187,6 +187,7 @@ return [
     'Syscodes\\Components\\Contracts\\Routing\\UrlGenerator' => SYS_PATH.'src/components/Contracts/Routing/UrlGenerator.php',
     'Syscodes\\Components\\Contracts\\Routing\\UrlRoutable' => SYS_PATH.'src/components/Contracts/Routing/UrlRoutable.php',
     'Syscodes\\Components\\Contracts\\Session\\Middleware\\AuthenticateSession' => SYS_PATH.'src/components/Contracts/Session/Middleware/AuthenticateSession.php',
+    'Syscodes\\Components\\Contracts\\Session\\ExistenceAwareOfSession' => SYS_PATH.'src/components/Contracts/Session/ExistenceAwareOfSession.php',
     'Syscodes\\Components\\Contracts\\Session\\Session' => SYS_PATH.'src/components/Contracts/Session/Session.php',
     'Syscodes\\Components\\Contracts\\Support\\Arrayable' => SYS_PATH.'src/components/Contracts/Support/Arrayable.php',
     'Syscodes\\Components\\Contracts\\Support\\CanBeEscapedWhenLoadToString' => SYS_PATH.'src/components/Contracts/Support/CanBeEscapedWhenLoadToString.php',
