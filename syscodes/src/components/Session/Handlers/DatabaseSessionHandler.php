@@ -24,6 +24,7 @@ namespace Syscodes\Components\Session\Handlers;
 
 use SessionHandlerInterface;
 use Syscodes\Components\Contracts\Container\Container;
+use Syscodes\Components\Contracts\Session\ExistenceAwareOfSession;
 use Syscodes\Components\Database\Connections\ConnectionInterface;
 use Syscodes\Components\Database\Exceptions\QueryException;
 use Syscodes\Components\Support\Arr;
@@ -33,7 +34,7 @@ use Syscodes\Components\Support\InteractsWithTime;
 /**
  * Session handler using database system for storage.
  */
-class DatabaseSessionHandler implements SessionHandlerInterface
+class DatabaseSessionHandler implements ExistenceAwareOfSession, SessionHandlerInterface
 {
     use InteractsWithTime;
 
@@ -306,7 +307,7 @@ class DatabaseSessionHandler implements SessionHandlerInterface
      * @param  bool  $value 
      * @return static
      */
-    public function setExists(bool $value): static
+    public function setExists($value)
     {
         $this->exists = $value;
 
