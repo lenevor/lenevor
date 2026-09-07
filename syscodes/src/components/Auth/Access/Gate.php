@@ -194,8 +194,8 @@ class Gate implements GateContract
             $arguments = func_get_args();
             
             return isset($method)
-                    ? $policy->{$method}(...$arguments)
-                    : $policy(...$arguments);
+                ? $policy->{$method}(...$arguments)
+                : $policy(...$arguments);
         };
     }
     
