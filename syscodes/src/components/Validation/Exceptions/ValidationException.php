@@ -48,14 +48,14 @@ class ValidationException extends Exception
     /**
      * The path the client should be redirected to.
      *
-     * @var string
+     * @var string|null
      */
     public $redirectTo;
 
     /**
      * The recommended response to send to the client.
      *
-     * @var \Syscodes\Components\Http\Response|null
+     * @var \Symfony\Component\HttpFoundation\Response|null
      */
     public $response;
 
@@ -70,7 +70,7 @@ class ValidationException extends Exception
      * Create a new exception instance.
      *
      * @param  \Syscodes\Components\Contracts\Validation\Validator  $validator
-     * @param  \Syscodes\Components\Http\Response|null  $response
+     * @param  \Symfony\Component\HttpFoundation\Response|null  $response
      * @param  string  $errorBag 
      * @return void
      */
@@ -89,7 +89,7 @@ class ValidationException extends Exception
      * @param  array  $messages
      * @return static
      */
-    public static function withMessages(array $messages)
+    public static function withMessages(array $messages): static
     {
         return new static(take(ValidatorFacade::make([], []), function ($validator) use ($messages) {
             foreach ($messages as $key => $value) {
@@ -171,7 +171,7 @@ class ValidationException extends Exception
     /**
      * Get the underlying response instance.
      *
-     * @return \Syscodes\Components\Http\Response|null
+     * @return \Symfony\Component\HttpFoundation\Response|null
      */
     public function getResponse()
     {
