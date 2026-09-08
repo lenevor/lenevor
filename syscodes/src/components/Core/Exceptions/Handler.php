@@ -28,6 +28,8 @@ use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Exception\CommandNotFoundException;
 use Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer;
 use Symfony\Component\HttpFoundation\Exception\RequestExceptionInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
+use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Syscodes\Components\Auth\Access\Exceptions\AuthorizationException;
 use Syscodes\Components\Auth\Exceptions\AuthenticationException;
 use Syscodes\Components\Console\View\Components\BulletList;
@@ -527,14 +529,14 @@ class Handler implements ExceptionHandlerContract
     }
 
     /**
-     * Create a response for the given exception.
+     * Create a Symfony response for the given exception.
      * 
      * @param  Throwable  $e 
-     * @return \Syscodes\Components\Http\Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function convertExceptionToResponse(Throwable $e)
     {
-        return Response::render(
+        return new SymfonyResponse(
             $this->renderExceptionContent($e),
             $this->isHttpException($e) ? $e->getStatusCode() : 500,
             $this->isHttpException($e) ? $e->getHeaders() : []
@@ -592,19 +594,19 @@ class Handler implements ExceptionHandlerContract
     /**
      * Map the given exception into an Syscodes response.
      * 
-     * @param  \Syscodes\Components\Http\Response  $response
+     * @param  \Symfony\Component\HttpFoundation\Response  $response
      * @param  Throwable  $e 
-     * @return \Syscodes\Components\Http\Response
+     * @return \Syscodes\Components\Http\Response|\Syscodes\Components\Http\RedirectResponse
      */
     protected function toSyscodesResponse($response, Throwable $e)
     {
-        if ($response instanceof RedirectResponse) {
+        if ($response instanceof SymfonyRedirectResponse) {
             $response = new RedirectResponse(
-                $response->getTargetUrl(), $response->status(), $response->headers->all()
+                $response->getTargetUrl(), $response->getStatusCode(), $response->headers->all()
             );
         } else {
-            $response = new Response(
-                $response->content(), $response->status(), $response->headers->all()
+            $response = response(
+                $response->getContent(), $response->getStatusCode(), $response->headers->all()
             );
         }
 

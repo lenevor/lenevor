@@ -339,7 +339,7 @@ class FormRequest extends Request implements ValidatesResolved
         };
     }
 
-     /**
+    /**
      * Determine if the request passes the authorization check.
      *
      * @return bool

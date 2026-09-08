@@ -2,6 +2,7 @@
 
 namespace {{ namespace }};
 
+use Syscodes\Components\Contracts\Validation\ValidationRule;
 use Syscodes\Components\Core\Http\FormRequest;
 
 class {{ class }} extends FormRequest
@@ -19,7 +20,7 @@ class {{ class }} extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Syscodes\Components\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
