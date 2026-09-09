@@ -24,7 +24,7 @@ namespace Syscodes\Components\Mail\Transport\Smtp;
 
 use Psr\Log\LoggerInterface;
 use Syscodes\Components\Contracts\Events\Dispatcher;
-use Syscodes\components\Constracts\Mail\Auth\Authenticator;
+use Syscodes\components\Contracts\Mail\Auth\Authenticator;
 use Syscodes\Components\Mail\Transport\Smtp\SocketStream;
 use Syscodes\Components\Support\Str;
 

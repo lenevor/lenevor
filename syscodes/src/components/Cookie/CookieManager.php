@@ -25,13 +25,15 @@ use Symfony\Component\HttpFoundation\Cookie;
 use Syscodes\Components\Contracts\Cookie\QueueingFactory as CookieFactory;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\InteractsWithTime;
+use Syscodes\Components\Support\Traits\Macroable;
 
 /**
  * Get the cookies for have a response to a rquest of user.
  */
 class CookieManager implements CookieFactory
 {
-    use InteractsWithTime;
+    use InteractsWithTime,
+        Macroable;
     
     /**
      * The default domain (if specified).

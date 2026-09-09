@@ -36,6 +36,9 @@ use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Traits\Conditionable;
 use Syscodes\Components\Support\Facades\Validator;
 
+/**
+ * Gets the attribute must be password.
+ */
 class Password implements DataAwareRule, ImplicitRule, IteratorAggregate, Rule, ValidatorAwareRule
 {
     use Conditionable;

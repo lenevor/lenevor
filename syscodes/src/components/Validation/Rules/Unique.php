@@ -27,18 +27,11 @@ use Syscodes\Components\Support\Traits\Conditionable;
 use Stringable;
 
 /**
- * Get the Unique rule. 
+ * Gets the attribute must be unique.
  */
 class Unique implements Stringable
 {
     use Conditionable, DatabaseRule;
-
-    /**
-     * The ID that should be ignored.
-     *
-     * @var mixed
-     */
-    protected $ignore;
 
     /**
      * The name of the ID column.
@@ -46,6 +39,13 @@ class Unique implements Stringable
      * @var string
      */
     protected $idColumn = 'id';
+
+    /**
+     * The ID that should be ignored.
+     *
+     * @var mixed
+     */
+    protected $ignore;
 
     /**
      * Ignore the given ID during the unique check.
