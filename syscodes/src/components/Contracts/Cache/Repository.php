@@ -23,12 +23,12 @@
 namespace Syscodes\Components\Contracts\Cache;
 
 use Closure;
-use UnitEnum;
+use Psr\SimpleCache\CacheInterface;
 
 /**
  * Sets functions by the item from the cache repository store.
  */
-interface Repository
+interface Repository extends CacheInterface
 {
     /**
      * Store an item in the cache if the key does not exist.
@@ -76,14 +76,6 @@ interface Repository
      * @return int|bool
      */
     public function decrement($key, $value = 1): int|bool;
-
-    /**
-     * Remove a specific item from the cache store.
-     * 
-     * @param  \UnitEnum|string  $key 
-     * @return mixed
-     */
-    public function delete($key);
 
      /**
      * Get an item from the cache, or execute the given Closure and store the result.
