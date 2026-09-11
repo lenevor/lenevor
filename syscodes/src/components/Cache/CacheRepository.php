@@ -90,7 +90,7 @@ class CacheRepository implements ArrayAccess, Repository
      * @param  string  $key 
      * @return bool
      */
-    public function has(string $key): bool
+    public function has($key): bool
     {
         return ! is_null($this->get($key));
     }
@@ -113,7 +113,7 @@ class CacheRepository implements ArrayAccess, Repository
      * @param  mixed  $default 
      * @return mixed
      */
-    public function get($key, $default = null)
+    public function get($key, $default = null): mixed
     {
         if (is_array($key)) {
             return $this->many($key);
@@ -151,6 +151,20 @@ class CacheRepository implements ArrayAccess, Repository
         return (new Collection($values))
             ->map(fn ($value, $key) => $this->handleMany($keys, $key, $value))
             ->all();
+    }
+
+     /**
+     * {@inheritdoc}
+     */
+    public function getMultiple($keys, $default = null): iterable
+    {
+        $defaults = [];
+
+        foreach ($keys as $key) {
+            $defaults[enum_value($key)] = $default;
+        }
+
+        return $this->many($defaults);
     }
     
     /**
@@ -271,6 +285,14 @@ class CacheRepository implements ArrayAccess, Repository
         }
         
         return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setMultiple($values, $ttl = null): bool
+    {
+        return $this->putMany(is_array($values) ? $values : iterator_to_array($values), $ttl);
     }
 
     /**
@@ -395,7 +417,7 @@ class CacheRepository implements ArrayAccess, Repository
      * @param  \UnitEnum|string  $key 
      * @return mixed
      */
-    public function delete($key)
+    public function delete($key): bool
     {
         return $this->store->delete($this->itemKey($key));
     }
@@ -403,10 +425,10 @@ class CacheRepository implements ArrayAccess, Repository
     /**
      * Removes multiple items from the cache store.
      * 
-     * @param  array  $keys 
+     * @param  iterable  $keys 
      * @return bool
      */
-    public function deleteMultiple(array $keys): bool
+    public function deleteMultiple(iterable $keys): bool
     {
         foreach ($keys as $key) {
             if ( ! $this->delete($key)) {
@@ -415,6 +437,24 @@ class CacheRepository implements ArrayAccess, Repository
         }
         
         return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function clear(): bool
+    {
+        $this->event(new CacheFlushing($this->getName()));
+
+        $result = $this->store->flush();
+
+        if ($result) {
+            $this->event(new CacheFlushed($this->getName()));
+        } else {
+            $this->event(new CacheFlushFailed($this->getName()));
+        }
+
+        return $result;
     }
 
     /**
