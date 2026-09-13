@@ -52,7 +52,7 @@ class Benchmark
 
         $this->timers[strtolower($name)] = [
             'start' => ! empty($time) ? $time : microtime(true),
-            'end'   => null
+            'end' => null
         ];
 
         return $this;
