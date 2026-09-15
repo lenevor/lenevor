@@ -40,7 +40,7 @@ trait InteractsWithData
      * @param  mixed  $keys
      * @return array
      */
-    abstract public function all($keys = null): array;
+    abstract public function all($keys = null);
 
     /**
      * Retrieve data from the instance.
