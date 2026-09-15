@@ -32,5 +32,5 @@ interface ValidatesResolved
      *
      * @return void
      */
-    public function validateResolved(): void;
+    public function validateResolved();
 }

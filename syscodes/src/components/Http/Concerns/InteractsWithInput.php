@@ -203,7 +203,7 @@ trait InteractsWithInput
      * @param  array|mixed|null  $keys 
      * @return array
      */
-    public function all($keys = null): array
+    public function all($keys = null)
     {
         $input = $this->input();
 
