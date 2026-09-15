@@ -290,20 +290,14 @@ class Validator implements ValidationContract
      */
     protected $numericRules = ['Numeric', 'Integer', 'Decimal'];
 
-    /**
-     * The current random hash for the validator.
-     *
-     * @var string|null
-     */
-    protected static $placeholderHash;
-
+    
     /**
      * The Presence Verifier implementation.
-     *
-     * @var \Syscodes\Components\Validation\PresenceVerifierInterface
-     */
+    *
+    * @var \Syscodes\Components\Validation\PresenceVerifierInterface
+    */
     protected $presenceVerifier;
-
+    
     /**
      * The rules to be applied to the data.
      *
@@ -315,20 +309,20 @@ class Validator implements ValidationContract
      * All of the custom replacer extensions.
      *
      * @var array
-     */
+    */
     public $replacers = [];
-
+    
     /**
      * The size related validation rules.
-     *
-     * @var string[]
-     */
+    *
+    * @var string[]
+    */
     protected $sizeRules = ['Size', 'Between', 'Min', 'Max', 'Gt', 'Lt', 'Gte', 'Lte'];
-
+    
     /**
      * Indicates if the validator should stop on the first rule failure.
-     *
-     * @var bool
+    *
+    * @var bool
      */
     protected $stopOnFirstFailure = false;
 
@@ -336,9 +330,23 @@ class Validator implements ValidationContract
      * The Translator implementation.
      *
      * @var \Syscodes\Components\Contracts\Translation\Translator
-     */
+    */
     protected $translator;
-        
+    
+    /**
+     * Indicates if DNS lookups performed by validation rules should be faked to always succeed.
+     *
+     * @var bool
+     */
+    protected static $fakeDnsLookups = false;
+
+    /**
+     * The current random hash for the validator.
+     *
+     * @var string|null
+     */
+    protected static $placeholderHash;
+
     /**
      * Constructor. Create new Validator class instance.
      * 
