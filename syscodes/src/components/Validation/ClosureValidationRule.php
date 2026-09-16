@@ -23,12 +23,15 @@
 namespace Syscodes\Components\Validation;
 
 use Syscodes\Components\Contracts\Validation\Rule as RuleContract;
+use Syscodes\Components\Translation\Concerns\CreatesPotentiallyTranslatedStrings;
 
 /**
  * Allows the closure validation rule.
  */
 class ClosureValidationRule implements RuleContract
 {
+    use CreatesPotentiallyTranslatedStrings;
+
     /**
      * The callback that validates the attribute.
      *
@@ -49,6 +52,13 @@ class ClosureValidationRule implements RuleContract
      * @var string|null
      */
     public $message;
+
+    /**
+     * The current validator.
+     *
+     * @var \Syscodes\Components\Validation\Validator
+     */
+    protected $validator;
 
     /**
      * Constructor. Create a new Closure based validation rule.
@@ -75,8 +85,8 @@ class ClosureValidationRule implements RuleContract
         $this->callback->__invoke($attribute, $value, function ($message) {
             $this->failed = true;
 
-            $this->message = $message;
-        });
+            return $this->pendingPotentiallyTranslatedString($attribute, $message);
+        }, $this->validator);
 
         return ! $this->failed;
     }
@@ -89,5 +99,18 @@ class ClosureValidationRule implements RuleContract
     public function message(): string
     {
         return $this->message;
+    }
+
+    /**
+     * Set the current validator.
+     *
+     * @param  \Syscodes\Components\Validation\Validator  $validator
+     * @return static
+     */
+    public function setValidator($validator): static
+    {
+        $this->validator = $validator;
+
+        return $this;
     }
 }
