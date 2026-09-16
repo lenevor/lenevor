@@ -26,14 +26,17 @@ use Syscodes\Components\Contracts\Validation\DataAwareRule;
 use Syscodes\Components\Contracts\Validation\ImplicitRule;
 use Syscodes\Components\Contracts\Validation\InvokableRule;
 use Syscodes\Components\Contracts\Validation\Rule;
+use Syscodes\Components\Contracts\Validation\ValidationRule;
 use Syscodes\Components\Contracts\Validation\ValidatorAwareRule;
-use Syscodes\Components\Translation\PotentiallyTranslatedString;
+use Syscodes\Components\Translation\Concerns\CreatesPotentiallyTranslatedStrings;
 
 /**
  * Allows the invokable validation rule.
  */
 class InvokableValidationRule implements Rule, ValidatorAwareRule
 {
+    use CreatesPotentiallyTranslatedStrings;
+    
     /**
      * The data under validation.
      *
@@ -114,7 +117,11 @@ class InvokableValidationRule implements Rule, ValidatorAwareRule
             $this->invokable->setValidator($this->validator);
         }
 
-        $this->invokable->__invoke($attribute, $value, function ($attribute, $message = null) {
+        $method = $this->invokable instanceof ValidationRule
+            ? 'validate'
+            : '__invoke';
+
+        $this->invokable->{$method}($attribute, $value, function ($attribute, $message = null) {
             $this->failed = true;
 
             return $this->pendingPotentiallyTranslatedString($attribute, $message);
@@ -167,56 +174,5 @@ class InvokableValidationRule implements Rule, ValidatorAwareRule
         $this->validator = $validator;
 
         return $this;
-    }
-
-    /**
-     * Create a pending potentially translated string.
-     *
-     * @param  string  $attribute
-     * @param  string|null  $message
-     * @return \Syscodes\Components\Translation\PotentiallyTranslatedString
-     */
-    protected function pendingPotentiallyTranslatedString($attribute, $message)
-    {
-        $destructor = $message === null
-            ? fn ($message) => $this->messages[] = $message
-            : fn ($message) => $this->messages[$attribute] = $message;
-
-        return new class($message ?? $attribute, $this->validator->getTranslator(), $destructor) extends PotentiallyTranslatedString
-        {
-            /**
-             * The callback to call when the object destructs.
-             *
-             * @var \Closure
-             */
-            protected $destructor;
-
-            /**
-             * Constructor. Create a new pending potentially translated string.
-             *
-             * @param  string  $message
-             * @param  \Syscodes\Components\Contracts\Translation\Translator  $translator
-             * @param  \Closure  $destructor
-             * @return void
-             */
-            public function __construct($message, $translator, $destructor)
-            {
-                parent::__construct($message, $translator);
-
-                $this->destructor = $destructor;
-            }
-
-            /**
-             * Magic method.
-             * 
-             * Handle the object's destruction.
-             *
-             * @return void
-             */
-            public function __destruct()
-            {
-                ($this->destructor)($this->toString());
-            }
-        };
     }
 }
