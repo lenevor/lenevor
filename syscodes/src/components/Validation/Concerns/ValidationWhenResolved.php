@@ -22,7 +22,7 @@
 
 namespace Syscodes\Components\Validation\Concerns;
 
-use Syscodes\Components\Validation\Exceptions\ValidationException;
+use Syscodes\Components\Core\Precognition;
 use Syscodes\Components\Validation\Exceptions\UnauthorizedException;
 use Syscodes\Components\Validation\Validator;
 
@@ -36,15 +36,35 @@ trait ValidationWhenResolved
      *
      * @return void
      */
-    public function validateResolved(): void
+    public function validateResolved()
     {
-        $instance = $this->getValidatorInstance();
+        $this->prepareForValidation();
 
         if ( ! $this->passesAuthorization()) {
             $this->failedAuthorization();
-        } else if ( ! $instance->passes()) {
+        }
+
+        $instance = $this->getValidatorInstance();
+
+        if ($this->isPrecognitive()) {
+            $instance->after(Precognition::afterValidationHook($this));
+        }
+
+        if ($instance->fails()) {
             $this->failedValidation($instance);
         }
+
+        $this->passedValidation();
+    }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        //
     }
 
     /**
@@ -58,6 +78,16 @@ trait ValidationWhenResolved
     }
 
     /**
+     * Handle a passed validation attempt.
+     *
+     * @return void
+     */
+    protected function passedValidation()
+    {
+        //
+    }
+
+    /**
      * Handle a failed validation attempt.
      *
      * @param  \Syscodes\Components\Validation\Validator  $validator
@@ -65,7 +95,9 @@ trait ValidationWhenResolved
      */
     protected function failedValidation(Validator $validator)
     {
-        throw new ValidationException($validator);
+        $exception = $validator->getException();
+
+        throw new $exception($validator);
     }
 
     /**
