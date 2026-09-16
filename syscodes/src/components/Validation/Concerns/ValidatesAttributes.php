@@ -22,10 +22,19 @@
 
 namespace Syscodes\Components\Validation\Concerns;
 
+use Egulias\EmailValidator\EmailValidator;
+use Egulias\EmailValidator\Validation\DNSCheckValidation;
+use Egulias\EmailValidator\Validation\Extra\SpoofCheckValidation;
+use Egulias\EmailValidator\Validation\MultipleValidationWithAnd;
+use Egulias\EmailValidator\Validation\NoRFCWarningsValidation;
+use Egulias\EmailValidator\Validation\RFCValidation;
 use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\File\File;
+use Syscodes\Components\Container\Container;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
+use Syscodes\Components\Support\Collection;
+use Syscodes\Components\Validation\Concerns\FilterEmailValidation;
 
 /**
  * Allows validate all type of rules.
@@ -273,6 +282,42 @@ trait ValidatesAttributes
         $this->requireParameterCount(1, $parameters, 'regex');
 
         return preg_match($parameters[0], $value) > 0;
+    }
+
+     /**
+     * Validate that an attribute is a valid e-mail address.
+     *
+     * @param  string  $attribute
+     * @param  mixed  $value
+     * @param  array<int, int|string>  $parameters
+     * @return bool
+     */
+    public function validateEmail($attribute, $value, $parameters): bool
+    {
+        if ( ! is_string($value) && ! (is_object($value) && method_exists($value, '__toString'))) {
+            return false;
+        }
+
+        if (preg_match('/[\r\n]/', (string) $value) > 0) {
+            return false;
+        }
+
+        $validations = (new Collection($parameters))
+            ->unique()
+            ->map(fn ($validation) => match (true) {
+                $validation === 'strict' => new NoRFCWarningsValidation(),
+                $validation === 'dns' => new DNSCheckValidation(static::$fakeDnsLookups ? new FakeDnsGetRecordWrapper : null),
+                $validation === 'spoof' => new SpoofCheckValidation(),
+                $validation === 'filter' => new FilterEmailValidation(),
+                $validation === 'filter_unicode' => FilterEmailValidation::unicode(),
+                is_string($validation) && class_exists($validation) => $this->container->make($validation),
+                default => new RFCValidation(),
+            })
+            ->all() ?: [new RFCValidation];
+
+        $emailValidator = Container::getInstance()->make(EmailValidator::class);
+
+        return $emailValidator->isValid($value, new MultipleValidationWithAnd($validations));
     }
 
     /**
