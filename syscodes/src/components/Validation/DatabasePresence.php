@@ -67,14 +67,8 @@ class DatabasePresence implements DatabasePresenceInterface
      * @param  array  $extra 
      * @return int
      */
-    public function getCount(
-        $collection, 
-        $column, 
-        $value, 
-        $excludeId = null, 
-        $idColumn = null, 
-        array $extra = []
-    ): int {
+    public function getCount($collection, $column, $value, $excludeId = null, $idColumn = null, array $extra = []): int
+    {
         $query = $this->table($collection)->where($column, '=', $value);
         
         if ( ! is_null($excludeId) && $excludeId !== 'NULL') {
@@ -93,12 +87,8 @@ class DatabasePresence implements DatabasePresenceInterface
      * @param  array  $extra 
      * @return int
      */
-    public function getMultiCount(
-        $collection, 
-        $column, 
-        array $values, 
-        array $extra = []
-    ): int {
+    public function getMultiCount($collection, $column, array $values, array $extra = []): int
+    {
         $query = $this->table($collection)->whereIn($column, $values);
         
         return $this->addConditions($query, $extra)->distinct()->count($column);

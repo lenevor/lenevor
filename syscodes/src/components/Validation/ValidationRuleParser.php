@@ -98,7 +98,7 @@ class ValidationRuleParser
 
                 unset($rules[$key]);
             } else {
-                $rules[$key] = $this->explodeExplicitRule($rules, $key);
+                $rules[$key] = $this->explodeExplicitRule($rule, $key);
             }
         }
 
@@ -156,7 +156,7 @@ class ValidationRuleParser
             $rule = InvokableValidationRule::make($rule);
         }
 
-        if (! is_object($rule) ||
+        if ( ! is_object($rule) ||
             $rule instanceof RuleContract ||
             ($rule instanceof Exists && $rule->queryCallbacks()) ||
             ($rule instanceof Unique && $rule->queryCallbacks())) {
@@ -280,7 +280,7 @@ class ValidationRuleParser
      * @param  array|string  $rule
      * @return array
      */
-    public static function parse($rule): array
+    public static function parse($rule)
     {
         if ($rule instanceof RuleContract || $rule instanceof CompilableRules) {
             return [$rule, []];
