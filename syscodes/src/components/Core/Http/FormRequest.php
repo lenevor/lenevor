@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Core\Http;
 
+use ReflectionClass;
 use Syscodes\Components\Auth\Access\Exceptions\AuthorizationException;
 use Syscodes\Components\Auth\Access\Response;
 use Syscodes\Components\Contracts\Container\Container;
@@ -36,8 +37,6 @@ use Syscodes\Components\Core\Http\Attributes\RedirectToRoute;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Routing\Generators\Redirector;
 use Syscodes\Components\Validation\Concerns\ValidationWhenResolved;
-use ReflectionClass;
-use Syscodes\Components\Support\Arr;
 
 /**
  * Gets the form request.
@@ -146,6 +145,12 @@ class FormRequest extends Request implements ValidatesResolved
                 $this->after(...),
                 ['validator' => $validator]
             ));
+        }
+
+        if ($this->shouldFailOnUnknownFields()) {
+            $validator->after(function (Validator $validator) {
+                $this->validateNoUnknownFields($validator);
+            });
         }
         
         $this->setValidator($validator);
@@ -257,13 +262,39 @@ class FormRequest extends Request implements ValidatesResolved
 
         $input = $this->isJson() ? $this->json()->all() : $this->request->all();
 
-        foreach (array_keys(Arr::dot($input)) as $inputKey) {
+        foreach ($this->dotInputKeys($input) as $inputKey) {
             if ( ! $this->isKnownField($inputKey, $allowedKeys)) {
+                $inputKey = str_replace('\.', '.', $inputKey);
+
                 $validator->errors()->add($inputKey, trans('validation.prohibited', [
                     'attribute' => str_replace('_', ' ', $inputKey),
                 ]));
             }
         }
+    }
+
+    /**
+     * Flatten the given input's keys into dot notation, escaping literal dots within keys.
+     *
+     * @param  array  $input
+     * @param  string  $prefix
+     * @return array
+     */
+    protected function dotInputKeys(array $input, string $prefix = ''): array
+    {
+        $keys = [];
+
+        foreach ($input as $key => $value) {
+            $key = $prefix.str_replace('.', '\.', (string) $key);
+
+            if (is_array($value) && $value !== []) {
+                $keys = array_merge($keys, $this->dotInputKeys($value, $key.'.'));
+            } else {
+                $keys[] = $key;
+            }
+        }
+
+        return $keys;
     }
 
     /**
