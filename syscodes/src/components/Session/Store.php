@@ -494,7 +494,7 @@ class Store implements Session
      * Get an key from the session, if it doesn´t exists can be use
      * the default value as the second argument to the get method.
      * 
-     * @param  \BackedEnum|\UnitEnum|string  $key
+     * @param  \UnitEnum|string  $key
      * @param  mixed  $default 
      * @return mixed
      */
@@ -545,7 +545,7 @@ class Store implements Session
     /**
      * Increment the value of an item in the session.
      *
-     * @param  \BackedEnum|\UnitEnum|string  $key
+     * @param  \UnitEnum|string  $key
      * @param  int  $amount
      * @return mixed
      */
@@ -559,7 +559,7 @@ class Store implements Session
     /**
      * Decrement the value of an item in the session.
      *
-     * @param  \BackedEnum|\UnitEnum|string  $key
+     * @param  \UnitEnum|string  $key
      * @param  int  $amount
      * @return int
      */
