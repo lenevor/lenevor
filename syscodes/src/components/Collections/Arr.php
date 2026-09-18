@@ -306,9 +306,6 @@ class Arr
 			}
 			
 			$parts = explode('.', $key);
-
-			// Clean up after each pass
-			$array = &$original;
 	
 			// traverse the array into the second last key
 			while (count($parts) > 1) {
