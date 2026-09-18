@@ -77,7 +77,7 @@ class ViewErrorBag implements Countable, Stringable
      * 
      * @param  string  $key
      * @param  \Syscodes\Components\Contracts\Support\MessageBag  $bag 
-     * @return static
+     * @return $this
      */
     public function put($key, MessageBagContract $bag): static
     {
