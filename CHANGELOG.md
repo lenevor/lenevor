@@ -1,5 +1,101 @@
 # Release Notes
 
+## [Version 0.9.1-alpha.9]
+
+Release Date: Sep 18, 2026
+
+**Next alpha release of Lenevor**
+
+### Added
+- [0.9.x] Added new `FiltersControllerMiddleware` trait
+- [0.9.x] Added conditional if exist $data in `partials/details/section_detail_context` file
+- Added method of set the URL origin in `UrlGenerator` class
+- [0.9.x] Added the `HasFactory` trait in the `App\Models\User` class
+- [0.9.x] Added new class for user factory
+- [0.9.x] Added new class for user database seeder
+- [0.9.x] Added new `Conditionable` trait
+- [0.9.x] Added new key in `security` config file
+- [0.9.x] Added new `StringEncrypter` interface in `Contracts\Encyption` folder
+- [0.9.x] Added new `RebindsCallbacksToSelf` trait
+- [0.9.x] Added new `CacheEvent` event class
+- [0.9.x] Changed the function random() by the helper fibber() in `UserFactory` class
+- [0.9.x] Added new function for get a fibber instance
+- [0.9.x] Added new package in composer.json
+- [0.9.x] Changed newInstanceArgs() method by the generic class new $value()
+- Added new conditionals if the properties exists [bindings, singletons]
+- Added the __construct() method in `View\Engines\FileEngine` class
+- [0.9.x] Added new method in `View\Extensions` class
+- [0.9.x] Added new `DataAwareRule` interface
+- [0.9.x] Added new `ValidatesAttributes` trait
+- [0.9.x] Added new `Validation\Factory` class
+- [0.9.x] Added new `Dumpable` trait
+- [0.9.x] Added new `ValidatedData` interface
+- [0.9.x] Added new methods in `InteractsWithData` trait
+- [0.9.x] Added new `Translation/PotentiallyTranslatedString` class
+- [0.9.x] added new `Routing\UrlRoutable` interface
+- [0.9.x] Added new methods for work with sessions in `RedirectResponse` class
+- [0.9.x] Added new method for response content
+- [0.9.x] Added new the FormatsMessages and ReplacesAttributes trait
+- [0.9.x] Added new methods in `Route` class
+- [0.9.x] Added new language file in `en\Validation`
+- [0.9.x] Added new `Routing\CallableDispatcher` class
+- [0.9.x] Added new `Rules\Password` class
+- [0.9.x] Added new `Contracts\CallableDispatcher` interface
+- [0.9.x] Added new `Contracts\ControllerDispatcher` interface
+- [0.9.x] Added new `Concerns\TranspilesErrors` trait
+- [0.9.x] Changed of the callable function for container injection class in `Route` class
+- [0.9.x] Added new class of attribute in `Http\Attributes`
+- [0.9.x] Added new interface extended in `MessageBag` interface
+- [0.9.x] Added new methods in `Contracts\Validation\validator` interface
+- [0.9.x] Added conditional for verify if exist the setPreviousRoute() method in `Middleware\StartSession` class
+- [0.9.x] Added new push() method in `Arr` class
+- [0.9.x] Added new method for build the encrypted session in `SessionManager` class
+- [0.9.x] Added new methods for `ValidatesAttributes` trait
+- [0.9.x] Added new methods in `Request` class
+- [0.9.x] Calling of replace method Request
+- [0.9.x] Added new conditionals for the error messages in `FormatsMessages` trait
+- [0.9.x] Added new `ExistenceAwareOfSession` interface
+- [0.9.x] Added new methods for determine if a given value is a valid in `Str` class
+- [0.9.x] Added new `Contracts\Validation\CompilablesRules` interface
+- [0.9.x] Added new `Rules\RequiredIf` class
+- [0.9.x] Added new events: CacheFlushFailed, CacheFlushed, CacheFlushing class
+- [0.9.x] Added new method for create a pending potentially translated string in `InvokableValidationRule` class
+- [0.9.x] Added new method for set the current validator in `ClosureValidationRule` class
+- [0.9.x] Added new method for validate that an attribute is a valid e-mail address
+- [0.9.x] Added loop for return bool if exist the data in `InteractsWithData` trait
+ 
+### Changed
+- [0.9.x] Changed the filename logger by logging in the config file
+- [0.9.x] Changed the folder name FrameHandler by Engines
+- [0.9.x] Changed the filename FileLogger by Single
+- Changed the path of Controller folder to Routing main folder
+- Changed the path of Controller\Console folder to Routing/Console main folder
+- Changed the name middleware ValidateCsrfToken::class by PreventRequestForgery::class
+- Changed of static by the variable $this in comment of methods
+
+### Created
+- Created new function of data validator instance in `helpers` file
+- Created new method for register the validate macro on the request in `CoreServiceProvider` class
+- Created new `Support\ValidatedInput` class
+
+### Updated
+- Updated release 0.9.0 to 0.9.1
+- Updated Dataprint class
+- Updated Encrypter class
+- Updated EncryptionServiceProvider class
+
+### Removed
+- Removed methods of the `Encrypter` class
+- Removed the variable $this->locale in `Traits\Difference` trait
+- Removed the type output of method and implements ExistenceAwareOfSession interface in `DatabaseSessionHandler` class
+
+### Fixed
+- [0.9.x] fix bug by incorrectly calling the parametersWithoutNulls() method
+- [0.9.x] Fix bug when remove the type parameter 'array'
+- [0.9.x] Fix bug call the key 'last_activity' in the `DatabaseSessionHandler` class
+- [0.9.x] Fix bug call twice the $array variable in `Arr` class
+
+
 ## [Version 0.9.0-alpha.9]
 
 Release Date: May 06, 2026
