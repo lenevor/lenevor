@@ -74,7 +74,13 @@ trait InteractsWithData
 
         $data = $this->all();
 
-        return array_all($keys, fn ($value) => Arr::has($data, $value));
+        foreach ($keys as $value) {
+            if ( ! Arr::has($data, $value)) {
+                return false;
+            }
+        }
+        
+        return true;
     }
 
     /**
