@@ -34,24 +34,24 @@ interface MessageBag extends Arrayable, Countable
      * 
      * @return array
      */
-    public function keys(): array;
+    public function keys();
     
     /**
      * Add a message to the bag.
      * 
      * @param  string  $key
      * @param  string  $message 
-     * @return self
+     * @return $this
      */
-    public function add($key, $message): self;
+    public function add($key, $message): static;
     
     /**
      * Merge a new array of messages into the bag.
      * 
      * @param  \Syscodes\Components\Contracts\Support\MessageProvider|array  $messages 
-     * @return self
+     * @return $this
      */
-    public function merge($messages): self;
+    public function merge($messages): static;
     
     /**
      * Determine if messages exist for a given key.
@@ -77,7 +77,7 @@ interface MessageBag extends Arrayable, Countable
      * @param  string|null  $format 
      * @return array
      */
-    public function get($key, $format = null): array;
+    public function get($key, $format = null);
     
     /**
      * Get all of the messages for every key in the bag.
@@ -85,14 +85,14 @@ interface MessageBag extends Arrayable, Countable
      * @param  string|null  $format 
      * @return array
      */
-    public function all($format = null): array;
+    public function all($format = null);
     
     /**
      * Get the raw messages in the container.
      * 
      * @return array
      */
-    public function getMessages(): array;
+    public function getMessages();
     
     /**
      * Get the default message format.
@@ -105,9 +105,9 @@ interface MessageBag extends Arrayable, Countable
      * Set the default message format.
      * 
      * @param  string  $format 
-     * @return self
+     * @return $this
      */
-    public function setFormat($format = ':message'): self;
+    public function setFormat($format = ':message'): static;
     
     /**
      * Determine if the message bag has any messages.

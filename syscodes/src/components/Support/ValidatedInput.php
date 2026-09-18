@@ -71,9 +71,9 @@ class ValidatedInput implements ValidatedData
      * @param  mixed  $keys
      * @return array
      */
-    public function all($keys = null): array
+    public function all($keys = null)
     {
-        if (! $keys) {
+        if ( ! $keys) {
             return $this->input;
         }
 

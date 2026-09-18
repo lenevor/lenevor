@@ -84,7 +84,7 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
      * 
      * @return array
      */
-    public function all(): array;
+    public function all();
 
     /**
      * Collapse the collection items into a single array.
@@ -400,7 +400,7 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
      * @param  mixed|null  $key 
      * @return array
      */
-    public function prepend(mixed $value, mixed $key = null): array;
+    public function prepend(mixed $value, mixed $key = null);
 
     /**
      * Get and remove an item from the collection.
@@ -409,7 +409,7 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
      * @param  mixed|null  $default 
      * @return mixed
      */
-    public function pull(mixed $key, mixed $default = null): mixed;
+    public function pull(mixed $key, mixed $default = null);
 
     /**
      * Push an item onto the end of the collection.
