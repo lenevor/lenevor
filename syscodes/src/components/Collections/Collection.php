@@ -86,7 +86,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * 
      * @return array
      */
-    public function all(): array
+    public function all()
     {
         return $this->items;
     }
@@ -741,7 +741,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * @param  mixed|null  $key 
      * @return array
      */
-    public function prepend(mixed $value, mixed $key = null): array
+    public function prepend(mixed $value, mixed $key = null)
     {
         return Arr::prepend($this->items, $value, $key);
     }
@@ -753,7 +753,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
      * @param  mixed|null  $default 
      * @return mixed
      */
-    public function pull(mixed $key, mixed $default = null): mixed
+    public function pull(mixed $key, mixed $default = null)
     {
         return Arr::pull($this->items, $key, $default);
     }
