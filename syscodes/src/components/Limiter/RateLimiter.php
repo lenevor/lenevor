@@ -26,6 +26,7 @@ use Closure;
 use Syscodes\Components\Contracts\Cache\Repository as Cache;
 use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Support\InteractsWithTime;
+use Syscodes\Components\Support\Traits\Macroable;
 
 use function Syscodes\Components\Support\enum_value;
 
@@ -34,7 +35,7 @@ use function Syscodes\Components\Support\enum_value;
  */
 class RateLimiter
 {
-    use InteractsWithTime;
+    use InteractsWithTime, Macroable;
     
     /**
      * The cache store implementation.
