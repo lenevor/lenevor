@@ -2290,11 +2290,25 @@ class Builder implements BuilderContract
     public function update(array $values): int
     {
         $this->applyBeforeQueryCallbacks();
+
+        $values = (new Collection($values))->map(function ($value) {
+            if ( ! $value instanceof self && ! $value instanceof ErostrineBuilder && ! $value instanceof Relation) {
+                return ['value' => $value, 'bindings' => match (true) {
+                    $value instanceof Collection => $value->all(),
+                    $value instanceof \UnitEnum => enum_value($value),
+                    default => $value,
+                }];
+            }
+
+            [$query, $bindings] = $this->parseSub($value);
+
+            return ['value' => new Expression("({$query})"), 'bindings' => fn () => $bindings];
+        });
         
-        $sql = $this->grammar->compileUpdate($this, $values);
+        $sql = $this->grammar->compileUpdate($this, $values->map(fn ($value) => $value['value'])->all());
         
         return $this->connection->update($sql, $this->cleanBindings(
-            $this->grammar->prepareBindingsForUpdate($this->bindings, $values)
+            $this->grammar->prepareBindingsForUpdate($this->bindings, $values->map(fn ($value) => $value['bindings'])->all())
         ));
     }
 
