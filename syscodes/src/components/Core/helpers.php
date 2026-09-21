@@ -793,15 +793,14 @@ if ( ! function_exists('route')) {
     /**
      * Get the URL to a named route.
      * 
-     * @param  string  $name
-     * @param  array  $parameters
-     * @param  bool  $forced  
-     * @param  \Syscodes\Components\Routing\Route|null  $route 
+     * @param  \BackedEnum|string  $name
+     * @param  mixed  $parameters
+     * @param  bool  $forced
      * @return string
      */
-    function route($name, array $parameters = [], bool $forced = true, $route = null)
+    function route($name, $parameters = [], bool $forced = true): string
     {
-        return app('url')->route($name, $parameters, $forced, $route);
+        return app('url')->route($name, $parameters, $forced);
     }
 }
 
@@ -812,7 +811,7 @@ if ( ! function_exists('secure_asset')) {
      * @param  string  $path 
      * @return string
      */
-    function secure_asset($path)
+    function secure_asset($path): string
     {
         return asset($path, true);
     }
@@ -826,7 +825,7 @@ if ( ! function_exists('secure_url')) {
      * @param  array  $parameters 
      * @return string
      */
-    function secure_url($path, array $parameters = [])
+    function secure_url($path, array $parameters = []): string
     {
         return url($path, $parameters, true);
     }
