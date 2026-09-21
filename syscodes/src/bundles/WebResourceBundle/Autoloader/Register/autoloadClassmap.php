@@ -661,6 +661,7 @@ return [
     'Syscodes\\Components\\Routing\\Resources\\Pipeline' => SYS_PATH.'src/components/Routing/Resources/Pipeline.php',
     'Syscodes\\Components\\Routing\\Resources\\ResourceRegister' => SYS_PATH.'src/components/Routing/Resources/ResourceRegister.php',
     'Syscodes\\Components\\Routing\\CallableDispatcher' => SYS_PATH.'src/components/Routing/CallableDispatcher.php',
+    'Syscodes\\Components\\Routing\\EncodedParameter' => SYS_PATH.'src/components/Routing/EncodedParameter.php',
     'Syscodes\\Components\\Routing\\Route' => SYS_PATH.'src/components/Routing/Route.php',
     'Syscodes\\Components\\Routing\\RouteAction' => SYS_PATH.'src/components/Routing/RouteAction.php',
     'Syscodes\\Components\\Routing\\RouteFileRegister' => SYS_PATH.'src/components/Routing/RouteFileRegister.php',
