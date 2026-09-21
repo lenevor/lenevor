@@ -26,6 +26,7 @@ use Closure;
 use Syscodes\Components\Contracts\Routing\RouteResponse as RouteResponseContract;
 use Syscodes\Components\Contracts\Routing\UrlGenerator as UrlGeneratorContract;
 use Syscodes\Components\Contracts\View\Factory as ViewFactoryContract;
+use Syscodes\Components\Routing\Contracts\CallableDispatcher as CallableDispatcherContract;
 use Syscodes\Components\Routing\Contracts\ControllerDispatcher as ControllerDispatcherContract;
 use Syscodes\Components\Routing\ControllerDispatcher;
 use Syscodes\Components\Routing\Generators\Redirector;
@@ -46,9 +47,10 @@ class RoutingServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerRouter();
-        $this->registerRouteResponse();
         $this->registerUrlGenerator();
         $this->registerRedirector();
+        $this->registerRouteResponse();
+        $this->registerCallableDispatcher();
         $this->registerControllerDispatcher();
     }
 
@@ -62,18 +64,6 @@ class RoutingServiceProvider extends ServiceProvider
         $this->app->singleton('router', function ($app) {
             return new Router($app['events'], $app);
         }); 
-    }
-
-    /**
-     * Register the route response implementation.
-     * 
-     * @return void
-     */
-    protected function registerRouteResponse()
-    {
-        $this->app->singleton(RouteResponseContract::class, function ($app) { 
-            return new RouteResponse($app[ViewFactoryContract::class], $app['redirect']);
-        });
     }
 
     /**
@@ -148,6 +138,30 @@ class RoutingServiceProvider extends ServiceProvider
             }
 
             return $redirector;
+        });
+    }
+
+    /**
+     * Register the route response implementation.
+     * 
+     * @return void
+     */
+    protected function registerRouteResponse()
+    {
+        $this->app->singleton(RouteResponseContract::class, function ($app) { 
+            return new RouteResponse($app[ViewFactoryContract::class], $app['redirect']);
+        });
+    }
+
+    /**
+     * Register the callable dispatcher.
+     *
+     * @return void
+     */
+    protected function registerCallableDispatcher()
+    {
+        $this->app->singleton(CallableDispatcherContract::class, function ($app) {
+            return new CallableDispatcher($app);
         });
     }
 
