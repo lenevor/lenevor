@@ -27,6 +27,7 @@ use ArrayAccess;
 use Closure;
 use InvalidArgumentException;
 use JsonSerializable;
+use Random\Randomizer;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Contracts\Support\Collectable;
 use Syscodes\Components\Contracts\Support\Jsonable;
@@ -875,6 +876,53 @@ class Arr
 	}
 
 	/**
+     * Get one or a specified number of random values from an array.
+     *
+     * @param  array  $array
+     * @param  int|null  $number
+     * @param  bool  $preserveKeys
+     * @return ($number is null ? mixed : array)
+     *
+     * @throws \InvalidArgumentException
+     */
+    public static function random($array, $number = null, $preserveKeys = false)
+    {
+        $requested = is_null($number) ? 1 : $number;
+
+        $count = count($array);
+
+        if ($requested > $count) {
+            throw new InvalidArgumentException(
+                "You requested {$requested} items, but there are only {$count} items available."
+            );
+        }
+
+        if (empty($array) || ( ! is_null($number) && $number <= 0)) {
+            return is_null($number) ? null : [];
+        }
+
+        $keys = (new Randomizer)->pickArrayKeys($array, $requested);
+
+        if (is_null($number)) {
+            return $array[$keys[0]];
+        }
+
+        $results = [];
+
+        if ($preserveKeys) {
+            foreach ($keys as $key) {
+                $results[$key] = $array[$key];
+            }
+        } else {
+            foreach ($keys as $key) {
+                $results[] = $array[$key];
+            }
+        }
+
+        return $results;
+    }
+
+	/**
 	 * Sets a value in an array using "dot" notation.
 	 *
 	 * @param  array  $array  The search array
@@ -911,6 +959,17 @@ class Arr
 
 		return $array;
 	}
+
+	/**
+     * Shuffle the given array and return the result.
+     *
+     * @param  array  $array
+     * @return array
+     */
+    public static function shuffle($array): array
+    {
+        return (new Randomizer)->shuffleArray($array);
+    }
 
 	/**
 	 * Determine if some items pass the given truth test.
