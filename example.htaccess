@@ -12,5 +12,5 @@ DirectoryIndex index.php
     </Files>
 
     RewriteRule  ^$ public/    [L]
-    RewriteRule  (.*) public/$1 [L]
+    RewriteRule  ^(.*) public/$1 [L]
 </IfModule>
