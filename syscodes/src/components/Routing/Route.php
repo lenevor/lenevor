@@ -866,12 +866,48 @@ class Route
 	 * 
 	 * @return array
 	 */
-	protected function getOptionalParameters(): array
+	public function getOptionalParameters(): array
 	{
 		preg_match_all('/\{(\w+?)\?\}/', $this->uri, $matches);
 		
 		return isset($matches[1]) ? array_fill_keys($matches[1], null) : [];
 	}
+
+	/**
+     * Get the binding field for the given parameter.
+     *
+     * @param  string|int  $parameter
+     * @return string|null
+     */
+    public function bindingFieldFor($parameter)
+    {
+        $fields = is_int($parameter) ? array_values($this->bindingFields) : $this->bindingFields;
+
+        return $fields[$parameter] ?? null;
+    }
+
+    /**
+     * Get the binding fields for the route.
+     *
+     * @return array
+     */
+    public function bindingFields()
+    {
+        return $this->bindingFields ?? [];
+    }
+
+    /**
+     * Set the binding fields for the route.
+     *
+     * @param  array  $bindingFields
+     * @return $this
+     */
+    public function setBindingFields(array $bindingFields)
+    {
+        $this->bindingFields = $bindingFields;
+
+        return $this;
+    }
 
 	/**
 	 * Determine if the route only responds to HTTP requests.
