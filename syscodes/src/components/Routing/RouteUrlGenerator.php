@@ -22,8 +22,13 @@
 
 namespace Syscodes\Components\Routing;
 
+use Stringable;
 use Syscodes\Components\Routing\Exceptions\UrlGeneratorException;
 use Syscodes\Components\Support\Arr;
+
+use function Syscodes\Components\Support\enum_value;
+use Syscodes\Components\Support\Collection;
+use Syscodes\Components\Contracts\Routing\UrlRoutable;
 
 /**
  * Allows generate a URL for the given route.
@@ -53,6 +58,10 @@ class RouteUrlGenerator
         '%21' => '!',
         '%2A' => '*',
         '%7C' => '|',
+        '%3F' => '?',
+        '%26' => '&',
+        '%23' => '#',
+        '%25' => '%',
     ];
 
     /**
@@ -94,13 +103,15 @@ class RouteUrlGenerator
      */
     public function to($route, $parameters = [], $forced = false): string
     {
-        $domain = $this->getRouteDomain($route, $parameters);
+        $parameters = $this->formatParameters($route, $parameters);
         
-        $root = $this->replaceRoot($route, $domain, $parameters);
+        $domain = $this->getRouteDomain($route, $parameters);
 
-        $uri = $this->url->format(
-            $root,
-            $this->replaceRouteParameters($route->getUri(), $parameters));
+        $uri = $this->addQueryString($this->url->format(
+            $root = $this->replaceRootParameters($route, $domain, $parameters),
+            $this->replaceRouteParameters($route->getUri(), $parameters),
+            $route
+        ), $parameters);
 
         if (preg_match_all('/{(.*?)}/', $uri, $missingParameters)) {
             throw UrlGeneratorException::missingParameters($route, $missingParameters[1]);
@@ -125,6 +136,165 @@ class RouteUrlGenerator
     }
 
     /**
+     * Get the formatted domain for a given route.
+     *
+     * @param  \Syscodes\Components\Routing\Route  $route
+     * @param  array  $parameters
+     * @return string|null
+     */
+    protected function getRouteDomain($route, &$parameters)
+    {
+        return $route->getDomain() ? $this->formatDomain($route, $parameters) : null;
+    }
+
+    /**
+     * Format the domain and port for the route and request.
+     *
+     * @param  \Syscodes\Components\Routing\Route  $route
+     * @param  array  $parameters
+     * @return string
+     */
+    protected function formatDomain($route, &$parameters)
+    {
+        return $this->addPortToDomain(
+            $this->getRouteScheme($route).$route->getDomain()
+        );
+    }
+
+    /**
+     * Format the array of route parameters.
+     *
+     * @param  \Syscodes\Components\Routing\Route  $route
+     * @param  mixed  $parameters
+     * @return array
+     */
+    protected function formatParameters(Route $route, $parameters)
+    {
+        $parameters = Arr::wrap($parameters);
+
+        $namedParameters = [];
+        $namedQueryParameters = [];
+        $requiredRouteParametersWithoutDefaultsOrNamedParameters = [];
+
+        $routeParameters = $route->parameterNames();
+        $optionalParameters = $route->getOptionalParameters();
+
+        foreach ($routeParameters as $name) {
+            if (isset($parameters[$name])) {
+                // Named parameters don't need any special handling...
+                $namedParameters[$name] = $parameters[$name];
+                unset($parameters[$name]);
+
+                continue;
+            } else {
+                $bindingField = $route->bindingFieldFor($name);
+                $defaultParameterKey = $bindingField ? "$name:$bindingField" : $name;
+
+                if (! isset($this->defaultParameters[$defaultParameterKey]) && ! isset($optionalParameters[$name])) {
+                    // No named parameter or default value for a required parameter, try to match to positional parameter below...
+                    array_push($requiredRouteParametersWithoutDefaultsOrNamedParameters, $name);
+                }
+            }
+
+            $namedParameters[$name] = '';
+        }
+
+        // Named parameters that don't have route parameters will be used for query string...
+        foreach ($parameters as $key => $value) {
+            if (is_string($key)) {
+                $namedQueryParameters[$key] = $value;
+
+                unset($parameters[$key]);
+            }
+        }
+
+        // Match positional parameters to the route parameters that didn't have a value in order...
+        if (count($parameters) == count($requiredRouteParametersWithoutDefaultsOrNamedParameters)) {
+            foreach (array_reverse($requiredRouteParametersWithoutDefaultsOrNamedParameters) as $name) {
+                if (count($parameters) === 0) {
+                    break;
+                }
+
+                $namedParameters[$name] = array_pop($parameters);
+            }
+        }
+
+        $offset = 0;
+        $emptyParameters = array_filter($namedParameters, static fn ($val) => $val === '');
+
+        if ($requiredRouteParametersWithoutDefaultsOrNamedParameters !== [] &&
+            count($parameters) !== count($emptyParameters)) {
+            // Find the index of the first required parameter...
+            $offset = array_search($requiredRouteParametersWithoutDefaultsOrNamedParameters[0], array_keys($namedParameters));
+
+            // If more empty parameters remain, adjust the offset...
+            $remaining = count($emptyParameters) - $offset - count($parameters);
+
+            if ($remaining < 0) {
+                // Effectively subtract the remaining count since it's negative...
+                $offset += $remaining;
+            }
+
+            // Correct offset if it goes below zero...
+            if ($offset < 0) {
+                $offset = 0;
+            }
+        } elseif ($requiredRouteParametersWithoutDefaultsOrNamedParameters === [] && count($parameters) !== 0) {
+            // Handle the case where all passed parameters are for parameters that have default values...
+            $remainingCount = count($parameters);
+
+            // Loop over empty parameters backwards and stop when we run out of passed parameters...
+            for ($i = count($namedParameters) - 1; $i >= 0; $i--) {
+                if ($namedParameters[array_keys($namedParameters)[$i]] === '') {
+                    $offset = $i;
+                    $remainingCount--;
+
+                    if ($remainingCount === 0) {
+                        // If there are no more passed parameters, we stop here...
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Starting from the offset, match any passed parameters from left to right...
+        for ($i = $offset; $i < count($namedParameters); $i++) {
+            $key = array_keys($namedParameters)[$i];
+
+            if ($namedParameters[$key] !== '') {
+                continue;
+            } elseif (! empty($parameters)) {
+                $namedParameters[$key] = array_shift($parameters);
+            }
+        }
+
+        // Fill leftmost parameters with defaults if the loop above was offset...
+        foreach ($namedParameters as $key => $value) {
+            $bindingField = $route->bindingFieldFor($key);
+            $defaultParameterKey = $bindingField ? "$key:$bindingField" : $key;
+
+            if ($value === '' && isset($this->defaultParameters[$defaultParameterKey])) {
+                $namedParameters[$key] = $this->defaultParameters[$defaultParameterKey];
+            }
+        }
+
+        // Any remaining values in $parameters are unnamed query string parameters...
+        $parameters = array_merge($namedParameters, $namedQueryParameters, $parameters);
+
+        $parameters = Collection::wrap($parameters)->map(function ($value, $key) use ($route) {
+            return $value instanceof UrlRoutable && $route->bindingFieldFor($key)
+                    ? $value->{$route->bindingFieldFor($key)}
+                    : $value;
+        })->all();
+
+        array_walk_recursive($parameters, function (&$item) {
+            $item = enum_value($item);
+        });
+
+        return $this->url->formatParameters($parameters);
+    }
+
+    /**
      * Replace the parameters on the root path.
      * 
      * @param  \Syscodes\Components\Routing\Route  $route
@@ -132,9 +302,13 @@ class RouteUrlGenerator
      * @param  array  $parameters 
      * @return string
      */
-    protected function replaceRoot($route, $domain, &$parameters): string
+    protected function replaceRootParameters($route, $domain, &$parameters): string
     {
-        return $this->replaceRouteParameters($this->getRouteRoot($route, $domain), $parameters);
+        $scheme = $this->getRouteScheme($route);
+
+        return $this->replaceRouteParameters(
+            $this->url->formatRoot($scheme, $domain), $parameters
+        );
     }
     
     /**
@@ -144,14 +318,19 @@ class RouteUrlGenerator
      * @param  array  $parameters 
      * @return string
      */
-    protected function replaceRouteParameters($path, array &$parameters): string
+    protected function replaceRouteParameters($path, array &$parameters)
     {
-        if (count($parameters) > 0) {
-            $path = preg_replace_sub(
-                '/\{.*?\}/', $parameters, $this->replaceNamedParameters($path, $parameters)
-            );
-        }
-        
+        $path = $this->replaceNamedParameters($path, $parameters);
+
+        $path = preg_replace_callback('/\{.*?\}/', function ($match) use (&$parameters) {
+            // Reset only the numeric keys...
+            $parameters = array_merge($parameters);
+
+            return ( ! isset($parameters[0]) && ! str_ends_with($match[0], '?}'))
+                ? $match[0]
+                : $this->encodeParameter(Arr::pull($parameters, 0));
+        }, $path);
+
         return trim(preg_replace('/\{.*?\?\}/', '', $path), '/');
     }
     
@@ -162,37 +341,57 @@ class RouteUrlGenerator
      * @param  array  $parameters 
      * @return string
      */
-    protected function replaceNamedParameters($path, &$parameters)
+    protected function replaceNamedParameters($path, array &$parameters)
     {
-        return preg_replace_callback(
-            '/\{(.*?)\??\}/',
-            fn ($match) => isset($parameters[$match[1]]) ? Arr::pull($parameters, $match[1]) : $match[0],
-            $path
-        );
+        return preg_replace_callback('/\{(.*?)(\?)?\}/', function ($m) use (&$parameters) {
+            if (isset($parameters[$m[1]]) && $parameters[$m[1]] !== '') {
+                return $this->encodeParameter(Arr::pull($parameters, $m[1]));
+            } elseif (isset($this->defaultParameters[$m[1]])) {
+                return $this->encodeParameter($this->defaultParameters[$m[1]]);
+            } elseif (isset($parameters[$m[1]])) {
+                Arr::pull($parameters, $m[1]);
+            }
+
+            return $m[0];
+        }, $path);
     }
 
     /**
-     * Get the formatted domain for a given route.
-     * 
-     * @param  \Syscodes\Components\Routing\Route  $route
-     * @param  array  $parameters 
-     * @return string|null
+     * Encode a parameter value that is being substituted into a route URI.
+     *
+     * @param  mixed  $value
+     * @return mixed
      */
-    protected function getRouteDomain($route, &$parameters)
+    protected function encodeParameter($value)
     {
-        return $route->domain() ? $this->formatDomain($route, $parameters) : null;
+        if ($value instanceof EncodedParameter) {
+            return $value->value();
+        }
+
+        return is_string($value) || $value instanceof Stringable
+            ? strtr((string) $value, ['%' => '%25', '?' => '%3F', '#' => '%23'])
+            : $value;
     }
 
     /**
-     * Format the domain and port for the route and request.
-     * 
-     * @param  \Syscodes\Components\Routing\Route  $route
-     * @param  array $parameters 
-     * @return string
+     * Add a query string to the URI.
+     *
+     * @param  string  $uri
+     * @param  array  $parameters
+     * @return mixed
      */
-    protected function formatDomain($route, &$parameters): string
+    protected function addQueryString($uri, array $parameters)
     {
-        return $this->addPortToDomain($this->getDomainAndScheme($route));
+        // If the URI has a fragment we will move it to the end of this URI since it will
+        // need to come after any query string that may be added to the URL else it is
+        // not going to be available.
+        if ( ! is_null($fragment = parse_url($uri, PHP_URL_FRAGMENT))) {
+            $uri = preg_replace('/#.*/', '', $uri);
+        }
+
+        $uri .= $this->getRouteQueryString($parameters);
+
+        return is_null($fragment) ? $uri : $uri."#{$fragment}";
     }
 
     /**
@@ -261,22 +460,26 @@ class RouteUrlGenerator
         // First we will get all of the string parameters that are remaining after we
         // have replaced the route wildcards. We'll then build a query string from
         // these string parameters then use it as a starting point for the rest.
-        if (count($parameters) == 0) {
+         if ($parameters === []) {
             return '';
         }
-        
-        $query = http_build_query(
+
+        $query = Arr::query(
             $keyed = $this->getStringParameters($parameters)
         );
-        
+
         // Lastly, if there are still parameters remaining, we will fetch the numeric
         // parameters that are in the array and add them to the query string or we
         // will make the initial query string if it wasn't started with strings.
         if (count($keyed) < count($parameters)) {
-            $query .= '&'.implode('&', $this->getNumericParameters($parameters));
+            $query .= '&'.implode(
+                '&', $this->getNumericParameters($parameters)
+            );
         }
-        
-        return '?'.trim($query, '&');
+
+        $query = trim($query, '&');
+
+        return $query === '' ? '' : "?{$query}";
     }
     
     /**
