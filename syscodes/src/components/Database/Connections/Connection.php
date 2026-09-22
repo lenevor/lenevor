@@ -503,6 +503,8 @@ class Connection implements ConnectionInterface
                 return 0;
             }
 
+            // For update or delete statements, we want to get the number of rows affected
+            // by the statement and return that back to the developer.
             $statement = $this->getPdo()->prepare($query);
 
             $this->bindValues($statement, $this->prepareBindings($bindings));
