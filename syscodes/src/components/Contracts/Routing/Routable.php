@@ -129,4 +129,12 @@ interface Routable
 	 * @return void
 	 */
 	public function group(array $attributes, $routes): void;
+
+	/**
+     * Substitute the route bindings onto the route.
+     *
+     * @param  \Syscodes\Components\Routing\Route  $route
+     * @return \Syscodes\Components\Routing\Route
+     */
+    public function substituteBindings($route);
 }
