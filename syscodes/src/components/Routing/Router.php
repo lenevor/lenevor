@@ -24,6 +24,7 @@ namespace Syscodes\Components\Routing;
 
 use Closure;
 use Syscodes\Components\Container\Container;
+use Syscodes\Components\Contracts\Routing\BindingRoutable;
 use Syscodes\Components\Contracts\Routing\Routable;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Routing\Collections\RouteCollection;
@@ -38,7 +39,7 @@ use Syscodes\Components\Contracts\Events\Dispatcher;
 /**
  * The Router class allows the integration of an easy-to-use routing system.
  */
-class Router implements Routable
+class Router implements BindingRoutable, Routable
 {
 	use Concerns\Mapper,
 	    Concerns\Resolver,
@@ -496,6 +497,33 @@ class Router implements Routable
 	}
 
 	/**
+     * Add a new route parameter binder.
+     *
+     * @param  string  $key
+     * @param  string|callable  $binder
+     * @return void
+     */
+    public function bind($key, $binder)
+    {
+        $this->binders[str_replace('-', '_', $key)] = RouteBinding::forCallback(
+            $this->container, $binder
+        );
+    }
+
+	/**
+     * Get the binding callback for a given binding.
+     *
+     * @param  string  $key
+     * @return \Closure|null
+     */
+    public function getBindingCallback($key)
+    {
+        if (isset($this->binders[$key = str_replace('-', '_', $key)])) {
+            return $this->binders[$key];
+        }
+	}
+
+	/**
 	 * Set a global where pattern on all routes.
 	 * 
 	 * @param  string  $name
@@ -544,6 +572,38 @@ class Router implements Routable
 	{
 		return $this->resolve($request);
 	}
+
+	/**
+     * Substitute the route bindings onto the route.
+     *
+     * @param  \Syscodes\Components\Routing\Route  $route
+     * @return \Syscodes\Components\Routing\Route
+     */
+    public function substituteBindings($route)
+    {
+        foreach ($route->parameters() as $key => $value) {
+            if (isset($this->binders[$key])) {
+                $route->setParameter($key, $this->performBinding($key, $value, $route));
+            }
+        }
+
+        return $route;
+    }
+
+	/**
+     * Call the binding callback for the given key.
+     *
+     * @param  string  $key
+     * @param  string  $value
+     * @param  \Syscodes\Components\Routing\Route  $route
+     * @return mixed
+     *
+     * @throws \Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException<\Syscodes\Components\Database\Erostrine\Model>
+     */
+    protected function performBinding($key, $value, $route)
+    {
+        return call_user_func($this->binders[$key], $value, $route);
+    }
 
 	/**
 	 * Gather the middleware for the given route.
