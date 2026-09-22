@@ -25,7 +25,6 @@ namespace Syscodes\Components\Routing;
 use Closure;
 use InvalidArgumentException;
 use LogicException;
-use ReflectionFunction;
 use Symfony\Component\Routing\Route as SymfonyRoute;
 use Syscodes\Components\Container\Container;
 use Syscodes\Components\Http\Exceptions\HttpResponseException;
@@ -468,6 +467,32 @@ class Route
 		
 		return $this;
 	}
+
+	/**
+     * Get the value of the action that should be taken on a missing model exception.
+     *
+     * @return \Closure|null
+     */
+    public function getMissing()
+    {
+        $missing = $this->action['missing'] ?? null;
+
+        return is_string($missing) && $missing;
+    }
+
+    /**
+     * Define the callable that should be invoked on a missing model exception.
+     *
+     * @param  \Closure  $missing
+     * @return $this
+     */
+    public function missing($missing): static
+    {
+        $this->action['missing'] = $missing;
+
+        return $this;
+    }
+
 
 	/**
 	 * Set the name.
