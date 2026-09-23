@@ -94,6 +94,7 @@ class Kernel implements KernelContract
 		\Syscodes\Components\Contracts\Auth\Middleware\AuthenticateRequest::class,
 		\Syscodes\Components\Routing\Middleware\ThrottleRequests::class,
 		\Syscodes\Components\Contracts\Session\Middleware\AuthenticateSession::class,
+		\Syscodes\Components\Routing\Middleware\SubstituteBindings::class,
 		\Syscodes\Components\Auth\Middleware\Authorize::class,
 	];
 	
