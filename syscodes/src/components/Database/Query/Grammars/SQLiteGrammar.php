@@ -23,6 +23,8 @@
 namespace Syscodes\Components\Database\Query\Grammars;
 
 use Syscodes\Components\Database\Query\Builder;
+use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Support\Str;
 
 /**
@@ -241,6 +243,97 @@ class SQLiteGrammar extends Grammar
     public function compileInsertOrIgnoreUsing(Builder $query, array $columns, string $sql): string
     {
         return Str::replaceFirst('insert', 'insert or ignore', $this->compileInsertUsing($query, $columns, $sql));
+    }
+
+    /**
+     * Compile an update statement into SQL.
+     *
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
+     * @param  array  $values
+     * @return string
+     */
+    public function compileUpdate(Builder $query, array $values): string
+    {
+        if (isset($query->joins) || isset($query->limit)) {
+            return $this->compileUpdateWithJoinsOrLimit($query, $values);
+        }
+
+        return parent::compileUpdate($query, $values);
+    }
+
+    /**
+     * Compile an update statement with joins or limit into SQL.
+     *
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
+     * @param  array  $values
+     * @return string
+     */
+    protected function compileUpdateWithJoinsOrLimit(Builder $query, array $values): string
+    {
+        $table = $this->wrapTable($query->from);
+
+        $columns = $this->compileUpdateColumns($query, $values);
+
+        $alias = last(preg_split('/\s+as\s+/i', $query->from));
+
+        $selectSql = $this->compileSelect($query->select($alias.'.rowid'));
+
+        return "update {$table} set {$columns} where {$this->wrap('rowid')} in ({$selectSql})";
+    }
+
+    /**
+     * Compile the columns for an update statement.
+     *
+     * @param  \Syscodes\Components\Database\Query\Builder  $query
+     * @param  array  $values
+     * @return string
+     */
+    protected function compileUpdateColumns(Builder $query, array $values): string
+    {
+        $jsonGroups = $this->groupJsonColumnsForUpdate($values);
+
+        return (new Collection($values))
+            ->reject(fn ($value, $key) => $this->isJsonSelector($key))
+            ->merge($jsonGroups)
+            ->map(function ($value, $key) use ($jsonGroups) {
+                $column = last(explode('.', $key));
+
+                $value = isset($jsonGroups[$key]) ? $this->compileJsonPatch($column, $value) : $this->parameter($value);
+
+                return $this->wrap($column).' = '.$value;
+            })
+            ->implode(', ');
+    }
+
+    /**
+     * Group the nested JSON columns.
+     *
+     * @param  array  $values
+     * @return array
+     */
+    protected function groupJsonColumnsForUpdate(array $values): array
+    {
+        $groups = [];
+
+        foreach ($values as $key => $value) {
+            if ($this->isJsonSelector($key)) {
+                Arr::set($groups, str_replace('->', '.', Str::after($key, '.')), $value);
+            }
+        }
+
+        return $groups;
+    }
+
+    /**
+     * Compile a "JSON" patch statement into SQL.
+     *
+     * @param  string  $column
+     * @param  mixed  $value
+     * @return string
+     */
+    protected function compileJsonPatch($column, $value): string
+    {
+        return "json_patch(ifnull({$this->wrap($column)}, json('{}')), json({$this->parameter($value)}))";
     }
 
     /**
