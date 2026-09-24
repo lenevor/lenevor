@@ -245,11 +245,13 @@ class MiddlewareBootstrap
                 \Syscodes\Components\Session\Middleware\StartSession::class,
                 \Syscodes\Components\View\Middleware\ShareErrorsSession::class,
                 \Syscodes\Components\Core\Http\Middleware\PreventRequestForgery::class,
+                \Syscodes\Components\Routing\Middleware\SubstituteBindings::class,
                 $this->authenticatedSessions ? 'auth.session' : null,
             ])),
 
             'api' => array_values(array_filter([
                 $this->apiLimiter ? 'throttle:'.$this->apiLimiter : null,
+                \Syscodes\Components\Routing\Middleware\SubstituteBindings::class,
             ])),
         ];
 
