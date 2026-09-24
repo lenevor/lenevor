@@ -1525,7 +1525,7 @@ class Application extends Container implements ApplicationContract
             'redirect' => [\Syscodes\Components\Routing\Generators\Redirector::class],
             'redis' => [\Syscodes\Components\Redis\RedisManager::class],
             'request' => [\Syscodes\Components\Http\Request::class, \Symfony\Component\HttpFoundation\Request::class],
-            'router' => [\Syscodes\Components\Routing\Router::class],
+            'router' => [\Syscodes\Components\Routing\Router::class, \Syscodes\Components\Contracts\Routing\Routable::class, \Syscodes\Components\Contracts\Routing\BindingRoutable::class],
             'session' => [\Syscodes\Components\Session\SessionManager::class],
             'session.store' => [\Syscodes\Components\Session\Store::class, \Syscodes\Components\Contracts\Session\Session::class],
             'translator' => [\Syscodes\Components\Translation\Translator::class, \Syscodes\Components\Contracts\Translation\Translator::class],
