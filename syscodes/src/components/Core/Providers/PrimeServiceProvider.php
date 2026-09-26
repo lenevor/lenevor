@@ -40,6 +40,7 @@ use Syscodes\Components\Core\Console\Commands\ProviderMakeCommand;
 use Syscodes\Components\Core\Console\Commands\RequestMakeCommand;
 use Syscodes\Components\Core\Console\Commands\ResourceMakeCommand;
 use Syscodes\Components\Core\Console\Commands\ServeCommand;
+use Syscodes\Components\Core\Console\Commands\ServiceMakeCommand;
 use Syscodes\Components\Core\Console\Commands\TraitMakeCommand;
 use Syscodes\Components\Core\Console\Commands\VendorPublishCommand;
 use Syscodes\Components\Core\Console\Commands\ViewClearCommand;
@@ -94,6 +95,7 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
         'ResourceMake' => ResourceMakeCommand::class,
         'SeederMake' => SeederMakeCommand::class,
         'Serve' => ServeCommand::class,
+        'ServiceMake' => ServiceMakeCommand::class,
         'TraitMake' => TraitMakeCommand::class,
         'VendorPublish' => VendorPublishCommand::class,
         'ViewMake' => ViewMakeCommand::class,
@@ -332,6 +334,18 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
     protected function registerServeCommand()
     {
         $this->app->singleton(ServeCommand::class, fn () => new ServeCommand());
+    }
+
+    /**
+     * Register the command.
+     * 
+     * @return void
+     */
+    protected function registerServiceMakeCommand()
+    {
+        $this->app->singleton(ServiceMakeCommand::class, function ($app) {
+            return new ServiceMakeCommand($app['files']);
+        });
     }
     
     /**
