@@ -256,6 +256,7 @@ return [
     'Syscodes\\Components\\Core\\Console\\Commands\\RequestMakeCommand' => SYS_PATH.'src/components/Core/Console/Commands/RequestMakeCommand.php',
     'Syscodes\\Components\\Core\\Console\\Commands\\ResourceMakeCommand' => SYS_PATH.'src/components/Core/Console/Commands/ResourceMakeCommand.php',
     'Syscodes\\Components\\Core\\Console\\Commands\\ServeCommand' => SYS_PATH.'src/components/Core/Console/Commands/ServeCommand.php',
+    'Syscodes\\Components\\Core\\Console\\Commands\\ServiceMakeCommand' => SYS_PATH.'src/components/Core/Console/Commands/ServiceMakeCommand.php',
     'Syscodes\\Components\\Core\\Console\\Commands\\TraitMakeCommand' => SYS_PATH.'src/components/Core/Console/Commands/TraitMakeCommand.php',
     'Syscodes\\Components\\Core\\Console\\Commands\\VendorPublishedCommand' => SYS_PATH.'src/components/Core/Console/Commands/VendorPublishedCommand.php',
     'Syscodes\\Components\\Core\\Console\\Commands\\ViewClearCommand' => SYS_PATH.'src/components/Core/Console/Commands/ViewClearCommand.php',
