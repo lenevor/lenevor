@@ -574,7 +574,7 @@ class Gate implements GateContract
      * Set the container instance used by the gate.
      * 
      * @param  \Syscodes\Components\Contracts\Container\Container  $container 
-     * @return static
+     * @return $this
      */
     public function setContainer(Container $container): static
     {

@@ -41,7 +41,7 @@ class DatabaseManager implements ConnectionResolverInterface
     /**
      * The appilcation instance.
      * 
-     * @var \Syscodes\Components\Contracts\Core\Application
+     * @var \Syscodes\Components\Contracts\Core\Application|array
      */
     protected $app;
 

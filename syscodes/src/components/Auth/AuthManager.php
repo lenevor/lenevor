@@ -28,18 +28,23 @@ use Syscodes\Components\Auth\Concerns\CreatesUserProviders;
 use Syscodes\Components\Auth\Guards\SessionGuard;
 use Syscodes\Components\Auth\Guards\TokenGuard;
 use Syscodes\Components\Contracts\Auth\Factory;
+use Syscodes\Components\Support\Traits\RebindsCallbacksToSelf;
+
+use function Syscodes\Components\Support\enum_value;
+use ReflectionException;
+use RuntimeException;
 
 /**
  * The Lenevor authentication system for users. 
  */
 class AuthManager implements Factory
 {
-    use CreatesUserProviders;
+    use CreatesUserProviders, RebindsCallbacksToSelf;
 
     /**
      * The applicaction instance.
      * 
-     * @var \Syscodes\Components\Contracts\Core\Application
+     * @var \Syscodes\Components\Contracts\Core\Application|array
      */
     protected $app;
 
@@ -85,7 +90,7 @@ class AuthManager implements Factory
      */
     public function guard(?string $name = null)
     {
-        $name = $name ?: $this->getDefaultDriver();
+        $name = enum_value($name) ?: $this->getDefaultDriver();
         
         return $this->guards[$name] ??= $this->resolve($name);
     }
@@ -223,7 +228,7 @@ class AuthManager implements Factory
      */
     public function shouldUse(string $name): void
     {
-        $name = $name ?: $this->getDefaultDriver();
+        $name = enum_value($name) ?: $this->getDefaultDriver();
         
         $this->setDefaultDriver($name);
         
@@ -238,7 +243,7 @@ class AuthManager implements Factory
      */
     public function setDefaultDriver($name): void
     {
-        $this->app['config']['auth.defaults.guard'] = $name;
+        $this->app['config']['auth.defaults.guard'] = enum_value($name);
     }
     
     /**
@@ -255,7 +260,7 @@ class AuthManager implements Factory
      * Set the callback to be used to resolve users.
      * 
      * @param  \Closure  $userResolver 
-     * @return static
+     * @return $this
      */
     public function resolveUsersUsing(Closure $userResolver): static
     {
@@ -269,10 +274,16 @@ class AuthManager implements Factory
      * 
      * @param  string  $driver
      * @param  \Closure  $callback 
-     * @return static
+     * @return $this
      */
     public function extend($driver, Closure $callback): static
     {
+        try {
+            $callback = $this->bindCallbackToSelf($callback) ?? throw new RuntimeException('Unable to bind custom driver callback');
+        } catch (ReflectionException $e) {
+            throw new RuntimeException('Unable to bind custom driver callback', previous: $e);
+        }
+
         $this->customCreators[$driver] = $callback;
         
         return $this;
@@ -283,7 +294,7 @@ class AuthManager implements Factory
      * 
      * @param  string  $name
      * @param  \Closure  $callback
-     * @return static
+     * @return $this
      */
     public function provider($name, Closure $callback): static
     {
@@ -305,7 +316,7 @@ class AuthManager implements Factory
     /**
      * Flush all of the resolved guard instances.
      * 
-     * @return static
+     * @return $this
      */
     public function flushGuards(): static
     {
@@ -318,7 +329,7 @@ class AuthManager implements Factory
      * Set the application instance used by the manager.
      * 
      * @param  \Syscodes\Components\Contracts\Core\Application  $app 
-     * @return static
+     * @return $this
      */
     public function setApplication($app): static
     {

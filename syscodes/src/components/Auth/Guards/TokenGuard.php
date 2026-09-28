@@ -159,7 +159,7 @@ class TokenGuard implements Guard
      * Set the current request instance.
      * 
      * @param  \Syscodes\Components\Http\Request  $request 
-     * @return static
+     * @return $this
      */
     public function setRequest(Request $request): static
     {

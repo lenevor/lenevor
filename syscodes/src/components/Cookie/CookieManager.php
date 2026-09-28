@@ -52,7 +52,7 @@ class CookieManager implements CookieFactory
     /**
      * All of the cookies queued for sending.
      *
-     * @var \Syscodes\Components\Cookie\CookieManager[]
+     * @var \Syscodes\Components\Cookie\CookieManager|array
      */
     protected $queued = [];
 

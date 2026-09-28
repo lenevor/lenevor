@@ -26,6 +26,7 @@ use RuntimeException;
 use Syscodes\Components\Auth\Concerns\GuardAuthenticationUser;
 use Syscodes\Components\Auth\Events\Attempting;
 use Syscodes\Components\Auth\Events\Authenticated;
+use Syscodes\Components\Auth\Events\CurrentDeviceLogout;
 use Syscodes\Components\Auth\Events\Failed;
 use Syscodes\Components\Auth\Events\Login;
 use Syscodes\Components\Auth\Events\Logout;
@@ -555,12 +556,40 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
             $this->refreshRememberToken($user);
         }
         
-        if (isset($this->events)) {
-            $this->events->dispatch(new Logout($this->name, $user));
-        }
+        // If we have an event dispatcher instance, we can fire off the logout event
+        // so any further processing can be done.
+        $this->events?->dispatch(new Logout($this->name, $user));
         
+        // Once we have fired the logout event we will clear the users out of memory
+        // so they are no longer available as the user is no longer considered as
+        // being signed into this application and should not be available here.
         $this->user = null;
         
+        $this->loggedOut = true;
+    }
+
+    /**
+     * Log the user out of the application on their current device only.
+     *
+     * This method does not cycle the "remember" token.
+     *
+     * @return void
+     */
+    public function logoutCurrentDevice(): void
+    {
+        $user = $this->user();
+
+        $this->clearUserDataFromStorage();
+
+        // If we have an event dispatcher instance, we can fire off the logout event
+        // so any further processing can be done.
+        $this->events?->dispatch(new CurrentDeviceLogout($this->name, $user));
+
+        // Once we have fired the logout event we will clear the users out of memory
+        // so they are no longer available as the user is no longer considered as
+        // being signed into this application and should not be available here.
+        $this->user = null;
+
         $this->loggedOut = true;
     }
     
@@ -809,11 +838,11 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @param  \Syscodes\Components\Contracts\Auth\Authenticatable  $user
      * 
-     * @return static
+     * @return $this
      */
     public function setUser(Authenticatable $user): static
     {
-        $this->user      = $user;        
+        $this->user = $user;        
         $this->loggedOut = false;
         
         $this->fireAuthenticatedEvent($user);
@@ -836,7 +865,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @param  \Syscodes\Components\Http\Request  $request
      * 
-     * @return static
+     * @return $this
      */
     public function setRequest(Request $request): static
     {

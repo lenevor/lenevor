@@ -33,7 +33,7 @@ abstract class Facade
     /**
      * The application instance being facaded.
      * 
-     * @var array|object
+     * @var \Syscodes\Components\Contracts\Core\Application|null
      */
     protected static $applications;
     
@@ -188,7 +188,7 @@ abstract class Facade
     /**
      * Set the application instance.
      * 
-     * @param  \Syscodes\Components\Contracts\core\Application  $app 
+     * @param  \Syscodes\Components\Contracts\Core\Application  $app 
      * @return void
      */
     public static function setFacadeApplication($app): void

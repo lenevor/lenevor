@@ -22,7 +22,6 @@
 
 namespace Syscodes\Components\Console;
 
-use LogicException;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -71,7 +70,7 @@ class Command extends SymfonyCommand
     /**
      * The Lenevor appplication instance.
      * 
-     * @var \Syscodes\Components\Contracts\Core\Application $lenevor
+     * @var \Syscodes\Components\Contracts\Core\Application|array $lenevor
      */
     protected $lenevor;
 

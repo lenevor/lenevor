@@ -49,7 +49,7 @@ class PreventRequestForgery
     /**
      * The application implementation.
      * 
-     * @var \Syscodes\Components\Core\Application
+     * @var \Syscodes\Components\Contracts\Core\Application
      */
     protected $app;
     
