@@ -29,6 +29,7 @@ return [
     'Syscodes\\Components\\Auth\\Concerns\\GuardAuthenticationUser' => SYS_PATH.'src/components/Auth/Concerns/GuardAuthentionUser.php',
     'Syscodes\\Components\\Auth\\Events\\Attempting' => SYS_PATH.'src/components/Auth/Events/Attempting.php',
     'Syscodes\\Components\\Auth\\Events\\Authenticated' => SYS_PATH.'src/components/Auth/Events/Authenticated.php',
+    'Syscodes\\Components\\Auth\\Events\\CurrentDeviceLogout' => SYS_PATH.'src/components/Auth/Events/CurrentDeviceLogout.php',
     'Syscodes\\Components\\Auth\\Events\\Failed' => SYS_PATH.'src/components/Auth/Events/Failed.php',
     'Syscodes\\Components\\Auth\\Events\\Login' => SYS_PATH.'src/components/Auth/Events/Login.php',
     'Syscodes\\Components\\Auth\\Events\\Logout' => SYS_PATH.'src/components/Auth/Events/Logout.php',
