@@ -22,12 +22,12 @@
 
  namespace Syscodes\Components\Filesystem;
 
-use Syscodes\Components\Contracts\Filesystem\Filesystem;
+use Syscodes\Components\Contracts\Filesystem\Filesystem as FilesystemContract;
 
 /**
  * Allows manipulate the file system depending on the file adapter type.
  */
-class FilesystemAdapter implements Filesystem
+class FilesystemAdapter implements FilesystemContract
 {
     /**
      * Get the config to file system.
