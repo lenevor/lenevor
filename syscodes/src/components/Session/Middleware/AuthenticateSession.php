@@ -68,7 +68,7 @@ class AuthenticateSession implements AuthenticateSessionContract
      */
     public function handle($request, Closure $next)
     {
-        if ( ! $request->hasSession() || ! $request->user()) {
+        if ( ! $request->hasSession() || ! $request->user() || ! $request->user()->getAuthPassword()) {
             return $next($request);
         }
         
@@ -143,7 +143,7 @@ class AuthenticateSession implements AuthenticateSessionContract
      */
     protected function logout($request): void
     {
-        $this->guard()->logout();
+        $this->guard()->logoutCurrentDevice();
         
         $request->session()->flush();
         
