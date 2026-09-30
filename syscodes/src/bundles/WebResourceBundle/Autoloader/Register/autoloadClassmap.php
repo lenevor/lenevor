@@ -663,6 +663,7 @@ return [
     'Syscodes\\Components\\Routing\\Middleware\\ThrottleRequests' => SYS_PATH.'src/components/Routing/Middleware/ThrottleRequests.php',
     'Syscodes\\Components\\Routing\\Middleware\\ValidatedSignature' => SYS_PATH.'src/components/Routing/Middleware/ValidatedSignature.php',
     'Syscodes\\Components\\Routing\\Resources\\AwaitingResourceRegistration' => SYS_PATH.'src/components/Routing/Resources/AwaitingResourceRegistration.php',
+    'Syscodes\\Components\\Routing\\Resources\\AwaitingSingletonResourceRegistration' => SYS_PATH.'src/components/Routing/Resources/AwaitingSingletonResourceRegistration.php',
     'Syscodes\\Components\\Routing\\Resources\\Pipeline' => SYS_PATH.'src/components/Routing/Resources/Pipeline.php',
     'Syscodes\\Components\\Routing\\Resources\\ResourceRegister' => SYS_PATH.'src/components/Routing/Resources/ResourceRegister.php',
     'Syscodes\\Components\\Routing\\CallableDispatcher' => SYS_PATH.'src/components/Routing/CallableDispatcher.php',
