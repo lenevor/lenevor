@@ -310,7 +310,7 @@ class MiddlewareBootstrap
     public function redirectTo(callable|string|null $guests = null, callable|string|null $users = null): static
     {
         $guests = is_string($guests) ? fn () => $guests : $guests;
-        $users  = is_string($users) ? fn () => $users : $users;
+        $users = is_string($users) ? fn () => $users : $users;
         
         if ($guests) {
             Authenticate::redirectUsing($guests);
