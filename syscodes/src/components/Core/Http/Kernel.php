@@ -22,7 +22,6 @@
 
 namespace Syscodes\Components\Core\Http;
 
-use Closure;
 use Syscodes\Components\Contracts\Core\Application;
 use Syscodes\Components\Contracts\Debug\ExceptionHandler;
 use Syscodes\Components\Contracts\Http\Kernel as KernelContract;

@@ -28,6 +28,9 @@ use Syscodes\Components\Contracts\Auth\Access\Gate;
 use Syscodes\Components\Database\Erostrine\Model;
 use Syscodes\Components\Support\Str;
 
+use function Syscodes\Components\Support\enum_value;
+use Syscodes\Components\Support\Collection;
+
 /**
  * Allows the authorize for specify models and handle incomming request.
  */
@@ -54,13 +57,13 @@ class Authorize
     /**
      * Specify the ability and models for the middleware.
      * 
-     * @param  string  $ability
+     * @param  \UnitEnum|string  $ability
      * @param  string  ...$models 
      * @return string
      */
     public static function using($ability, ...$models): string
     {
-        return static::class.':'.implode(',', [$ability, ...$models]);
+        return static::class.':'.implode(',', [enum_value($ability), ...$models]);
     }
     
     /**
@@ -95,9 +98,9 @@ class Authorize
             return [];
         }
         
-        return collect($models)->map(function ($model) use ($request) {
-            return $model instanceof Model ? $model : $this->getModel($request, $model);
-        })->all();
+        return (new Collection($models))
+            ->map(fn ($model) => $model instanceof Model ? $model : $this->getModel($request, $model))
+            ->all();
     }
     
     /**

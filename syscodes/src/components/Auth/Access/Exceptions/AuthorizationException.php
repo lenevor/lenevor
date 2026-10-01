@@ -60,7 +60,7 @@ class AuthorizationException extends Exception
      * @param  \Throwable|null  $previous 
      * @return void
      */
-    public function __construct(?string $message = null, mixed $code = null, ?Throwable $previous = null)
+    public function __construct(?string $message = null, $code = null, ?Throwable $previous = null)
     {
         parent::__construct($message ?? 'This action is unauthorized', 0, $previous);
         

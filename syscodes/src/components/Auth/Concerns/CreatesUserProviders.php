@@ -41,12 +41,12 @@ trait CreatesUserProviders
     /**
      * Create the user provider implementation for the driver.
      * 
-     * @param  string  $provider 
+     * @param  string|null  $provider 
      * @return \Syscodes\Components\Contracts\Auth\UserProvider
      * 
      * @throws \InvalidArgumentException
      */
-    public function createUserProvider($provider)
+    public function createUserProvider($provider = null)
     {
         if (is_null($config = $this->getProviderConfiguration($provider))) {
             return;
@@ -61,7 +61,9 @@ trait CreatesUserProviders
         return match ($driver) {
             'database' => $this->createDatabaseProvider($config),
             'erostrine' => $this->createErostrineProvider($config),
-            default => throw new InvalidArgumentException("Authentication user provider [{$driver}] is not defined."),
+            default => throw new InvalidArgumentException(
+                "Authentication user provider [{$driver}] is not defined."
+            ),
         };
     }
     

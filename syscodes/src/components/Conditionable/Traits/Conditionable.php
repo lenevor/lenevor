@@ -36,7 +36,7 @@ trait Conditionable
      * @param  \Closure|null  $value
      * @param  callable|null  $callback
      * @param  callable|null  $default 
-     * @return static
+     * @return $this
      */
     public function when($value = null, ?callable $callback = null, ?callable $default = null): static
     {
@@ -65,7 +65,7 @@ trait Conditionable
      * @param  \Closure|null  $value
      * @param  callable|null  $callback
      * @param  callable|null  $default 
-     * @return static
+     * @return $this
      */
     public function unless($value = null, ?callable $callback = null, ?callable $default = null): static
     {
