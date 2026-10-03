@@ -23,11 +23,13 @@
 namespace Syscodes\Components\Auth\Access;
 
 use Syscodes\Components\Auth\Access\Exceptions\AuthorizationException;
+use Syscodes\Components\Contracts\Support\Arrayable;
+use Stringable;
 
 /**
  * Show the response message.
  */
-class Response
+class Response implements Arrayable, Stringable
 {
     /**
      * Indicates whether the response was allowed.
@@ -65,7 +67,7 @@ class Response
      * @param  mixed  $code 
      * @return void
      */
-    public function __construct($allowed, $message = '', $code = '')
+    public function __construct($allowed, $message = '', $code = null)
     {
         $this->code = $code;
         $this->allowed = $allowed;
@@ -79,7 +81,7 @@ class Response
      * @param  mixed  $code 
      * @return \Syscodes\Components\Auth\Access\Response
      */
-    public static function allow(?string $message = null, mixed $code = null)
+    public static function allow(?string $message = null, $code = null)
     {
         return new static(true, $message, $code);
     }
@@ -91,9 +93,34 @@ class Response
      * @param  mixed  $code 
      * @return \Syscodes\Components\Auth\Access\Response
      */
-    public static function deny(?string $message = null, mixed $code = null)
+    public static function deny(?string $message = null, $code = null)
     {
         return new static(false, $message, $code);
+    }
+
+    /**
+     * Create a new "deny" Response with a HTTP status code.
+     *
+     * @param  int  $status
+     * @param  string|null  $message
+     * @param  mixed  $code
+     * @return \Syscodes\Components\Auth\Access\Response
+     */
+    public static function denyWithStatus(int $status, ?string $message = null, $code = null)
+    {
+        return static::deny($message, $code)->withStatus($status);
+    }
+
+    /**
+     * Create a new "deny" Response with a 404 HTTP status code.
+     *
+     * @param  string|null  $message
+     * @param  mixed  $code
+     * @return \Syscodes\Components\Auth\Access\Response
+     */
+    public static function denyAsNotFound(?string $message = null, $code = null)
+    {
+        return static::denyWithStatus(404, $message, $code);
     }
     
     /**

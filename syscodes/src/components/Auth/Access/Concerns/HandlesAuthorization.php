@@ -36,7 +36,7 @@ trait HandlesAuthorization
      * @param  mixed  $code 
      * @return \Syscodes\Components\Auth\Access\Response
      */
-    protected function allow(?string $message = null, mixed $code = null)
+    protected function allow(?string $message = null, $code = null)
     {
         return Response::allow($message, $code);
     }
@@ -48,8 +48,33 @@ trait HandlesAuthorization
      * @param  mixed  $code 
      * @return \Syscodes\Components\Auth\Access\Response
      */
-    protected function deny(?string $message = null, mixed $code = null)
+    protected function deny(?string $message = null, $code = null)
     {
         return Response::deny($message, $code);
+    }
+
+    /**
+     * Deny with a HTTP status code.
+     *
+     * @param  int  $status
+     * @param  string|null  $message
+     * @param  int|null  $code
+     * @return \Syscodes\Components\Auth\Access\Response
+     */
+    public function denyWithStatus(int $status, ?string $message = null, $code = null)
+    {
+        return Response::denyWithStatus($status, $message, $code);
+    }
+
+    /**
+     * Deny with a 404 HTTP status code.
+     *
+     * @param  string|null  $message
+     * @param  int|null  $code
+     * @return \Syscodes\Components\Auth\Access\Response
+     */
+    public function denyAsNotFound(?string $message = null, $code = null)
+    {
+        return Response::denyWithStatus(404, $message, $code);
     }
 }
