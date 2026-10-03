@@ -32,7 +32,7 @@ trait Mapper
 	 * 
 	 * @var array
 	 */
-	public static $verbs = ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'];
+	public static $verbs = ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'];
 
 	/**
 	 * Add a route to the underlying route collection.

@@ -22,8 +22,6 @@
 
 namespace Syscodes\Components\Database\Erostrine\Concerns;
 
-use DateTime;
-use Syscodes\Components\Support\Chronos;
 use Syscodes\Components\Support\Facades\Date;
 
 /**
@@ -101,21 +99,21 @@ trait HasTimestamps
     /**
      * Get a fresh timestamp for the model.
      * 
-     * @return \Syscodes\Components\Support\Chronos
-     */
-    public function freshTimestamp()
-    {
-        return Date::now();
-    }
-    
-    /**
-     * Get a fresh timestamp for the model.
-     * 
      * @return string
      */
     public function freshTimestampString(): string
     {
         return $this->fromDateTime($this->freshTimestamp());
+    }
+
+    /**
+     * Get a fresh timestamp for the model.
+     * 
+     * @return \Syscodes\Components\Support\Chronos
+     */
+    public function freshTimestamp()
+    {
+        return Date::now();
     }
     
     /**
@@ -156,28 +154,5 @@ trait HasTimestamps
     public function getQualifiedCreatedAtColumn()
     {
         return $this->qualifyColumn($this->getCreatedAtColumn());
-    }
-    
-    /**
-     * Convert a DateTime to a storable string.
-     * 
-     * @param  \DateTime|int  $value 
-     * @return string
-     */
-    public function fromDateTime($value): string
-    {
-        $format = Date::now();
-        
-        if ($value instanceof DateTime) {
-            //
-        } else if (is_numeric($value)) {
-            $value = Chronos::createFromTimestamp($value);
-        } else if (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $value)) {
-            $value = Chronos::createFromFormat('Y-m-d', $value)->toDateString();
-        } else {
-            $value = Chronos::createFromFormat($format, $value);
-        }
-        
-        return $value->format($format);
     }
 }
