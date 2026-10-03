@@ -24,15 +24,16 @@ namespace Syscodes\Components\Auth;
 
 use Closure;
 use InvalidArgumentException;
+use ReflectionException;
+use RuntimeException;
 use Syscodes\Components\Auth\Concerns\CreatesUserProviders;
+use Syscodes\Components\Auth\Guards\RequestGuard;
 use Syscodes\Components\Auth\Guards\SessionGuard;
 use Syscodes\Components\Auth\Guards\TokenGuard;
 use Syscodes\Components\Contracts\Auth\Factory;
 use Syscodes\Components\Support\Traits\RebindsCallbacksToSelf;
 
 use function Syscodes\Components\Support\enum_value;
-use ReflectionException;
-use RuntimeException;
 
 /**
  * The Lenevor authentication system for users. 
@@ -254,6 +255,24 @@ class AuthManager implements Factory
     public function userResolver(): Closure
     {
         return $this->userResolver;
+    }
+
+     /**
+     * Register a new callback based request guard.
+     *
+     * @param  string  $driver
+     * @param  callable  $callback
+     * @return $this
+     */
+    public function viaRequest($driver, callable $callback): static
+    {
+        return $this->extend($driver, function () use ($callback) {
+            $guard = new RequestGuard($callback, $this->app['request'], $this->createUserProvider());
+
+            $this->app->refresh('request', $guard, 'setRequest');
+
+            return $guard;
+        });
     }
     
     /**
