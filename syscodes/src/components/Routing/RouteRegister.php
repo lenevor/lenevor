@@ -22,6 +22,7 @@
 
 namespace Syscodes\Components\Routing;
 
+use BackedEnum;
 use BadMethodCallException;
 use Closure;
 use InvalidArgumentException;
@@ -80,9 +81,11 @@ class RouteRegister
      */
     protected $allowedAttributes = [
         'as',
+        'can',
         'controller',
         'domain', 
-        'middleware', 
+        'middleware',
+        'mising',
         'name', 
         'namespace', 
         'prefix', 
@@ -124,7 +127,19 @@ class RouteRegister
             throw new InvalidArgumentException("Attribute [{$key}] does not exist.");
         }
 
+        if ($key === 'middleware') {
+            $value = array_filter(Arr::wrap($value));
+
+            foreach ($value as $index => $middleware) {
+                $value[$index] = (string) $middleware;
+            }
+        }
+
         $attributeKey = Arr::get($this->aliases, $key, $key);
+
+        if ($value instanceof BackedEnum && ! is_string($value = $value->value)) {
+            throw new InvalidArgumentException("Attribute [{$key}] expects a string backed enum.");
+        }
         
         $this->attributes[$attributeKey] = $value;
         
@@ -137,7 +152,7 @@ class RouteRegister
      * @param  string  $name
      * @param  string  $controller
      * @param  array  $options 
-     * @return \Syscodes\Components\Routing\Resources\ResourceRegister
+     * @return \Syscodes\Components\Routing\Resources\AwaitingResourceRegistration
      */
     public function resource($name, $controller, array $options = [])
     {
@@ -150,11 +165,37 @@ class RouteRegister
      * @param  string  $name
      * @param  string  $controller
      * @param  array  $options 
-     * @return \Syscodes\Components\Routing\Resources\ResourceRegister
+     * @return \Syscodes\Components\Routing\Resources\AwaitingResourceRegistration
      */
     public function apiResource($name, $controller, array $options = [])
     {
         return $this->router->apiResource($name, $controller, $this->attributes + $options);
+    }
+
+    /**
+     * Route a singleton resource to a controller.
+     *
+     * @param  string  $name
+     * @param  string  $controller
+     * @param  array  $options
+     * @return \Syscodes\Components\Routing\Resources\AwaitingSingletonResourceRegistration
+     */
+    public function singleton($name, $controller, array $options = [])
+    {
+        return $this->router->singleton($name, $controller, $this->attributes + $options);
+    }
+
+    /**
+     * Route an API singleton resource to a controller.
+     *
+     * @param  string  $name
+     * @param  string  $controller
+     * @param  array  $options
+     * @return \Syscodes\Components\Routing\Resources\AwaitingSingletonResourceRegistration
+     */
+    public function apiSingleton($name, $controller, array $options = [])
+    {
+        return $this->router->apiSingleton($name, $controller, $this->attributes + $options);
     }
     
     /**
