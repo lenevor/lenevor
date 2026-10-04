@@ -1,0 +1,55 @@
+<?php
+
+/**
+ * Lenevor Framework
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file license.md.
+ * It is also available through the world-wide-web at this URL:
+ * https://lenevor.com/license
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@Lenevor.com so we can send you a copy immediately.
+ *
+ * @package     Lenevor
+ * @subpackage  Base
+ * @link        https://lenevor.com
+ * @copyright   Copyright (c) 2019 - 2026 Alexander Campo <jalexcam@gmail.com>
+ * @license     https://opensource.org/licenses/BSD-3-Clause New BSD license or see https://lenevor.com/license or see /license.md
+ */
+
+namespace Syscodes\Components\Routing\Attributes\Controllers;
+
+use Attribute;
+use Syscodes\Components\Auth\Middleware\Authorize as AuthorizeMiddleware;
+use Syscodes\Components\Support\Arr;
+use UnitEnum;
+
+/**
+ * Gets the authorize attribute.
+ */
+#[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
+class Authorize extends Middleware
+{
+    /**
+     * Constructor. Create a new Authorize instance.
+     * 
+     * @param  UnitEnum|string  $ability
+     * @param  array<string>|string|null  $models
+     * @param  array|null  $only
+     * @param  array|null  $except
+     * @return void
+     */
+    public function __construct(
+        UnitEnum|string $ability,
+        array|string|null $models = null,
+        ?array $only = null,
+        ?array $except = null,
+    ) {
+        $middleware = AuthorizeMiddleware::using($ability, ...Arr::wrap($models));
+
+        parent::__construct($middleware, $only, $except);
+    }
+}
