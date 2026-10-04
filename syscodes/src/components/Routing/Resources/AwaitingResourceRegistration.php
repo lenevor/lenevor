@@ -23,12 +23,15 @@
 namespace Syscodes\Components\Routing\Resources;
 
 use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Support\Traits\Macroable;
 
 /**
  * This class uses an awaiting resource registration instance.
  */
 class AwaitingResourceRegistration
 {
+    use Macroable;
+
     /**
      * The resource controller.
      * 
@@ -73,12 +76,8 @@ class AwaitingResourceRegistration
      * @param  array  $options 
      * @return void
      */
-    public function __construct(
-        ResourceRegister $register, 
-        $name, 
-        $controller, 
-        array $options = []
-    ) {
+    public function __construct(ResourceRegister $register, $name, $controller, array $options = [])
+    {
         $this->name = $name;
         $this->options = $options;
         $this->register = $register;
@@ -89,7 +88,7 @@ class AwaitingResourceRegistration
      * Set the methods the controller should apply to.
      * 
      * @param  array|string  $methods 
-     * @return static
+     * @return $this
      */
     public function only($methods): static
     {
@@ -102,7 +101,7 @@ class AwaitingResourceRegistration
      * Set the methods the controller should exclude.
      * 
      * @param  array|string  $methods 
-     * @return static
+     * @return $this
      */
     public function except($methods): static
     {
@@ -115,7 +114,7 @@ class AwaitingResourceRegistration
      * Set the route names for controller actions.
      * 
      * @param  array|string  $names 
-     * @return static
+     * @return $this
      */
     public function names($names): static
     {
@@ -181,6 +180,58 @@ class AwaitingResourceRegistration
         
         $this->options['middleware'] = $middleware;
         
+        return $this;
+    }
+
+    /**
+     * Add "where" constraints to the resource routes.
+     *
+     * @param  mixed  $wheres
+     * @return $this
+     */
+    public function where($wheres): static
+    {
+        $this->options['wheres'] = $wheres;
+
+        return $this;
+    }
+
+    /**
+     * Indicate that the resource routes should have "shallow" nesting.
+     *
+     * @param  bool  $shallow
+     * @return $this
+     */
+    public function shallow($shallow = true): static
+    {
+        $this->options['shallow'] = $shallow;
+
+        return $this;
+    }
+
+    /**
+     * Define the callable that should be invoked on a missing model exception.
+     *
+     * @param  callable  $callback
+     * @return $this
+     */
+    public function missing($callback): static
+    {
+        $this->options['missing'] = $callback;
+
+        return $this;
+    }
+
+    /**
+     * Indicate that the resource routes should be scoped using the given binding fields.
+     *
+     * @param  array  $fields
+     * @return $this
+     */
+    public function scoped(array $fields = []): static
+    {
+        $this->options['bindingFields'] = $fields;
+
         return $this;
     }
 
