@@ -297,7 +297,7 @@ trait Creator
      * @param  string|null  $locale
      * @return \Syscodes\Components\Support\Chronos\Chronos
      */
-    public static function createFromTimestamp(int $timestamp, $timezone = null, ?string $locale = null)
+    public static function createFromTimestamp(int $timestamp, $timezone = null, ?string $locale = null): DateTime
     {
         return static::parse(date('Y-m-d H:i:s', $timestamp), $timezone, $locale);
     }
