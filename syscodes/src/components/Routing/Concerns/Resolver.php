@@ -27,6 +27,7 @@ use JsonSerializable;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Contracts\Support\Jsonable;
+use Syscodes\Components\Database\Erostrine\Model;
 use Syscodes\Components\Http\JsonResponse;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Http\Response;
@@ -112,8 +113,8 @@ Trait Resolver
 	 */
 	protected function runRouteStack(Route $route, Request $request)
 	{
-		$skipMiddleware = $this->container->bound('middleware.disable') &&
-		    ($this->container->make('middleware.disable') === true);						  
+		$skipMiddleware = $this->container->bound('middleware.disable') && 
+		                  $this->container->make('middleware.disable') === true;						  
 		
 		$middleware = $skipMiddleware ? [] : $this->gatherRouteMiddleware($route);
 
@@ -150,7 +151,9 @@ Trait Resolver
 	 */
 	public static function toResponse($request, $response)
 	{
-		if ($response instanceof Stringable) {
+		if ($response instanceof Model && $response->wasRecentlyCreated) {
+            $response = new JsonResponse($response, 201);
+        } elseif ($response instanceof Stringable) {
             $response = new Response($response->__toString(), 200, ['Content-Type' => 'text/html']);
         } elseif ( ! $response instanceof SymfonyResponse &&
 			    ($response instanceof Arrayable ||
