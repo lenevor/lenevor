@@ -25,7 +25,10 @@ namespace Syscodes\Components\Database\Erostrine\Concerns;
 use LogicException;
 use Syscodes\Components\Database\Erostrine\Relations\Relation;
 use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Support\Facades\Date;
 use Syscodes\Components\Support\Str;
+use DateTimeInterface;
+use InvalidArgumentException;
 
 /**
  * Trait HasAttributes.
@@ -38,6 +41,13 @@ trait HasAttributes
      * @var array
      */
     protected $attributes = [];
+
+    /**
+     * The storage format of the model's date columns.
+     *
+     * @var string|null
+     */
+    protected $dateFormat;
 
     /**
 	 * The model attribute's original state.
@@ -330,6 +340,120 @@ trait HasAttributes
         }
         
         return $dirty;
+    }
+
+    /**
+     * Return a timestamp as DateTime object with time set to 00:00:00.
+     *
+     * @param  mixed  $value
+     * @return \Syscodes\Components\Support\Chronos
+     */
+    protected function asDate($value)
+    {
+        return $this->asDateTime($value)->toDateString();
+    }
+
+    /**
+     * Return a timestamp as DateTime object.
+     *
+     * @param  mixed  $value
+     * @return \Syscodes\Components\Support\Chronos
+     */
+    protected function asDateTime($value)
+    {
+        // If the value is already a DateTime instance, we will just skip the rest of
+        // these checks since they will be a waste of time, and hinder performance
+        // when checking the field. We will just return the DateTime right away.
+        if ($value instanceof DateTimeInterface) {
+            return Date::parse(
+                $value->format('Y-m-d H:i:s.u'), $value->getTimezone()
+            );
+        }
+
+        // If this value is an integer, we will assume it is a UNIX timestamp's value
+        // and format a Chronos object from this timestamp. This allows flexibility
+        // when defining your date fields as they might be UNIX timestamps here.
+        if (is_numeric($value)) {
+            return Date::createFromTimestamp($value, date_default_timezone_get());
+        }
+
+        // If the value is in simply year, month, day format, we will instantiate the
+        // Chronos instances from that format. Again, this provides for simple date
+        // fields on the database, while still supporting Chronosized conversion.
+        if ($this->isStandardDateFormat($value)) {
+            return Date::instance(Date::createFromFormat('Y-m-d', $value)->toDateString());
+        }
+
+        $format = $this->getDateFormat();
+
+        // Finally, we will just assume this date is in the format used by default on
+        // the database connection and use that format to create the Chronos object
+        // that is returned back out to the developers after we convert it here.
+        try {
+            $date = Date::createFromFormat($format, $value);
+        } catch (InvalidArgumentException) {
+            $date = false;
+        }
+
+        return $date ?: Date::parse($value);
+    }
+
+    /**
+     * Determine if the given value is a standard date format.
+     *
+     * @param  string  $value
+     * @return bool
+     */
+    protected function isStandardDateFormat($value)
+    {
+        return preg_match('/^(\d{4})-(\d{1,2})-(\d{1,2})$/', $value);
+    }
+
+    /**
+     * Convert a DateTime to a storable string.
+     *
+     * @param  mixed  $value
+     * @return string|null
+     */
+    public function fromDateTime($value)
+    {
+        return empty($value) ? $value : $this->asDateTime($value)->format(
+            $this->getDateFormat()
+        );
+    }
+
+    /**
+     * Return a timestamp as unix timestamp.
+     *
+     * @param  mixed  $value
+     * @return int
+     */
+    protected function asTimestamp($value)
+    {
+        return $this->asDateTime($value)->getTimestamp();
+    }
+
+    /**
+     * Get the format for database stored dates.
+     *
+     * @return string
+     */
+    public function getDateFormat(): string
+    {
+        return $this->dateFormat ?: $this->getConnection()->getQueryGrammar()->getDateFormat();
+    }
+
+    /**
+     * Set the date format used by the model.
+     *
+     * @param  string  $format
+     * @return $this
+     */
+    public function setDateFormat($format): static
+    {
+        $this->dateFormat = $format;
+
+        return $this;
     }
     
     /**
