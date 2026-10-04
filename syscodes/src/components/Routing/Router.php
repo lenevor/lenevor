@@ -35,6 +35,7 @@ use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Support\Traits\Macroable;
 use Syscodes\Components\Contracts\Events\Dispatcher;
+use Syscodes\Components\Routing\Resources\AwaitingSingletonResourceRegistration;
 
 /**
  * The Router class allows the integration of an easy-to-use routing system.
@@ -833,7 +834,7 @@ class Router implements BindingRoutable, Routable
 	 */
 	public function apiResource($name, $controller, array $options = [])
 	{
-		$only = ['index', 'show', 'store', 'update', 'erase'];
+		$only = ['index', 'show', 'store', 'update', 'destroy'];
 		
 		if (isset($options['except'])) {
 			$only = array_diff($only, (array) $options['except']);
@@ -845,6 +846,76 @@ class Router implements BindingRoutable, Routable
 	}
 
 	/**
+     * Register an array of singleton resource controllers.
+     *
+     * @param  array  $singletons
+     * @param  array  $options
+     * @return void
+     */
+    public function singletons(array $singletons, array $options = [])
+    {
+        foreach ($singletons as $name => $controller) {
+            $this->singleton($name, $controller, $options);
+        }
+    }
+
+    /**
+     * Route a singleton resource to a controller.
+     *
+     * @param  string  $name
+     * @param  string  $controller
+     * @param  array  $options
+     * @return \Syscodes\Components\Routing\Resources\AwaitingSingletonResourceRegistration
+     */
+    public function singleton($name, $controller, array $options = [])
+    {
+        if ($this->container && $this->container->bound(ResourceRegister::class)) {
+            $registrar = $this->container->make(ResourceRegister::class);
+        } else {
+            $registrar = new ResourceRegister($this);
+        }
+
+        return new AwaitingSingletonResourceRegistration(
+            $registrar, $name, $controller, $options
+        );
+    }
+
+    /**
+     * Register an array of API singleton resource controllers.
+     *
+     * @param  array  $singletons
+     * @param  array  $options
+     * @return void
+     */
+    public function apiSingletons(array $singletons, array $options = [])
+    {
+        foreach ($singletons as $name => $controller) {
+            $this->apiSingleton($name, $controller, $options);
+        }
+    }
+
+    /**
+     * Route an API singleton resource to a controller.
+     *
+     * @param  string  $name
+     * @param  string  $controller
+     * @param  array  $options
+     * @return \Syscodes\Components\Routing\Resources\AwaitingSingletonResourceRegistration
+     */
+    public function apiSingleton($name, $controller, array $options = [])
+    {
+        $only = ['store', 'show', 'update', 'destroy'];
+
+        if (isset($options['except'])) {
+            $only = array_diff($only, (array) $options['except']);
+        }
+
+        return $this->singleton($name, $controller, array_merge([
+            'only' => $only,
+        ], $options));
+    }
+
+	/**
 	 * Get the route collection.
 	 *
 	 * @return array   
@@ -853,6 +924,28 @@ class Router implements BindingRoutable, Routable
 	{
 		return $this->routes;
 	}
+
+	/**
+     * Set the unmapped global resource parameters to singular.
+     *
+     * @param  bool  $singular
+     * @return void
+     */
+    public function singularResourceParameters($singular = true)
+    {
+        ResourceRegister::singularParameters($singular);
+    }
+
+    /**
+     * Set the global resource parameter mapping.
+     *
+     * @param  array  $parameters
+     * @return void
+     */
+    public function resourceParameters(array $parameters = [])
+    {
+        ResourceRegister::setParameters($parameters);
+    }
 
 	/**
 	 * Get or set the verbs used in the resource URIs.
