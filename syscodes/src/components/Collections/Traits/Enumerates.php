@@ -129,6 +129,27 @@ trait Enumerates
     }
 
     /**
+     * Create a new collection by invoking the callback a given amount of times.
+     *
+     * @template TTimesValue
+     *
+     * @param  int  $number
+     * @param  (callable(int): TTimesValue)|null  $callback
+     * @param  iterable  ...$args
+     * @return static<int, TTimesValue>
+     */
+    public static function times($number, ?callable $callback = null, ...$args): static
+    {
+        if ($number < 1) {
+            return new static([], ...$args);
+        }
+
+        return static::range(1, $number, 1, ...$args)
+            ->unless($callback == null)
+            ->map($callback);
+    }
+
+    /**
      * Collect the values into a collection.
      *
      * @return \Syscodes\Components\Support\Collection
