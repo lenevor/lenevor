@@ -25,18 +25,28 @@ namespace Syscodes\Components\Routing;
 use Closure;
 use InvalidArgumentException;
 use LogicException;
+use ReflectionAttribute;
+use ReflectionClass;
+use ReflectionException;
 use Symfony\Component\Routing\Route as SymfonyRoute;
 use Syscodes\Components\Container\Container;
 use Syscodes\Components\Http\Exceptions\HttpResponseException;
 use Syscodes\Components\Http\Request;
+use Syscodes\Components\Routing\Attributes\Controllers\Middleware as MiddlewareAttribute;
+use Syscodes\Components\Routing\Attributes\Controllers\WithoutMiddleware;
+use Syscodes\Components\Routing\Concerns\FiltersControllerMiddleware;
 use Syscodes\Components\Routing\Contracts\ControllerDispatcher as ControllerDispatcherContract;
+use Syscodes\Components\Routing\Controller\Contracts\HasMiddleware;
+use Syscodes\Components\Routing\Controller\Middleware;
 use Syscodes\Components\Routing\ControllerDispatcher;
 use Syscodes\Components\Routing\Matching\HostValidator;
 use Syscodes\Components\Routing\Matching\MethodValidator;
 use Syscodes\Components\Routing\Matching\SchemeValidator;
 use Syscodes\Components\Routing\Matching\UriValidator;
 use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Support\Str;
+use Syscodes\Components\Support\Traits\Conditionable;
 use Syscodes\Components\Support\Traits\Macroable;
 
 use function Syscodes\Components\Support\enum_value;
@@ -46,7 +56,9 @@ use function Syscodes\Components\Support\enum_value;
  */
 class Route 
 {
-	use Concerns\UserRoutesCondition,
+	use Conditionable,
+	    FiltersControllerMiddleware,
+	    Concerns\UserRoutesCondition,
 	    Concerns\DependencyResolver,
 	    Macroable;
 
@@ -187,14 +199,28 @@ class Route
 	 */
 	public function getController()
 	{
+		if (! $this->isControllerAction()) {
+            return null;
+        }
+
 		if ( ! $this->controller) {
-			$class = $this->parseControllerCallback()[0];
+			$class = $this->getControllerClass();
  
 			$this->controller = $this->container->make(ltrim($class, '\\'));
 		}
 
 		return $this->controller;
 	}
+
+	/**
+     * Get the controller class used for the route.
+     *
+     * @return string|null
+     */
+    public function getControllerClass()
+    {
+        return $this->isControllerAction() ? $this->parseControllerCallback()[0] : null;
+    }
 
 	/**
 	 * Get the controller method used for the route.
@@ -246,7 +272,7 @@ class Route
 	 * 
 	 * @return array
 	 */
-	public function parseControllerCallback(): array
+	protected function parseControllerCallback(): array
 	{
 		return Str::parseCallback($this->action['uses']);
 	}
@@ -256,7 +282,7 @@ class Route
 	 * 
 	 * @return bool
 	 */
-	public function isControllerAction(): bool
+	protected function isControllerAction(): bool
 	{
 		return is_string($this->action['uses']);
 	}
@@ -314,7 +340,9 @@ class Route
 	 */
 	protected function runResolverController()
 	{
-		return $this->controllerDispatcher()->dispatch($this, $this->getController(), $this->getControllerMethod());
+		return $this->controllerDispatcher()->dispatch(
+			$this, $this->getController(), $this->getControllerMethod()
+		);
 	}
 
 	/**
@@ -792,8 +820,7 @@ class Route
 		$this->computedMiddleware = [];
 
 		return $this->computedMiddleware = Router::uniqueMiddleware(array_merge(
-			$this->middleware(),
-			$this->controllerMiddleware()
+			$this->middleware(), $this->controllerMiddleware()
 		));
 	}
 
@@ -818,8 +845,7 @@ class Route
 		}
 
 		$this->action['middleware'] = array_merge(
-			$this->getMiddleware(),
-			$middleware
+			$this->getMiddleware(), $middleware
 		);
 
 		return $this;
@@ -846,11 +872,191 @@ class Route
 			return [];
 		}
 
-		return $this->controllerDispatcher()->getMiddleware(
-			$this->getController(),
+		[$controllerClass, $controllerMethod] = [
+			$this->getControllerClass(),
 			$this->getControllerMethod()
-		);
+		];
+
+		$attributeMiddleware = $this->attributeProvidedControllerMiddleware($controllerClass, $controllerMethod);
+
+        return match (true) {
+            is_a($controllerClass, HasMiddleware::class, true) => array_merge(
+                $this->staticallyProvidedControllerMiddleware($controllerClass, $controllerMethod),
+                $attributeMiddleware,
+            ),
+            method_exists($controllerClass, 'getMiddleware') => array_merge(
+                $this->controllerDispatcher()->getMiddleware($this->getController(), $controllerMethod),
+                $attributeMiddleware,
+            ),
+            default => $attributeMiddleware,
+        };
 	}
+
+	/**
+     * Get the statically provided controller middleware for the given class and method.
+     *
+     * @param  string  $class
+     * @param  string  $method
+     * @return array
+     */
+    protected function staticallyProvidedControllerMiddleware(string $class, string $method): array
+    {
+        return (new Collection($class::middleware()))
+            ->map(function ($middleware) {
+                return $middleware instanceof Middleware
+                    ? $middleware
+                    : new Middleware($middleware);
+            })
+            ->reject(function ($middleware) use ($method) {
+                return static::methodExcludedByOptions(
+                    $method, ['only' => $middleware->only, 'except' => $middleware->except],
+                );
+            })
+			->map
+            ->middleware
+            ->flatten()
+            ->values()
+            ->all();
+    }
+
+    /**
+     * Get the attribute provided controller middleware for the given class and method.
+     *
+	 * @param  string  $class
+     * @param  string  $method
+     * @return array
+     */
+    protected function attributeProvidedControllerMiddleware(string $class, string $method): array
+    {
+        try {
+            $reflectionClass = new ReflectionClass($class);
+            $reflectionMethod = $reflectionClass->getMethod($method);
+        } catch (ReflectionException) {
+            return [];
+        }
+
+        $attributes = new Collection;
+
+        $current = $reflectionClass;
+
+        while ($current) {
+            $classAttributes = array_reverse($current->getAttributes(
+                MiddlewareAttribute::class, ReflectionAttribute::IS_INSTANCEOF
+            ));
+
+            foreach ($classAttributes as $attribute) {
+                $attributes->prepend($attribute);
+            }
+
+            $current = $current->getParentClass();
+        }
+
+        return $attributes->merge(
+            $reflectionMethod->getAttributes(MiddlewareAttribute::class, ReflectionAttribute::IS_INSTANCEOF)
+        )->map(function (ReflectionAttribute $attribute) use ($method) {
+            $instance = $attribute->newInstance();
+
+            return static::methodExcludedByOptions(
+                $method, ['only' => $instance->only, 'except' => $instance->except],
+            ) ? null : $instance->middleware;
+        })
+		->filter()
+		->values()
+		->all();
+    }
+
+	/**
+     * Get the excluded middleware for the route's controller.
+     *
+     * @return array
+     */
+    public function excludedControllerMiddleware(): array
+    {
+        if (! $this->isControllerAction()) {
+            return [];
+        }
+
+        [$controllerClass, $controllerMethod] = [
+            $this->getControllerClass(),
+            $this->getControllerMethod(),
+        ];
+
+        return $this->attributeProvidedControllerMiddlewareExclusions($controllerClass, $controllerMethod);
+    }
+
+    /**
+     * Get the attribute provided excluded controller middleware for the given class and method.
+     *
+     * @param  string  $class
+     * @param  string  $method
+     * @return array
+     */
+    protected function attributeProvidedControllerMiddlewareExclusions(string $class, string $method): array
+    {
+        try {
+            $reflectionClass = new ReflectionClass($class);
+            $reflectionMethod = $reflectionClass->getMethod($method);
+        } catch (ReflectionException) {
+            return [];
+        }
+
+        $attributes = new Collection;
+
+        $current = $reflectionClass;
+
+        while ($current) {
+            $classAttributes = array_reverse($current->getAttributes(
+                WithoutMiddleware::class, ReflectionAttribute::IS_INSTANCEOF
+            ));
+
+            foreach ($classAttributes as $attribute) {
+                $attributes->prepend($attribute);
+            }
+
+            $current = $current->getParentClass();
+        }
+
+        return $attributes->merge(
+            $reflectionMethod->getAttributes(WithoutMiddleware::class, ReflectionAttribute::IS_INSTANCEOF)
+        )->map(function (ReflectionAttribute $attribute) use ($method) {
+            $instance = $attribute->newInstance();
+
+            return static::methodExcludedByOptions(
+                $method, ['only' => $instance->only, 'except' => $instance->except],
+            ) ? null : $instance->middleware;
+        })
+		->filter()
+		->values()
+		->all();
+    }
+
+	/**
+     * Specify middleware that should be removed from the given route.
+     *
+     * @param  array|string  $middleware
+     * @return $this
+     */
+    public function withoutMiddleware($middleware): static
+    {
+        $this->action['excluded_middleware'] = array_merge(
+            (array) ($this->action['excluded_middleware'] ?? []), Arr::wrap($middleware)
+        );
+
+        return $this;
+    }
+
+    /**
+     * Get the middleware that should be removed from the route.
+     *
+     * @return array
+     */
+    public function excludedMiddleware(): array
+    {
+        return array_merge(
+            (array) ($this->action['excluded_middleware'] ?? []),
+            $this->excludedControllerMiddleware(),
+        );
+    }
 
 	/**
      * Specify that the "Authorize" / "can" middleware should be applied to the route with the given options.
