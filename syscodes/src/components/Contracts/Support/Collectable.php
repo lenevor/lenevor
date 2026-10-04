@@ -55,6 +55,17 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
     public static function proxy($method): void;
 
     /**
+     * Create a collection with the given range.
+     *
+     * @param  int  $from
+     * @param  int  $to
+     * @param  int  $step
+     * @param  iterable  ...$args
+     * @return static<int, int>
+     */
+    public static function range($from, $to, $step = 1, ...$args): static;
+
+    /**
      * Wrap the given value in a collection if applicable.
      *
      * @param  iterable  $value
@@ -429,15 +440,6 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
     public function put(mixed $key, mixed $value): static;
 
     /**
-     * Create a collection with the given range.
-     * 
-     * @param  int  $from
-     * @param  int  $to 
-     * @return static
-     */
-    public function range(int $from, int $to): static;
-
-    /**
      * Reduce the collection to a single value.
      * 
      * @param  callable  $callback
@@ -612,7 +614,7 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
      * @param  bool  $value
      * @param  callable|null  $callback
      * @param  callable|null  $default 
-     * @return static
+     * @return $this
      */
     public function when($value = null, ?callable $callback = null, ?callable $default = null): static;
 
@@ -640,9 +642,9 @@ interface Collectable extends Arrayable, Countable, IteratorAggregate, Jsonable,
      * @param  \Closure|null  $value
      * @param  callable|null  $callback
      * @param  callable|null  $default 
-     * @return static
+     * @return $this
      */
-    public function unless($value = null, ?callable $callback = null, ?callable $default = null): static;
+    public function unless($value = null, ?callable $callback = null, ?callable $default = null);
 
     /**
      * Apply the callback unless the collection is empty.
