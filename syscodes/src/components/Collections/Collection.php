@@ -69,6 +69,20 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
     }
 
     /**
+     * Create a collection with the given range.
+     *
+     * @param  int  $from
+     * @param  int  $to
+     * @param  int  $step
+     * @param  iterable  ...$args
+     * @return static<int, int>
+     */
+    public static function range($from, $to, $step = 1, ...$args): static
+    {
+        return new static(range($from, $to, $step), ...$args);
+    }
+
+    /**
      * Add an item in the collection.
      * 
      * @param  mixed  $item 
@@ -785,18 +799,6 @@ class Collection implements ArrayAccess, CanBeEscapedWhenLoadToString, Collectab
         $this->offsetSet($key, $value);
 
         return $this;
-    }
-
-    /**
-     * Create a collection with the given range.
-     * 
-     * @param  int  $from
-     * @param  int  $to 
-     * @return static
-     */
-    public function range(int $from, int $to): static
-    {
-        return $this->newInstance(range($from, $to));
     }
 
     /**
