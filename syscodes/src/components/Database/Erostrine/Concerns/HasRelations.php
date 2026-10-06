@@ -67,15 +67,15 @@ trait HasRelations
     /**
      * Instantiate a new HasOne relationship.
      * 
-     * @param  \Syscodes\Components\Database\Erostrine\Builder  $builder
+     * @param  \Syscodes\Components\Database\Erostrine\Builder  $query
      * @param  \Syscodes\Components\Database\Erostrine\Model  $parent
      * @param  string  $foreignKey
      * @param  string  $localKey 
      * @return \Syscodes\Components\Database\Erostrine\Relations\HasOne
      */
-    protected function newHasOne(Builder $builder, Model $parent, $foreignKey, $localKey)
+    protected function newHasOne(Builder $query, Model $parent, $foreignKey, $localKey)
     {
-        return new HasOne($builder, $parent, $foreignKey, $localKey);
+        return new HasOne($query, $parent, $foreignKey, $localKey);
     }
 
     /**
@@ -114,7 +114,7 @@ trait HasRelations
     /**
      * Instantiate a new HasOneThrough relationship.
      *
-     * @param  \Syscodes\Components\Database\Erostrine\Builder $builder
+     * @param  \Syscodes\Components\Database\Erostrine\Builder $query
      * @param  \Syscodes\Components\Database\Erostrine\Model  $farParent
      * @param  \Syscodes\Components\Database\Erostrine\Model  $throughParent
      * @param  string  $firstKey
@@ -123,9 +123,9 @@ trait HasRelations
      * @param  string  $secondLocalKey 
      * @return \Syscodes\Components\Database\Erostrine\Relations\HasOneThrough
      */
-    protected function newHasOneThrough(Builder $builder, Model $farParent, Model $throughParent, $firstKey, $secondKey, $localKey, $secondLocalKey)
+    protected function newHasOneThrough(Builder $query, Model $farParent, Model $throughParent, $firstKey, $secondKey, $localKey, $secondLocalKey)
     {
-        return new HasOneThrough($builder, $farParent, $throughParent, $firstKey, $secondKey, $localKey, $secondLocalKey);
+        return new HasOneThrough($query, $farParent, $throughParent, $firstKey, $secondKey, $localKey, $secondLocalKey);
     }
 
     /**
@@ -152,15 +152,15 @@ trait HasRelations
     /**
      * Instantiate a new HasMany relationship.
      * 
-     * @param  \Syscodes\Components\Database\Erostrine\Builder  $builder
+     * @param  \Syscodes\Components\Database\Erostrine\Builder  $query
      * @param  \Syscodes\Components\Database\Erostrine\Model  $parent
      * @param  string  $foreignKey
      * @param  string  $localKey 
      * @return \Syscodes\Components\Database\Erostrine\Relations\HasMany
      */
-    protected function newHasMany(Builder $builder, Model $parent, $foreignKey, $localKey)
+    protected function newHasMany(Builder $query, Model $parent, $foreignKey, $localKey)
     {
-        return new HasMany($builder, $parent, $foreignKey, $localKey);
+        return new HasMany($query, $parent, $foreignKey, $localKey);
     }
 
     /**
@@ -227,6 +227,9 @@ trait HasRelations
 
         $instance = $this->newRelatedInstance($related);
 
+        // If no foreign key was supplied, we can use a backtrace to guess the proper
+        // foreign key name by using the name of the relationship function, which
+        // when combined with an "_id" should conventionally match the columns.
         if (is_null($foreignKey)) {
             $foreignKey = Str::snake($relation).'_'.$instance->getKeyName();
         }
@@ -241,16 +244,16 @@ trait HasRelations
     /**
      * Instantiate a new BelongsTo relationship.
      * 
-     * @param  \Syscodes\Components\Database\Erostrine\Builder  $builder
+     * @param  \Syscodes\Components\Database\Erostrine\Builder  $query
      * @param  \Syscodes\Components\Database\Erostrine\Model  $child
      * @param  string  $foreignKey
      * @param  string  $ownerKey
      * @param  string  $relation 
      * @return \Syscodes\Components\Database\Erostrine\Relations\BelongsTo
      */
-    protected function newBelongsTo(Builder $builder, Model $child, $foreignKey, $ownerKey, $relation)
+    protected function newBelongsTo(Builder $query, Model $child, $foreignKey, $ownerKey, $relation)
     {
-        return new BelongsTo($builder, $child, $foreignKey, $ownerKey, $relation);
+        return new BelongsTo($query, $child, $foreignKey, $ownerKey, $relation);
     }
     
     /**
@@ -317,9 +320,9 @@ trait HasRelations
      * 
      * @param  string  $relation
      * @param  mixed  $value 
-     * @return self
+     * @return $this
      */
-    public function setRelation(string $relation, $value): self
+    public function setRelation(string $relation, $value): static
     {
         $this->relations[$relation] = $value;
 
@@ -341,7 +344,7 @@ trait HasRelations
      * Set the entire relations array on the model.
      * 
      * @param  array  $relations 
-     * @return static
+     * @return $this
      */
     public function setRelations(array $relations): static
     {
@@ -354,7 +357,7 @@ trait HasRelations
      * Unset a loaded relationship.
      * 
      * @param  string  $relation 
-     * @return static
+     * @return $this
      */
     public function unsetRelation(string $relation): static
     {
