@@ -24,6 +24,8 @@ namespace Syscodes\Components\Database\Erostrine\Concerns;
 
 use Syscodes\Components\Contracts\Events\Dispatcher;
 use Syscodes\Components\Events\NullDispatcher;
+use InvalidArgumentException;
+use Syscodes\Components\Support\Arr;
 
 /**
  * HasEvents.
@@ -51,6 +53,65 @@ trait HasEvents
 	 */
 	protected static $dispatcher;
 
+     /**
+     * Register observers with the model.
+     *
+     * @param  object|string[]|string  $classes
+     * @return void
+     *
+     * @throws \RuntimeException
+     */
+    public static function observe($classes)
+    {
+        $instance = new static;
+
+        foreach (Arr::wrap($classes) as $class) {
+            $instance->registerObserver($class);
+        }
+    }
+
+    /**
+     * Register a single observer with the model.
+     *
+     * @param  object|string  $class
+     * @return void
+     *
+     * @throws \RuntimeException
+     */
+    protected function registerObserver($class)
+    {
+        $className = $this->resolveObserverClassName($class);
+
+        // When registering a model observer, we will spin through the possible events
+        // and determine if this observer has that method.
+        foreach ($this->getObservableEvents() as $event) {
+            if (method_exists($class, $event)) {
+                static::registerModelEvent($event, $className.'@'.$event);
+            }
+        }
+    }
+
+    /**
+     * Resolve the observer's class name from an object or string.
+     *
+     * @param  object|string  $class
+     * @return class-string
+     *
+     * @throws \InvalidArgumentException
+     */
+    private function resolveObserverClassName($class)
+    {
+        if (is_object($class)) {
+            return get_class($class);
+        }
+
+        if (class_exists($class)) {
+            return $class;
+        }
+
+        throw new InvalidArgumentException('Unable to find observer: '.$class);
+    }
+
     /**
      * Get the observable event names.
      * 
@@ -60,8 +121,9 @@ trait HasEvents
     {
         return array_merge(
             [
-                'creating', 'created', 'updating', 'updated',
-                'deleting', 'deleted', 'saving', 'saved', 
+                'retrieved', 'creating', 'created', 'updating', 'updated',
+                'saving', 'saved', 'restoring', 'restored', 'replicating',
+                'trashed', 'deleting', 'deleted'
             ],
             $this->observables
         );
@@ -70,8 +132,8 @@ trait HasEvents
     /**
      * Set the observable event names.
      * 
-     * @param  array  $observables 
-     * @return static
+     * @param  string[]  $observables 
+     * @return $this
      */
     public function setObservableEvents(array $observables): static
     {
@@ -83,7 +145,7 @@ trait HasEvents
     /**
      * Add an observable event name.
      * 
-     * @param  mixed  $observables 
+     * @param  string|string[]  $observables 
      * @return void
      */
     public function addObservableEvents($observables): void
@@ -96,7 +158,7 @@ trait HasEvents
     /**
      * Remove an observable event name.
      * 
-     * @param  mixed  $observables 
+     * @param  string|string[]  $observables 
      * @return void
      */
     public function removeObservableEvents($observables): void
@@ -134,82 +196,76 @@ trait HasEvents
         if ( ! isset(static::$dispatcher)) {
             return true;
         }
-
+        
+        // First, we will get the proper method to call on the event dispatcher, and then we
+        // will attempt to fire a custom, object based event for the given event.
         $method = $detain ? 'until' : 'dispatch';
 
-        return static::$dispatcher->{$method}("erostrine.{$event}: ".static::class, $this);
+        $result = $this->filterModelEventResults(
+            $this->fireCustomModelEvent($event, $method)
+        );
+
+        if ($result === false) {
+            return false;
+        }
+
+        return ! empty($result) ? $result : static::$dispatcher->{$method}(
+            "erostrine.{$event}: ".static::class, $this
+        );
     }
 
     /**
-     * Register a creating model event with the dispatcher.
-     * 
-     * @param  \Closure|string  $callback 
-     * @return void
+     * Fire a custom model event for the given event.
+     *
+     * @param  string  $event
+     * @param  'until'|'dispatch'  $method
+     * @return array|null|void
      */
-    public static function creating($callback): void
+    protected function fireCustomModelEvent($event, $method)
     {
-        static::registerModelEvent('creating', $callback);
+        if ( ! isset($this->dispatchEvents[$event])) {
+            return;
+        }
+
+        $result = static::$dispatcher->$method(new $this->dispatchEvents[$event]($this));
+
+        if ( ! is_null($result)) {
+            return $result;
+        }
     }
 
     /**
-     * Register a created model event with the dispatcher.
-     * 
-     * @param  \Closure|string  $callback 
-     * @return void
+     * Filter the model event results.
+     *
+     * @param  mixed  $result
+     * @return mixed
      */
-    public static function created($callback): void
+    protected function filterModelEventResults($result)
     {
-        static::registerModelEvent('created', $callback);
+        if (is_array($result)) {
+            $result = array_filter($result, function ($response) {
+                return ! is_null($response);
+            });
+        }
+
+        return $result;
     }
 
     /**
-     * Register a updating model event with the dispatcher.
-     * 
-     * @param  \Closure|string  $callback 
+     * Register a retrieved model event with the dispatcher.
+     *
+     * @param  callable|array|class-string  $callback
      * @return void
      */
-    public static function updating($callback): void
+    public static function retrieved($callback): void
     {
-        static::registerModelEvent('updating', $callback);
-    }
-
-    /**
-     * Register a updated model event with the dispatcher.
-     * 
-     * @param  \Closure|string  $callback 
-     * @return void
-     */
-    public static function updated($callback): void
-    {
-        static::registerModelEvent('updated', $callback);
-    }
-
-    /**
-     * Register a deleting model event with the dispatcher.
-     * 
-     * @param  \Closure|string  $callback 
-     * @return void
-     */
-    public static function deleting($callback): void
-    {
-        static::registerModelEvent('deleting', $callback);
-    }
-
-    /**
-     * Register a deleted model event with the dispatcher.
-     * 
-     * @param  \Closure|string  $callback 
-     * @return void
-     */
-    public static function deleted($callback): void
-    {
-        static::registerModelEvent('deleted', $callback);
+        static::registerModelEvent('retrieved', $callback);
     }
 
     /**
      * Register a saving model event with the dispatcher.
      * 
-     * @param  \Closure|string  $callback 
+     * @param  callable|array|class-string  $callback 
      * @return void
      */
     public static function saving($callback): void
@@ -220,12 +276,89 @@ trait HasEvents
     /**
      * Register a saved model event with the dispatcher.
      * 
-     * @param  \Closure|string  $callback 
+     * @param  callable|array|class-string  $callback 
      * @return void
      */
     public static function saved($callback): void
     {
         static::registerModelEvent('saved', $callback);
+    }
+
+    /**
+     * Register a updating model event with the dispatcher.
+     * 
+     * @param  callable|array|class-string  $callback 
+     * @return void
+     */
+    public static function updating($callback): void
+    {
+        static::registerModelEvent('updating', $callback);
+    }
+
+    /**
+     * Register a updated model event with the dispatcher.
+     * 
+     * @param  callable|array|class-string  $callback 
+     * @return void
+     */
+    public static function updated($callback): void
+    {
+        static::registerModelEvent('updated', $callback);
+    }
+
+    /**
+     * Register a creating model event with the dispatcher.
+     * 
+     * @param  callable|array|class-string  $callback 
+     * @return void
+     */
+    public static function creating($callback): void
+    {
+        static::registerModelEvent('creating', $callback);
+    }
+
+    /**
+     * Register a created model event with the dispatcher.
+     * 
+     * @param  callable|array|class-string  $callback 
+     * @return void
+     */
+    public static function created($callback): void
+    {
+        static::registerModelEvent('created', $callback);
+    }
+
+    /**
+     * Register a replicating model event with the dispatcher.
+     *
+     * @param  callable|array|class-string  $callback
+     * @return void
+     */
+    public static function replicating($callback)
+    {
+        static::registerModelEvent('replicating', $callback);
+    }
+
+    /**
+     * Register a deleting model event with the dispatcher.
+     * 
+     * @param  callable|array|class-string  $callback 
+     * @return void
+     */
+    public static function deleting($callback): void
+    {
+        static::registerModelEvent('deleting', $callback);
+    }
+
+    /**
+     * Register a deleted model event with the dispatcher.
+     * 
+     * @param  callable|array|class-string  $callback 
+     * @return void
+     */
+    public static function deleted($callback): void
+    {
+        static::registerModelEvent('deleted', $callback);
     }
     
     /**
@@ -238,14 +371,26 @@ trait HasEvents
         if ( ! isset(static::$dispatcher)) {
             return;
         }
+
+        $instance = new static;
         
-        foreach ((new static)->getObservableEvents() as $event) {
+        foreach ($instance->getObservableEvents() as $event) {
             static::$dispatcher->delete("erostrine.{$event}: ".static::class);
         }
         
-        foreach (array_values((new static)->dispatchEvents) as $event) {
+        foreach ($instance->dispatchEvents as $event) {
             static::$dispatcher->delete($event);
         }
+    }
+
+    /**
+     * Get the event map for the model.
+     *
+     * @return array<string, class-string>
+     */
+    public function dispatchEvents()
+    {
+        return $this->dispatchEvents;
     }
 
     /**
