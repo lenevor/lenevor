@@ -34,7 +34,7 @@ class UsePolicy
      * Constructor. Create a new attribute instance.
      *
      * @param  class-string<*>  $class
-     * return void
+     * @return void
      */
     public function __construct(public string $class)
     {
