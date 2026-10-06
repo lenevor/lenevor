@@ -43,6 +43,8 @@ use Syscodes\Components\Database\Erostrine\Relations\Pivot;
 use Syscodes\Components\Database\Query\Builder as QueryBuilder;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Support\Traits\ForwardsCalls;
+use Exception;
+use ReflectionClass;
 
 /**
  * Creates a ORM model instance.
@@ -107,6 +109,13 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	protected $primaryKey = 'id';
 
 	/**
+     * The attributes that should be refreshed after the model is written.
+     *
+     * @var list<string>
+     */
+    protected array $refreshes = [];
+
+	/**
 	 * The table associated with the model.
 	 * 
 	 * @var string
@@ -114,11 +123,25 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	protected $table;
 
 	/**
+	 * The relations to eager load on every query.
+	 * 
+	 * @var array
+	 */
+	protected $with = [];
+
+	/**
 	 * The array of booted models.
 	 * 
 	 * @var array
 	 */
 	protected static $booted = [];
+
+	/**
+     * Cache of resolved class attributes.
+     *
+     * @var array<class-string<self>, array<class-string, mixed>>
+     */
+    protected static array $classAttributes = [];
 	
 	/**
 	 * The connection resolver instance.
@@ -128,11 +151,11 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	protected static $resolver;
 
 	/**
-	 * The relations to eager load on every query.
-	 * 
-	 * @var array
-	 */
-	protected $with = [];	
+     * The array of trait initializers that will be called on each new instance.
+     *
+     * @var array
+     */
+    protected static $traitInitializers = [];
 
 	/**
 	 * Constructor. The create new Model instance.
@@ -143,9 +166,9 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	public function __construct(array $attributes = [])
 	{
 		$this-> bootIfNotBooted();
-
+		$this->initializeTraits();
+        $this->initializeModelAttributes();
 		$this->syncOriginal();
-
 		$this->fill($attributes);
 	}
 
@@ -200,12 +223,87 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	{
 		$class = static::class;
 
-		foreach (class_recursive($class) as $trait) {
-			if (method_exists($class, $method = 'boot'.class_basename($trait))) {
-				forward_static_call([$class, $method]);
-			}
-		}
+		$booted = [];
+
+        static::$traitInitializers[$class] = [];
+
+        $uses = class_recursive($class);
+
+        $conventionalBootMethods = array_map(static fn ($trait) => 'boot'.class_basename($trait), $uses);
+        $conventionalInitMethods = array_map(static fn ($trait) => 'initialize'.class_basename($trait), $uses);
+
+        foreach ((new ReflectionClass($class))->getMethods() as $method) {
+            if (! in_array($method->getName(), $booted) &&
+                $method->isStatic() &&
+                (in_array($method->getName(), $conventionalBootMethods) ||
+                $method->getAttributes(Boot::class) !== [])) {
+                $method->invoke(null);
+
+                $booted[] = $method->getName();
+            }
+
+            if (in_array($method->getName(), $conventionalInitMethods) ||
+                $method->getAttributes(Initialize::class) !== []) {
+                static::$traitInitializers[$class][] = $method->getName();
+            }
+        }
+
+
+		static::$traitInitializers[$class] = array_unique(static::$traitInitializers[$class]);
 	}
+
+	/**
+     * Initialize any initializable traits on the model.
+     *
+     * @return void
+     */
+    protected function initializeTraits()
+    {
+        foreach (static::$traitInitializers[static::class] as $method) {
+            $this->{$method}();
+        }
+    }
+
+	/**
+     * Initialize the model attributes from class attributes.
+     *
+     * @return void
+     */
+    public function initializeModelAttributes()
+    {
+        $table = static::resolveClassAttribute(Table::class);
+
+        $reflection = new ReflectionClass(static::class);
+
+        $declaresTable = $reflection->hasProperty('table')
+            && $reflection->getProperty('table')->getDeclaringClass()->getName() === static::class;
+
+        if (! $declaresTable && $reflection->getAttributes(Table::class) !== []) {
+            $this->table = $table->name ?? null;
+        } else {
+            $this->table ??= $table->name ?? null;
+        }
+
+        $this->connection ??= static::resolveClassAttribute(Connection::class, 'name');
+
+        if ($this->primaryKey === 'id' && $table && $table->key !== null) {
+            $this->primaryKey = $table->key;
+        }
+
+        if ($this->keyType === 'int' && $table && $table->keyType !== null) {
+            $this->keyType = $table->keyType;
+        }
+
+        if (static::resolveClassAttribute(WithoutIncrementing::class) !== null) {
+            $this->incrementing = false;
+        } elseif ($table && $table->incrementing !== null) {
+            $this->incrementing = $table->incrementing;
+        }
+
+        if ($this->refreshes === []) {
+            $this->refreshes = static::resolveClassAttribute(Refreshes::class, 'columns') ?? [];
+        }
+    }
 
 	/**
      * Get a new query builder that have any global scopes.
@@ -696,8 +794,7 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
 	 */
 	public function newPivot(self $parent, array $attributes, $table, $exists, $using = null)
 	{
-		return $using 
-		    ? $using::fromRawAttributes($parent, $attributes, $table, $exists)
+		return $using ? $using::fromRawAttributes($parent, $attributes, $table, $exists)
 	        : Pivot::fromAttributes($parent, $attributes, $table, $exists);
     }
 
@@ -974,6 +1071,55 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
         $this->escapeWhenLoadingToString = $escape;
         
         return $this;
+    }
+
+	/**
+     * Resolve a class attribute value from the model.
+     *
+     * @template TAttribute of object
+     *
+     * @param  class-string<TAttribute>  $attributeClass
+     * @param  string|null  $property
+     * @param  string|null  $class
+     * @return mixed
+     */
+    protected static function resolveClassAttribute(string $attributeClass, ?string $property = null, ?string $class = null)
+    {
+        $class ??= static::class;
+
+        $cacheKey = $class.'@'.$attributeClass.'@'.$property;
+
+        if (array_key_exists($cacheKey, static::$classAttributes)) {
+            return static::$classAttributes[$cacheKey];
+        }
+
+        try {
+            $reflection = new ReflectionClass($class);
+
+            do {
+                $attributes = $reflection->getAttributes($attributeClass);
+
+                if (count($attributes) > 0) {
+                    $instance = $attributes[0]->newInstance();
+
+                    return static::$classAttributes[$cacheKey] = $property ? $instance->{$property} : $instance;
+                }
+
+                foreach ($reflection->getTraits() as $trait) {
+                    $attributes = $trait->getAttributes($attributeClass);
+
+                    if (count($attributes) > 0) {
+                        $instance = $attributes[0]->newInstance();
+
+                        return static::$classAttributes[$cacheKey] = $property ? $instance->{$property} : $instance;
+                    }
+                }
+            } while ($reflection = $reflection->getParentClass());
+        } catch (Exception) {
+            //
+        }
+
+        return static::$classAttributes[$cacheKey] = null;
     }
 
 	/**
