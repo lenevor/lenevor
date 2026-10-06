@@ -31,4 +31,18 @@ use Syscodes\Components\Database\Erostrine\Relations\Concerns\AsPivotTable;
 class Pivot extends Model
 {
     use AsPivotTable;
+
+    /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array<string>|bool
+     */
+    protected $guarded = [];
 }
