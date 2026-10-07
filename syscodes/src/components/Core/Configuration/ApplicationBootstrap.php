@@ -221,7 +221,7 @@ class ApplicationBootstrap
      * @param  callable|null  $callback 
      * @return static
      */
-    public function assignMiddlewares(?callable $callback = null): static
+    public function assignMiddleware(?callable $callback = null): static
     {
         $this->app->afterResolving(Kernel::class, function ($kernel) use ($callback) {
             $middleware = (new MiddlewareBootstrap)
