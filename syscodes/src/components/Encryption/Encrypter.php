@@ -184,7 +184,7 @@ class Encrypter implements EncrypterContract, StringEncrypter
     }
 
     /**
-     * Encrypt the given value.
+     * Decrypt the given value.
      * 
      * @param  string  $payload
      * @param  bool  $unserialize 
@@ -266,7 +266,7 @@ class Encrypter implements EncrypterContract, StringEncrypter
      * 
      * @throws \Syscodes\Components\Encryption\Exceptions\DecryptException
      */
-    public function getJsonPayload($payload)
+    protected function getJsonPayload($payload)
     {
         if ( ! is_string($payload)) {
             throw new DecryptException('The payload is invalid.');
@@ -279,9 +279,9 @@ class Encrypter implements EncrypterContract, StringEncrypter
         }
         
         return $payload;
-        }
-        
-        /**
+    }
+    
+    /**
      * Verify that the encryption payload is valid.
      * 
      * @param  mixed  $payload 

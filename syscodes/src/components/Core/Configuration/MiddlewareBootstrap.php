@@ -108,7 +108,7 @@ class MiddlewareBootstrap
      * Prepend middleware to the application's global middleware stack.
      * 
      * @param  array|string  $middleware 
-     * @return static
+     * @return $this
      */
     public function prepend(array|string $middleware): static
     {
@@ -124,7 +124,7 @@ class MiddlewareBootstrap
      * Append middleware to the application's global middleware stack.
      * 
      * @param  array|string  $middleware 
-     * @return static
+     * @return $this
      */
     public function append(array|string $middleware): static
     {
@@ -140,7 +140,7 @@ class MiddlewareBootstrap
      * Remove middleware from the application's global middleware stack.
      * 
      * @param  array|string  $middleware 
-     * @return static
+     * @return $this
      */
     public function remove(array|string $middleware): static
     {
@@ -156,7 +156,7 @@ class MiddlewareBootstrap
      * Define the global middleware for the application.
      * 
      * @param  array  $middleware 
-     * @return static
+     * @return $this
      */
     public function use(array $middleware): static
     {
@@ -170,7 +170,7 @@ class MiddlewareBootstrap
      * 
      * @param  string  $search
      * @param  string  $replace 
-     * @return static
+     * @return $this
      */
     public function replace(string $search, string $replace): static
     {
@@ -183,7 +183,7 @@ class MiddlewareBootstrap
      * Register additional middleware aliases.
      * 
      * @param  array  $aliases 
-     * @return static
+     * @return $this
      */
     public function alias(array $aliases): static
     {
@@ -196,7 +196,7 @@ class MiddlewareBootstrap
      * Define the middleware priority for the application.
      * 
      * @param  array  $priority 
-     * @return static
+     * @return $this
      */
     public function priority(array $priority): static
     {
@@ -282,7 +282,7 @@ class MiddlewareBootstrap
      * Configure where guests are redirected by the "auth" middleware.
      * 
      * @param  callable|string  $redirect 
-     * @return static
+     * @return $this
      */
     public function redirectGuestsTo(callable|string $redirect): static
     {
@@ -293,7 +293,7 @@ class MiddlewareBootstrap
      * Configure where users are redirected by the "guest" middleware.
      * 
      * @param  callable|string  $redirect 
-     * @return static
+     * @return $this
      */
     public function redirectUsersTo(callable|string $redirect): static
     {
@@ -305,7 +305,7 @@ class MiddlewareBootstrap
      * 
      * @param  callable|string  $guests
      * @param  callable|string  $users 
-     * @return static
+     * @return $this
      */
     public function redirectTo(callable|string|null $guests = null, callable|string|null $users = null): static
     {
@@ -329,7 +329,7 @@ class MiddlewareBootstrap
      * Configure the cookie encryption middleware.
      * 
      * @param  array<int, string>  $except 
-     * @return static
+     * @return $this
      */
     public function encryptCookies(array $except = []): static
     {
@@ -342,7 +342,7 @@ class MiddlewareBootstrap
      * Indicate that the API middleware group's throttling middleware should be enabled.
      * 
      * @param  string  $limiter 
-     * @return static
+     * @return $this
      */
     public function throttleApi($limiter = 'api'): static
     {

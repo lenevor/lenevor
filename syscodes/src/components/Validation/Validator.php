@@ -1254,7 +1254,7 @@ class Validator implements ValidationContract
      * Set the data under validation.
      *
      * @param  array  $data
-     * @return static
+     * @return $this
      */
     public function setData(array $data): static
     {
@@ -1525,8 +1525,8 @@ class Validator implements ValidationContract
             return $this->callExtension($rule, $parameters);
         }
 
-        throw new BadMethodCallException(sprintf(
-            'Method %s::%s does not exist.', static::class, $method
-        ));
+        // throw new BadMethodCallException(sprintf(
+        //     'Method %s::%s does not exist.', static::class, $method
+        // ));
     }
 }
