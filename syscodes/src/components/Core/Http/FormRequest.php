@@ -60,13 +60,6 @@ class FormRequest extends Request implements ValidatesResolved
     protected $errorBag = 'default';
     
     /**
-     * The input keys that should not be flashed on redirect.
-     * 
-     * @var array
-     */
-    protected $dontFlash = ['password', 'password_confirmation'];
-    
-    /**
      * The redirector instance.
      * 
      * @var \Syscodes\Components\Routing\Generators\Redirector
