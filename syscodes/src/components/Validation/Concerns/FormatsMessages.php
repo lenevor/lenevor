@@ -41,7 +41,7 @@ trait FormatsMessages
      * @param  string  $rule
      * @return string
      */
-    protected function getMessage($attribute, $rule): string
+    protected function getMessage($attribute, $rule)
     {
         $attributeWithPlaceholders = $attribute;
 
@@ -85,7 +85,7 @@ trait FormatsMessages
         // messages out of the translator service for this validation rule.
         $key = "validation.{$lowerRule}";
 
-        if ($key != ($value = $this->translator->get($key))) {
+        if ($key !== ($value = $this->translator->get($key))) {
             return $value;
         }
 
@@ -206,7 +206,7 @@ trait FormatsMessages
      * @param  string  $default
      * @return string
      */
-    protected function getWildcardCustomMessages($messages, $search, $default): string
+    protected function getWildcardCustomMessages($messages, $search, $default)
     {
         foreach ($messages as $key => $message) {
             if ($search === $key || (Str::contains($key, ['*']) && Str::is($key, $search))) {
@@ -244,7 +244,7 @@ trait FormatsMessages
      * @param  string  $attribute
      * @return string
      */
-    protected function getAttributeType($attribute): string
+    protected function getAttributeType($attribute)
     {
         // We assume that the attributes present in the file array are files so that
         // means that if the attribute does not have a numeric rule and the files
@@ -267,12 +267,12 @@ trait FormatsMessages
      * @param  array  $parameters
      * @return string
      */
-    public function makeReplacements($message, $attribute, $rule, $parameters): string
+    public function makeReplacements($message, $attribute, $rule, $parameters)
     {
         $message = $this->replaceAttributePlaceholder(
             $message, $this->getDisplayableAttribute($attribute)
         );
-
+        
         $message = $this->replaceInputPlaceholder($message, $attribute);
         $message = $this->replaceIndexPlaceholder($message, $attribute);
         $message = $this->replacePositionPlaceholder($message, $attribute);
@@ -293,7 +293,7 @@ trait FormatsMessages
      * @param  string  $attribute
      * @return string
      */
-    public function getDisplayableAttribute($attribute): string
+    public function getDisplayableAttribute($attribute)
     {
         $primaryAttribute = $this->getPrimaryAttribute($attribute);
 
@@ -376,7 +376,7 @@ trait FormatsMessages
      * @param  string  $value
      * @return string
      */
-    protected function replaceAttributePlaceholder($message, $value): string
+    protected function replaceAttributePlaceholder($message, $value)
     {
         return str_replace(
             [':attribute', ':ATTRIBUTE', ':Attribute'],
@@ -392,8 +392,8 @@ trait FormatsMessages
      * @param  string  $attribute
      * @return string
      */
-    protected function replaceInputPlaceholder($message, $attribute): string
-    {
+    protected function replaceInputPlaceholder($message, $attribute)
+    {dd($message);
         if ( ! str_contains($message, ':input')) {
             return $message;
         }
