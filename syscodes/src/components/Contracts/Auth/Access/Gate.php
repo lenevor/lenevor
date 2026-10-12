@@ -33,7 +33,7 @@ interface Gate
      * @param  string[]  $ability 
      * @return bool
      */
-    public function has($ability): bool;
+    public function has($ability);
     
     /**
      * Define a new ability.
@@ -50,18 +50,18 @@ interface Gate
      * @param  string  $name
      * @param  string  $class
      * @param  array|null  $abilities 
-     * @return static
+     * @return $this
      */
-    public function resource(string $name, string $class, ?array $abilities = null): static;
+    public function resource($name, $class, $abilities = null): static;
     
     /**
      * Define a policy class for a given class type.
      * 
      * @param  string  $class
      * @param  string  $policy 
-     * @return static
+     * @return $this
      */
-    public function policy(string $class, string $policy): static;
+    public function policy($class, $policy): static;
     
     /**
      * Register a callback to run before all Gate checks.
@@ -82,49 +82,58 @@ interface Gate
     /**
      * Determine if the given ability should be granted for the current user.
      * 
-     * @param  string  $ability
-     * @param  array  $arguments 
+     * @param  iterable|\UnitEnum|string  $ability
+     * @param  mixed  $arguments 
      * @return bool
      */
-    public function allows(string $ability, array $arguments = []): bool;
+    public function allows($ability, $arguments = []): bool;
     
     /**
      * Determine if the given ability should be denied for the current user.
      * 
-     * @param  string  $ability
-     * @param  array  $arguments 
+     * @param  iterable|\UnitEnum|string  $ability
+     * @param  mixed  $arguments 
      * @return bool
      */
-    public function denies(string $ability, array $arguments = []): bool;
+    public function denies($ability, $arguments = []): bool;
     
     /**
      * Determine if the given ability should be granted.
      * 
-     * @param  string  $ability
-     * @param  array  $arguments 
+     * @param  iterable|\UnitEnum|string  $ability
+     * @param  mixed  $arguments 
      * @return bool
      */
-    public function check(string $ability, array $arguments = []): bool;
+    public function check(string $ability, $arguments = []): bool;
     
     /**
      * Determine if any one of the given abilities should be granted for the current user.
      * 
      * @param  iterable|string  $abilities
-     * @param  array  $arguments 
+     * @param  mixed  $arguments 
      * @return bool
      */
-    public function any($abilities, array $arguments = []): bool;
+    public function any($abilities, $arguments = []): bool;
+
+    /**
+     * Determine if all of the given abilities should be denied for the current user.
+     *
+     * @param  iterable|\UnitEnum|string  $abilities
+     * @param  mixed  $arguments
+     * @return bool
+     */
+    public function none($abilities, $arguments = []): bool;
     
     /**
      * Determine if the given ability should be granted for the current user.
      * 
      * @param  string  $ability
-     * @param  array  $arguments 
+     * @param  mixed  $arguments 
      * @return \Syscodes\Components\Auth\Access\Response
      * 
      * @throws \Syscodes\Components\Auth\Access\Exceptions\AuthorizationException
      */
-    public function authorize(string $ability, array $arguments = []);
+    public function authorize($ability, $arguments = []);
     
     /**
      * Inspect the user for the given ability.
@@ -144,7 +153,7 @@ interface Gate
      * 
      * @throws \Syscodes\Components\Auth\Access\Exceptions\AuthorizationException
      */
-    public function raw(string $ability, array $arguments): mixed;
+    public function raw($ability, $arguments);
     
     /**
      * Get a policy instance for a given class.

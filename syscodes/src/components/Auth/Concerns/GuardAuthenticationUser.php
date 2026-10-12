@@ -107,7 +107,7 @@ trait GuardAuthenticationUser
      * Set the current user.
      * 
      * @param  \Syscodes\Components\Contracts\Auth\Authenticatable  $user 
-     * @return static
+     * @return $this
      */
     public function setUser(AuthenticatableInterface $user): static
     {

@@ -86,10 +86,10 @@ class AuthManager implements Factory
     /**
      * Get a guard instance by name.
      * 
-     * @param  string|null  $name 
+     * @param  \UnitEnum|string|null  $name 
      * @return \Syscodes\Components\Contracts\Auth\Guard|\Syscodes\Components\Contracts\Auth\StateGuard
      */
-    public function guard(?string $name = null)
+    public function guard($name = null)
     {
         $name = enum_value($name) ?: $this->getDefaultDriver();
         
@@ -144,13 +144,9 @@ class AuthManager implements Factory
      * @param  array  $config
      * @return mixed
      */
-    protected function callCustomCreator($name, array $config): mixed
+    protected function callCustomCreator($name, array $config)
     {
-        $driver = $config['driver'];
-        
-        $callback = $this->customCreators[$driver];
-        
-        return call_user_func($callback, $this->app, $name, $config);
+       return $this->customCreators[$config['driver']]($this->app, $name, $config);
     }
     
     /**
@@ -224,10 +220,10 @@ class AuthManager implements Factory
     /**
      * Set the default guard the factory should serve.
      * 
-     * @param  string  $name 
+     * @param  \UnitEnum|string|null  $name 
      * @return void
      */
-    public function shouldUse(string $name): void
+    public function shouldUse($name)
     {
         $name = enum_value($name) ?: $this->getDefaultDriver();
         
