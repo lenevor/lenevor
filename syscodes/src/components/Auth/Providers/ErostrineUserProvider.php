@@ -109,7 +109,7 @@ class ErostrineUserProvider implements UserProvider
      * @param  string  $token
      * @return void
      */
-    public function updateRememberToken(UserContract $user, string $token): void
+    public function updateRememberToken(UserContract $user, string $token)
     {
         $user->setRememberToken($token);
         
@@ -117,6 +117,7 @@ class ErostrineUserProvider implements UserProvider
         
         $user->timestamps = false;
         
+        /** @var \Syscodes\Components\Database\Erostrine\Model $user */
         $user->save();
         
         $user->timestamps = $timestamps;
@@ -163,9 +164,15 @@ class ErostrineUserProvider implements UserProvider
      */
     public function validateCredentials(UserContract $user, array $credentials): bool
     {
-        return $this->hasher->check(
-            $credentials['password'], $user->getAuthPassword()
-        );
+        if (is_null($plain = $credentials['password'])) {
+            return false;
+        }
+
+        if (is_null($hashed = $user->getAuthPassword())) {
+            return false;
+        }
+
+        return $this->hasher->check($plain, $hashed);
     }
     
     /**
