@@ -197,28 +197,36 @@ class Password implements DataAwareRule, ImplicitRule, IteratorAggregate, Rule, 
     /**
      * Get the default configuration of the password rule and mark the field as required.
      *
-     * @return array
+     * @return static
      */
-    public static function required(): array
+    public static function required()
     {
-        return ['required', static::default()];
+        $password = static::default();
+
+        $password->required = true;
+
+        return $password;
     }
 
     /**
      * Get the default configuration of the password rule and mark the field as sometimes being required.
      *
-     * @return array
+     * @return static
      */
     public static function sometimes()
     {
-        return ['sometimes', static::default()];
+        $password = static::default();
+
+        $password->sometimes = true;
+
+        return $password;
     }
 
     /**
      * Set the performing validator.
      *
      * @param  \Syscodes\Components\Contracts\Validation\Validator  $validator
-     * @return static
+     * @return $this
      */
     public function setValidator($validator): static
     {
@@ -231,7 +239,7 @@ class Password implements DataAwareRule, ImplicitRule, IteratorAggregate, Rule, 
      * Set the data under validation.
      *
      * @param  array  $data
-     * @return static
+     * @return $this
      */
     public function setData($data): static
     {
@@ -244,7 +252,7 @@ class Password implements DataAwareRule, ImplicitRule, IteratorAggregate, Rule, 
      * Sets the minimum size of the password.
      *
      * @param  int  $size
-     * @return static
+     * @return $this
      */
     public static function min($size): static
     {
@@ -252,10 +260,23 @@ class Password implements DataAwareRule, ImplicitRule, IteratorAggregate, Rule, 
     }
 
     /**
+     * Set the maximum size of the password.
+     *
+     * @param  int  $size
+     * @return $this
+     */
+    public function max($size): static
+    {
+        $this->max = $size;
+
+        return $this;
+    }
+
+    /**
      * Ensures the password has not been compromised in data leaks.
      *
      * @param  int  $threshold
-     * @return static
+     * @return $this
      */
     public function uncompromised($threshold = 0): static
     {
@@ -269,7 +290,7 @@ class Password implements DataAwareRule, ImplicitRule, IteratorAggregate, Rule, 
     /**
      * Makes the password require at least one uppercase and one lowercase letter.
      *
-     * @return static
+     * @return $this
      */
     public function mixedCase(): static
     {
@@ -281,7 +302,7 @@ class Password implements DataAwareRule, ImplicitRule, IteratorAggregate, Rule, 
     /**
      * Makes the password require at least one letter.
      *
-     * @return static
+     * @return $this
      */
     public function letters(): static
     {
@@ -293,7 +314,7 @@ class Password implements DataAwareRule, ImplicitRule, IteratorAggregate, Rule, 
     /**
      * Makes the password require at least one number.
      *
-     * @return static
+     * @return $this
      */
     public function numbers(): static
     {
@@ -305,7 +326,7 @@ class Password implements DataAwareRule, ImplicitRule, IteratorAggregate, Rule, 
     /**
      * Makes the password require at least one symbol.
      *
-     * @return static
+     * @return $this
      */
     public function symbols(): static
     {
@@ -318,7 +339,7 @@ class Password implements DataAwareRule, ImplicitRule, IteratorAggregate, Rule, 
      * Specify additional validation rules that should be merged with the default rules during validation.
      *
      * @param  string|array  $rules
-     * @return static
+     * @return $this
      */
     public function rules($rules): static
     {

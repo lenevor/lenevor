@@ -25,7 +25,9 @@ namespace Syscodes\Components\Validation\Concerns;
 use Closure;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Support\Number;
 use Syscodes\Components\Support\Str;
+use Syscodes\Components\Validation\Rules\File;
 
 /**
  * Get the format messages for an attribute and rule.

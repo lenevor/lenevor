@@ -22,9 +22,9 @@
 
 namespace Syscodes\Components\Validation\Rules;
 
+use Stringable;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Traits\Conditionable;
-use Stringable;
 
 /**
  * Gets the attribute must be string rule.

@@ -22,9 +22,9 @@
 
 namespace Syscodes\Components\Validation\Rules;
 
+use Stringable;
 use Syscodes\Components\Database\Erostrine\Model;
 use Syscodes\Components\Support\Traits\Conditionable;
-use Stringable;
 
 /**
  * Gets the attribute must be unique.
