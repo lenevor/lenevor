@@ -629,7 +629,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @return void
      */
-    public function attempting(mixed $callback): void
+    public function attempting(mixed $callback)
     {
         $this->events->listen(Attempting::class, $callback) ?? null;
     }
@@ -642,7 +642,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @return void
      */
-    protected function fireAttemptEvent(array $credentials, bool $remember = false): void
+    protected function fireAttemptEvent(array $credentials, bool $remember = false)
     {
         $this->events->dispatch(new Attempting($this->name, $credentials, $remember)) ?? null;
     }
@@ -654,7 +654,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @return void
      */
-    protected function fireValidatedEvent(Authenticatable $user): void
+    protected function fireValidatedEvent($user)
     {
         $this->events->dispatch(new Validated($this->name, $user)) ?? null;
     }
@@ -667,7 +667,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @return void
      */
-    protected function fireLoginEvent(Authenticatable $user, bool $remember = false): void
+    protected function fireLoginEvent($user, bool $remember = false)
     {
         $this->events->dispatch(new Login($this->name, $user, $remember)) ?? null;
     }
@@ -679,7 +679,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @return void
      */
-    protected function fireAuthenticatedEvent(Authenticatable $user): void
+    protected function fireAuthenticatedEvent($user)
     {
         $this->events->dispatch(new Authenticated($this->name, $user)) ?? null;
     }
@@ -691,7 +691,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @return void
      */
-    protected function fireOtherDeviceLogoutEvent(Authenticatable $user): void
+    protected function fireOtherDeviceLogoutEvent($user)
     {
         $this->events->dispatch(new OtherDeviceLogout($this->name, $user)) ?? null;
     }
@@ -704,7 +704,7 @@ class SessionGuard implements StateGuard, SupportedBasicAuth
      * 
      * @return void
      */
-    protected function fireFailedEvent(Authenticatable $user, array $credentials): void
+    protected function fireFailedEvent($user, array $credentials)
     {
         $this->events->dispatch(new Failed($this->name, $user, $credentials)) ?? null;
     }

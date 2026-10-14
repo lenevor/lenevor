@@ -75,7 +75,7 @@ interface Validator extends MessageProvider
      *
      * @return array
      */
-    public function getRulesWithoutPlaceholders(): array;
+    public function getRulesWithoutPlaceholders();
 
     /**
      * Get the failed validation rules.

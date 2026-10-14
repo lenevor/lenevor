@@ -41,5 +41,5 @@ interface Factory
      * @param  string  $name 
      * @return void
      */
-    public function shouldUse(string $name): void;
+    public function shouldUse($name);
 }

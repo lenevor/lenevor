@@ -51,7 +51,7 @@ interface UserProvider
      * @param  string  $token 
      * @return void
      */
-    public function updateRememberToken(Authenticatable $user, string $token): void;
+    public function updateRememberToken(Authenticatable $user, string $token);
     
     /**
      * Retrieve a user by the given credentials.
