@@ -32,7 +32,7 @@ interface Authenticatable
      * 
      * @return mixed
      */
-    public function getAuthIdentifier(): mixed;
+    public function getAuthIdentifier();
     
     /**
      * Get the name of the unique identifier for the user.
@@ -42,11 +42,18 @@ interface Authenticatable
     public function getAuthIdentifierName(): string;
     
     /**
-     * Get the password for the user.
-     * 
+     * Get the name of the password attribute for the user.
+     *
      * @return string
      */
-    public function getAuthPassword(): string;
+    public function getAuthPasswordName(): string;
+
+    /**
+     * Get the password for the user.
+     *
+     * @return string
+     */
+    public function getAuthPassword();
     
     /**
      * Get the token value for the "remember me" session.

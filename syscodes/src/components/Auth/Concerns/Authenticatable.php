@@ -28,6 +28,13 @@ namespace Syscodes\Components\Auth\Concerns;
 trait Authenticatable
 {
     /**
+     * The column name of the password field using during authentication.
+     *
+     * @var string
+     */
+    protected $authPasswordName = 'password';
+
+    /**
      * The column name of the "remember me" token.
      * 
      * @var string
@@ -49,21 +56,30 @@ trait Authenticatable
      * 
      * @return mixed
      */
-    public function getAuthIdentifier(): mixed
+    public function getAuthIdentifier()
     {
         return $this->{$this->getAuthIdentifierName()};
     }
     
     /**
-     * Get the password for the user.
-     * 
+     * Get the name of the password attribute for the user.
+     *
      * @return string
      */
-    public function getAuthPassword(): string
+    public function getAuthPasswordName(): string
     {
-        return $this->password;
+        return $this->authPasswordName;
     }
-    
+
+    /**
+     * Get the password for the user.
+     *
+     * @return string
+     */
+    public function getAuthPassword()
+    {
+        return $this->{$this->getAuthPasswordName()};
+    }
     /**
      * Get the token value for the "remember me" session.
      * 
