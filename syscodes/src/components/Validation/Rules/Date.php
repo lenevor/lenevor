@@ -23,10 +23,10 @@
 namespace Syscodes\Components\Validation\Rules;
 
 use DateTimeInterface;
+use Stringable;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Traits\Conditionable;
 use Syscodes\Components\Support\Traits\Macroable;
-use Stringable;
 
 /**
  * Gets the attribute must be date.
