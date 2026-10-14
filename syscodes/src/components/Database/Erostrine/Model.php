@@ -29,6 +29,7 @@ use LogicException;
 use ReflectionClass;
 use Stringable;
 use Symfony\Component\HttpFoundation\Exception\JsonException;
+use Syscodes\Components\Contracts\Routing\UrlRoutable;
 use Syscodes\Components\Contracts\Support\Arrayable;
 use Syscodes\Components\Contracts\Support\CanBeEscapedWhenLoadToString;
 use Syscodes\Components\Contracts\Support\Jsonable;
@@ -37,6 +38,7 @@ use Syscodes\Components\Database\Erostrine\Attributes\Boot;
 use Syscodes\Components\Database\Erostrine\Attributes\Connection;
 use Syscodes\Components\Database\Erostrine\Attributes\Initialize;
 use Syscodes\Components\Database\Erostrine\Attributes\Refreshes;
+use Syscodes\Components\Database\Erostrine\Attributes\RouteKey;
 use Syscodes\Components\Database\Erostrine\Attributes\Table;
 use Syscodes\Components\Database\Erostrine\Attributes\WithoutIncrementing;
 use Syscodes\Components\Database\Erostrine\Concerns\GuardsAttributes;
@@ -55,7 +57,7 @@ use Syscodes\Components\Support\Traits\ForwardsCalls;
 /**
  * Creates a ORM model instance.
  */
-class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jsonable, JsonSerializable, Stringable
+class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jsonable, JsonSerializable, Stringable, UrlRoutable
 {
 	use HasAttributes,
 	    HasEvents,
@@ -883,6 +885,26 @@ class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenLoadToString, Jso
         $this->keyType = $type;
 
         return $this;
+    }
+
+	/**
+     * Get the value of the model's route key.
+     *
+     * @return mixed
+     */
+    public function getRouteKey()
+    {
+        return $this->getAttribute($this->getRouteKeyName());
+    }
+
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return static::resolveClassAttribute(RouteKey::class, 'key') ?? $this->getKeyName();
     }
 
 	/**
