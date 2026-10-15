@@ -334,11 +334,11 @@ class Validator implements ValidationContract
     protected $translator;
     
     /**
-     * Indicates if DNS lookups performed by validation rules should be faked to always succeed.
+     * Indicates if DNS lookups performed by validation rules should be fibbered to always succeed.
      *
      * @var bool
      */
-    protected static $fakeDnsLookups = false;
+    public static $fibberDnsLookups = false;
 
     /**
      * The current random hash for the validator.
@@ -473,7 +473,7 @@ class Validator implements ValidationContract
      *
      * @return bool
      */
-    public function passes(): bool
+    public function passes()
     {
         $this->messages = new MessageBag;
 
@@ -538,11 +538,16 @@ class Validator implements ValidationContract
      */
     protected function shouldBeExcluded($attribute): bool
     {
-        foreach ($this->excludeAttributes as $excludeAttribute) {
-            if ($attribute === $excludeAttribute ||
-                Str::startsWith($attribute, $excludeAttribute.'.')) {
+        $prefix = '';
+
+        foreach (explode('.', $attribute) as $segment) {
+            $prefix .= $segment;
+
+            if (isset($this->excludeAttributes[$prefix])) {
                 return true;
             }
+
+            $prefix .= '.';
         }
 
         return false;
@@ -584,7 +589,7 @@ class Validator implements ValidationContract
      *
      * @throws \Syscodes\Components\Validation\Exceptions\ValidationException
      */
-    public function validateWithBag(string $errorBag): array
+    public function validateWithBag(string $errorBag)
     {
         try {
             return $this->validate();
@@ -629,22 +634,44 @@ class Validator implements ValidationContract
 
         $missingValue = new \stdClass;
 
+        $parentKeys = $this->excludeUnvalidatedArrayKeys ? $this->parentRuleKeys() : [];
+
         foreach ($this->getRules() as $key => $rules) {
             $value = data_get($this->getData(), $key, $missingValue);
 
             if ($this->excludeUnvalidatedArrayKeys &&
                 (in_array('array', $rules) || in_array('list', $rules)) &&
                 $value !== null &&
-                ! empty(preg_grep('/^'.preg_quote($key, '/').'\.+/', array_keys($this->getRules())))) {
+                isset($parentKeys[$key])) {
                 continue;
             }
 
             if ($value !== $missingValue) {
-                $results = Arr::set($results, $key, $value);
+                Arr::set($results, $key, $value);
             }
         }
 
         return $this->replacePlaceholders($results);
+    }
+
+    /**
+     * Get the rule keys that have nested rules beneath them.
+     *
+     * @return array<string, true>
+     */
+    protected function parentRuleKeys()
+    {
+        $parentKeys = [];
+
+        foreach (array_keys($this->getRules()) as $key) {
+            while (str_contains($key, '.')) {
+                $key = Str::beforeLast($key, '.');
+
+                $parentKeys[$key] = true;
+            }
+        }
+
+        return $parentKeys;
     }
 
     /**
@@ -794,9 +821,9 @@ class Validator implements ValidationContract
      * @param  string  $attribute
      * @return array
      */
-    protected function getExplicitKeys($attribute): array
+    protected function getExplicitKeys($attribute)
     {
-        $pattern = str_replace('\*', '([^\.]+)', preg_quote($this->getPrimaryAttribute($attribute), '/'));
+        $pattern = str_replace('\*', '([^\.]*)', preg_quote($this->getPrimaryAttribute($attribute), '/'));
 
         if (preg_match('/^'.$pattern.'/', $attribute, $keys)) {
             array_shift($keys);
@@ -815,7 +842,7 @@ class Validator implements ValidationContract
      * @param  string  $attribute
      * @return string
      */
-    protected function getPrimaryAttribute($attribute): string
+    protected function getPrimaryAttribute($attribute)
     {
         foreach ($this->implicitAttributes as $unparsed => $parsed) {
             if (in_array($attribute, $parsed, true)) {
@@ -965,7 +992,7 @@ class Validator implements ValidationContract
 
         $attribute = match (true) {
             $rule instanceof Rules\Email => $attribute,
-            // $rule instanceof Rules\File => $attribute,
+            $rule instanceof Rules\File => $attribute,
             $rule instanceof Rules\Password => $attribute,
             default => $originalAttribute,
         };
@@ -1113,7 +1140,7 @@ class Validator implements ValidationContract
      * @param  array  $replacers
      * @return void
      */
-    public function addReplacers(array $replacers): void
+    public function addReplacers(array $replacers)
     {
         if ($replacers) {
             $keys = array_map(Str::snake(...), array_keys($replacers));
@@ -1221,7 +1248,7 @@ class Validator implements ValidationContract
      *
      * @return array
      */
-    public function getRulesWithoutPlaceholders(): array
+    public function getRulesWithoutPlaceholders()
     {
         return (new Collection($this->rules))
             ->mapKeys(fn ($value, $key) => [
@@ -1302,7 +1329,7 @@ class Validator implements ValidationContract
      * Set the validation rules.
      *
      * @param  array  $rules
-     * @return static
+     * @return $this
      */
     public function setRules(array $rules): static
     {
@@ -1329,7 +1356,7 @@ class Validator implements ValidationContract
      * @param  array  $rules
      * @return void
      */
-    public function addRules($rules): void 
+    public function addRules($rules)
     {
         // The primary purpose of this parser is to expand any "*" rules to the all
         // of the explicit rules needed for the given data.
@@ -1375,7 +1402,6 @@ class Validator implements ValidationContract
 
         return $this;
     }
-
 
     /**
      * Get the Presence Verifier implementation.
@@ -1525,8 +1551,8 @@ class Validator implements ValidationContract
             return $this->callExtension($rule, $parameters);
         }
 
-        // throw new BadMethodCallException(sprintf(
-        //     'Method %s::%s does not exist.', static::class, $method
-        // ));
+        throw new BadMethodCallException(sprintf(
+            'Method %s::%s does not exist.', static::class, $method
+        ));
     }
 }
