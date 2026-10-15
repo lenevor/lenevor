@@ -25,6 +25,7 @@ namespace Syscodes\Components\Validation;
 use Closure;
 use Syscodes\Components\Contracts\Validation\CompilableRules;
 use Syscodes\Components\Contracts\Validation\InvokableRule;
+use Syscodes\Components\Contracts\Validation\ParameterizedRule;
 use Syscodes\Components\Contracts\Validation\Rule as RuleContract;
 use Syscodes\Components\Contracts\Validation\ValidationRule;
 use Syscodes\Components\Support\Arr;
@@ -112,7 +113,7 @@ class ValidationRuleParser
      * @param  string  $attribute
      * @return array
      */
-    protected function explodeExplicitRule($rule, $attribute): array
+    protected function explodeExplicitRule($rule, $attribute)
     {
         if (is_string($rule)) {
             return explode('|', $rule);
@@ -158,6 +159,7 @@ class ValidationRuleParser
 
         if ( ! is_object($rule) ||
             $rule instanceof RuleContract ||
+            $rule instanceof ParameterizedRule ||
             ($rule instanceof Exists && $rule->queryCallbacks()) ||
             ($rule instanceof Unique && $rule->queryCallbacks())) {
             return $rule;
@@ -180,7 +182,7 @@ class ValidationRuleParser
      * @param  string|array  $rules
      * @return array
      */
-    protected function explodeWildcardRules($results, $attribute, $rules): array
+    protected function explodeWildcardRules($results, $attribute, $rules)
     {
         $pattern = str_replace('\*', '[^\.]*', preg_quote($attribute));
 
@@ -223,7 +225,7 @@ class ValidationRuleParser
      * @param  string|array  $rules
      * @return array
      */
-    public function mergeRules($results, $attribute, $rules = []): array
+    public function mergeRules($results, $attribute, $rules = [])
     {
         if (is_array($attribute)) {
             foreach ((array) $attribute as $innerAttribute => $innerRules) {
@@ -246,13 +248,9 @@ class ValidationRuleParser
      * @param  string|array  $rules
      * @return array
      */
-    protected function mergeRulesForAttribute(&$results, $attribute, $rules): array
+    protected function mergeRulesForAttribute(&$results, $attribute, $rules)
     {
-        $merge = head($this->explodeRules([$rules]));
-
-        $results[$attribute] = array_merge(
-            isset($results[$attribute]) ? $this->explodeExplicitRule($results[$attribute], $attribute) : [], $merge
-        );
+        $this->mergeRulesForAttributeInto($results, $attribute, $rules);
 
         return $results;
     }
@@ -282,6 +280,10 @@ class ValidationRuleParser
      */
     public static function parse($rule)
     {
+        if ($rule instanceof ParameterizedRule) {
+            $rule = $rule->toArray();
+        }
+
         if ($rule instanceof RuleContract || $rule instanceof CompilableRules) {
             return [$rule, []];
         }
@@ -337,7 +339,7 @@ class ValidationRuleParser
      * @param  string  $parameter
      * @return array
      */
-    protected static function parseParameters($rule, $parameter): array
+    protected static function parseParameters($rule, $parameter)
     {
         return static::ruleIsRegex($rule) ? [$parameter] : str_getcsv($parameter, escape: '\\');
     }
@@ -359,7 +361,7 @@ class ValidationRuleParser
      * @param  string  $rule
      * @return string
      */
-    protected static function normalizeRule($rule): string
+    protected static function normalizeRule($rule)
     {
         return match ($rule) {
             'Int' => 'Integer',
@@ -375,7 +377,7 @@ class ValidationRuleParser
      * @param  array  $data
      * @return array
      */
-    public static function filterConditionalRules($rules, array $data = []): array
+    public static function filterConditionalRules($rules, array $data = [])
     {
         return (new Collection($rules))->mapKeys(function ($attributeRules, $attribute) use ($data) {
             if ( ! is_array($attributeRules) &&
