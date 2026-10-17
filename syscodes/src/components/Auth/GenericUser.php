@@ -66,6 +66,16 @@ class GenericUser implements UserContract
     {
         return 'id';
     }
+
+    /**
+     * Get the name of the password attribute for the user.
+     *
+     * @return string
+     */
+    public function getAuthPasswordName(): string
+    {
+        return 'password';
+    }
     
     /**
      * Get the password for the user.
@@ -74,7 +84,7 @@ class GenericUser implements UserContract
      */
     public function getAuthPassword(): string
     {
-        return $this->attributes['password'];
+        return $this->attributes[$this->getAuthPasswordName()] ?? null;
     }
     
     /**
