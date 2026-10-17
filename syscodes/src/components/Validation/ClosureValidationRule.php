@@ -49,9 +49,9 @@ class ClosureValidationRule implements RuleContract
     /**
      * The validation error message.
      *
-     * @var string|null
+     * @var array
      */
-    public $message;
+    public $message = [];
 
     /**
      * The current validator.
@@ -82,7 +82,7 @@ class ClosureValidationRule implements RuleContract
     {
         $this->failed = false;
 
-        $this->callback->__invoke($attribute, $value, function ($message) {
+        $this->callback->__invoke($attribute, $value, function ($attribute, $message = null) {
             $this->failed = true;
 
             return $this->pendingPotentiallyTranslatedString($attribute, $message);
@@ -94,9 +94,9 @@ class ClosureValidationRule implements RuleContract
     /**
      * Get the validation error message.
      *
-     * @return string
+     * @return array
      */
-    public function message(): string
+    public function message(): array
     {
         return $this->message;
     }
@@ -105,7 +105,7 @@ class ClosureValidationRule implements RuleContract
      * Set the current validator.
      *
      * @param  \Syscodes\Components\Validation\Validator  $validator
-     * @return static
+     * @return $this
      */
     public function setValidator($validator): static
     {
