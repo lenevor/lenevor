@@ -416,7 +416,7 @@ trait FormatsMessages
      * @param  mixed  $value
      * @return string
      */
-    public function getDisplayableValue($attribute, $value): string
+    public function getDisplayableValue($attribute, $value)
     {
         if (isset($this->customValues[$attribute][$value])) {
             return $this->customValues[$attribute][$value];
@@ -450,7 +450,7 @@ trait FormatsMessages
      * @param  string  $attribute
      * @return string
      */
-    protected function replaceIndexPlaceholder($message, $attribute): string
+    protected function replaceIndexPlaceholder($message, $attribute)
     {
         return $this->replaceIndexOrPositionPlaceholder(
             $message, $attribute, 'index'
@@ -464,7 +464,7 @@ trait FormatsMessages
      * @param  string  $attribute
      * @return string
      */
-    protected function replacePositionPlaceholder($message, $attribute): string
+    protected function replacePositionPlaceholder($message, $attribute)
     {
         return $this->replaceIndexOrPositionPlaceholder(
             $message, $attribute, 'position', fn ($segment) => $segment + 1
@@ -478,7 +478,7 @@ trait FormatsMessages
      * @param  string  $attribute
      * @return string
      */
-    protected function replaceOrdinalPositionPlaceholder($message, $attribute): string
+    protected function replaceOrdinalPositionPlaceholder($message, $attribute)
     {
         if ( ! extension_loaded('intl')) {
             return $message;
@@ -498,7 +498,7 @@ trait FormatsMessages
      * @param  \Closure|null  $modifier
      * @return string
      */
-    protected function replaceIndexOrPositionPlaceholder($message, $attribute, $placeholder, ?Closure $modifier = null): string
+    protected function replaceIndexOrPositionPlaceholder($message, $attribute, $placeholder, ?Closure $modifier = null)
     {
         if ( ! str_contains(strtolower($message), ':'.$placeholder) &&
             ! str_contains(strtolower($message), '-'.$placeholder)) {
@@ -536,7 +536,7 @@ trait FormatsMessages
      * @param  int  $value
      * @return string
      */
-    protected function numberToIndexOrPositionWord(int $value): string
+    protected function numberToIndexOrPositionWord(int $value)
     {
         return [
             1 => 'first',

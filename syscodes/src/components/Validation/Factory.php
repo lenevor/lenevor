@@ -214,7 +214,7 @@ final class Factory implements FactoryContract
      * @param  string|null  $message
      * @return void
      */
-    public function extend($rule, $extension, $message = null): void
+    public function extend($rule, $extension, $message = null)
     {
         $this->extensions[$rule] = $extension;
 
@@ -231,7 +231,7 @@ final class Factory implements FactoryContract
      * @param  string|null  $message
      * @return void
      */
-    public function extendImplicit($rule, $extension, $message = null): void
+    public function extendImplicit($rule, $extension, $message = null)
     {
         $this->implicitExtensions[$rule] = $extension;
 
@@ -248,7 +248,7 @@ final class Factory implements FactoryContract
      * @param  string|null  $message
      * @return void
      */
-    public function extendDependent($rule, $extension, $message = null): void
+    public function extendDependent($rule, $extension, $message = null)
     {
         $this->dependentExtensions[$rule] = $extension;
 
@@ -345,7 +345,7 @@ final class Factory implements FactoryContract
      * Set the container instance used by the validation factory.
      *
      * @param  \Syscodes\Components\Contracts\Container\Container  $container
-     * @return static
+     * @return $this
      */
     public function setContainer(Container $container): static
     {

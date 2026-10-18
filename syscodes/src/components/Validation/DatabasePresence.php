@@ -124,7 +124,7 @@ class DatabasePresence implements DatabasePresenceInterface
      * @param  string  $extraValue 
      * @return void
      */
-    protected function addWhere($query, $key, $extraValue): void
+    protected function addWhere($query, $key, $extraValue)
     {
         if ($extraValue === 'NULL') {
             $query->whereNull($key);
