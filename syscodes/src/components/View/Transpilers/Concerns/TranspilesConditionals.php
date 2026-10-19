@@ -118,7 +118,7 @@ trait TranspilesConditionals
      * @param  string|null  $guard 
      * @return string
      */
-    protected function compileGuest($guard = null): string
+    protected function transpileGuest($guard = null): string
     {
         $guard = is_null($guard) ? '()' : $guard;
         
@@ -131,7 +131,7 @@ trait TranspilesConditionals
      * @param  string|null  $guard 
      * @return string
      */
-    protected function compileElseGuest($guard = null): string
+    protected function transpileElseGuest($guard = null): string
     {
         $guard = is_null($guard) ? '()' : $guard;
         
@@ -143,7 +143,7 @@ trait TranspilesConditionals
      * 
      * @return string
      */
-    protected function compileEndGuest(): string
+    protected function transpileEndGuest(): string
     {
         return '<?php endif; ?>';
     }
