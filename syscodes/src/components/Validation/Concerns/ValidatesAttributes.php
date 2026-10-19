@@ -46,6 +46,7 @@ use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Validation\Concerns\FilterEmailValidation;
 use Syscodes\Components\Validation\FibberDnsGetRecordWrapper;
 use Syscodes\Components\Validation\Rules\Unique;
+use Syscodes\Components\Validation\Validator;
 use ValueError;
 
 /**
@@ -341,6 +342,23 @@ trait ValidatesAttributes
     }
 
     /**
+     * Validate that an attribute was "declined".
+     *
+     * This validation rule implies the attribute is "required".
+     *
+     * @param  string  $attribute
+     * @param  mixed  $value
+     * @return bool
+     */
+    public function validateDeclined($attribute, $value)
+    {
+        $acceptable = ['no', 'off', '0', 0, false, 'false'];
+
+        return $this->validateRequired($attribute, $value) && in_array($value, $acceptable, true);
+    }
+
+
+    /**
      * Validate that an attribute is lowercase.
      *
      * @param  string  $attribute
@@ -549,7 +567,7 @@ trait ValidatesAttributes
             ->unique()
             ->map(fn ($validation) => match (true) {
                 $validation === 'strict' => new NoRFCWarningsValidation(),
-                $validation === 'dns' => new DNSCheckValidation(static::$fibberDnsLookups ? new FibberDnsGetRecordWrapper : null),
+                $validation === 'dns' => new DNSCheckValidation(Validator::$fibberDnsLookups ? new FibberDnsGetRecordWrapper : null),
                 $validation === 'spoof' => new SpoofCheckValidation(),
                 $validation === 'filter' => new FilterEmailValidation(),
                 $validation === 'filter_unicode' => FilterEmailValidation::unicode(),
@@ -737,23 +755,6 @@ trait ValidatesAttributes
 
         return true;
     }
-    
-    /**
-     * Validate that an attribute was "declined".
-     *
-     * This validation rule implies the attribute is "required".
-     *
-     * @param  string  $attribute
-     * @param  mixed  $value
-     * @return bool
-     */
-    public function validateDeclined($attribute, $value): bool
-    {
-        $acceptable = ['no', 'off', '0', 0, false, 'false'];
-
-        return $this->validateRequired($attribute, $value) && in_array($value, $acceptable, true);
-    }
-
 
     /**
      * Validate that an attribute does not exist unless another attribute has a given value.
