@@ -83,7 +83,7 @@ trait CanBePrecognitive
      * 
      * @return bool
      */
-    public function isPrecognitive(): bool
+    public function isPrecognitive()
     {
         return $this->attributes->get('precognitive', false);
     }
