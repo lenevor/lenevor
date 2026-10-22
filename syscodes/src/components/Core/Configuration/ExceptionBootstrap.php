@@ -22,7 +22,7 @@
 
 namespace Syscodes\Components\Core\Configuration;
 
-use Syscodes\Components\Contracts\Debug\ExceptionHandler;
+use Syscodes\Components\Core\Exceptions\Handler;
 
 /**
  * Allows the bootstrap of the exception handler.
@@ -32,10 +32,10 @@ class ExceptionBootstrap
     /**
      * Constructor. Create a new exception handling configuration instance.
      * 
-     * @param  \Syscodes\Components\Contracts\Debug\ExceptionHandler  $handler 
+     * @param  \Syscodes\Components\Core\Exceptions\Handler  $handler 
      * @return void
      */
-    public function __construct(protected ExceptionHandler $handler)
+    public function __construct(public Handler $handler)
     {        
     }
     
@@ -84,6 +84,32 @@ class ExceptionBootstrap
     {
         $this->handler->renderable($renderUsing);
         
+        return $this;
+    }
+
+    /**
+     * Register a callback to prepare the final, rendered exception response.
+     *
+     * @param  callable  $using
+     * @return $this
+     */
+    public function respond(callable $using): static
+    {
+        $this->handler->respondUsing($using);
+
+        return $this;
+    }
+
+    /**
+     * Register the callable that determines if the exception handler response should be JSON.
+     *
+     * @param  callable(\Syscodes\Components\Http\Request $request, \Throwable): bool  $callback
+     * @return $this
+     */
+    public function shouldRenderJsonWhen(callable $callback): static
+    {
+        $this->handler->shouldRenderJsonWhen($callback);
+
         return $this;
     }
 }
