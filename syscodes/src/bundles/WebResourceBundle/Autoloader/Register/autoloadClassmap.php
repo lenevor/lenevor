@@ -742,6 +742,7 @@ return [
     'Syscodes\\Components\\Support\\Traits\\Localizable' => SYS_PATH.'src/components/Support/Traits/Localizable.php',
     'Syscodes\\Components\\Support\\Traits\\Macroable' => SYS_PATH.'src/components/Macroable/Traits/Macroable.php',
     'Syscodes\\Components\\Support\\Traits\\RebindsCallbacksToSelf' => SYS_PATH.'src/components/Macroable/Traits/RebindsCallbacksToSelf.php',
+    'Syscodes\\Components\\Support\\Traits\\ReflectsClosures' => SYS_PATH.'src/components/Macroable/Traits/ReflectsClosures.php',
     'Syscodes\\Components\\Support\\AggregateServiceProvider' => SYS_PATH.'src/components/Collections/AggregateServiceProvider.php',
     'Syscodes\\Components\\Support\\Arr' => SYS_PATH.'src/components/Collections/Arr.php',
     'Syscodes\\Components\\Support\\Chronos' => SYS_PATH.'src/components/Support/Chronos.php',
