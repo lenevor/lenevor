@@ -30,6 +30,11 @@ use Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer;
 use Symfony\Component\HttpFoundation\Exception\RequestExceptionInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Syscodes\Components\Auth\Access\Exceptions\AuthorizationException;
 use Syscodes\Components\Auth\Exceptions\AuthenticationException;
 use Syscodes\Components\Console\View\Components\BulletList;
@@ -37,10 +42,6 @@ use Syscodes\Components\Console\View\Components\Error;
 use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Contracts\Core\ExceptionRender;
 use Syscodes\Components\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
-use Syscodes\Components\Core\Http\Exceptions\BadRequestHttpException;
-use Syscodes\Components\Core\Http\Exceptions\HttpException;
-use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
-use Syscodes\Components\Core\Http\Exceptions\AccessDeniedHttpException;
 use Syscodes\Components\Database\Erostrine\Exceptions\ModelNotFoundException;
 use Syscodes\Components\Database\Exceptions\RecordNotFoundException;
 use Syscodes\Components\Database\Exceptions\RecordsNotFoundException;
@@ -52,6 +53,7 @@ use Syscodes\Components\Session\Exceptions\TokenMismatchException;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Support\Stringable;
+use Syscodes\Components\Support\Traits\ReflectsClosures;
 use Syscodes\Components\Support\ViewErrorBag;
 use Syscodes\Components\Validation\Exceptions\ValidationException;
 use Throwable;
@@ -61,6 +63,8 @@ use Throwable;
 */
 class Handler implements ExceptionHandlerContract
 {
+    use ReflectsClosures;
+
     /**
      * The container implementation.
      * 
@@ -454,7 +458,7 @@ class Handler implements ExceptionHandlerContract
      * Prepare a response for the given exception.
      * 
      * @param  \Syscodes\Components\Http\Request  $request
-     * @param  Throwable  $e 
+     * @param  \Throwable  $e 
      * @return \Syscodes\Components\Http\Response
      * 
      * @uses   \Syscodes\Components\Core\Http\Exceptions\HttpException
@@ -467,7 +471,7 @@ class Handler implements ExceptionHandlerContract
 
         // When the debug is not active, the HTTP 500 code view is throw
         if ( ! $this->isHttpException($e)) {
-            $e = new HttpException(500, $e->getMessage());
+            $e = new HttpException(500, $e->getMessage(), $e);
         }
 
         return $this->toSyscodesResponse(
@@ -478,10 +482,10 @@ class Handler implements ExceptionHandlerContract
     /**
      * Render the given HttpException.
      * 
-     * @param  \Syscodes\Components\Core\Http\Exceptions\HttpException  $e 
+     * @param  \Symfony\Component\HttpKernel\Exception\HttpExceptionInterface  $e 
      * @return \Syscodes\Components\Http\Response
      */
-    protected function renderHttpException(HttpException $e)
+    protected function renderHttpException(HttpExceptionInterface $e)
     {
         $this->registerViewErrorPaths();
 
@@ -514,10 +518,10 @@ class Handler implements ExceptionHandlerContract
     /**
      * Get the view used to render HTTP exceptions.
      * 
-     * @param  \Syscodes\Components\Core\Http\Exceptions\HttpException  $e 
+     * @param  \Symfony\Component\HttpKernel\Exception\HttpExceptionInterface  $e 
      * @return string|null
      */
-    protected function getHttpExceptionView(HttpException $e): string|null
+    protected function getHttpExceptionView(HttpExceptionInterface $e): string|null
     {
         $view = 'errors::'.$e->getStatusCode();
 
@@ -653,7 +657,7 @@ class Handler implements ExceptionHandlerContract
      * Render an exception to the console.
      * 
      * @param  \Symfony\Component\Console\Output\OutputInterface  $output
-     * @param  Throwable  $e 
+     * @param  \Throwable  $e 
      * @return void
      */
     public function renderForConsole($output, Throwable $e)
@@ -681,12 +685,12 @@ class Handler implements ExceptionHandlerContract
     /**
      * Determine if the given exception is an HTTP exception.
      * 
-     * @param  Throwable  $e 
+     * @param  \Throwable  $e 
      * @return bool
      */
-    protected function isHttpException(Throwable $e): bool
+    protected function isHttpException(Throwable $e)
     {
-        return $e instanceof HttpException;
+        return $e instanceof HttpExceptionInterface;
     }
     
     /**
