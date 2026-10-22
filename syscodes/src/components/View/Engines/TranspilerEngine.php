@@ -22,7 +22,7 @@
 
 namespace Syscodes\Components\View\Engines;
 
-use Syscodes\Components\Core\Http\Exceptions\HttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Syscodes\Components\Database\Exceptions\RecordNotFoundException;
 use Syscodes\Components\Database\Exceptions\RecordsNotFoundException;
 use Syscodes\Components\Filesystem\Filesystem;

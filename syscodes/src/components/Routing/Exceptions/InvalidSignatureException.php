@@ -22,7 +22,7 @@
 
 namespace Syscodes\Components\Routing\Exceptions;
 
-use Syscodes\Components\Core\Http\Exceptions\HttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * InvalidSignatureException.

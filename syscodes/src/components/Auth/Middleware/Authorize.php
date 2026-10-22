@@ -26,10 +26,10 @@ use Closure;
 use Symfony\Component\HttpFoundation\Response;
 use Syscodes\Components\Contracts\Auth\Access\Gate;
 use Syscodes\Components\Database\Erostrine\Model;
+use Syscodes\Components\Support\Collection;
 use Syscodes\Components\Support\Str;
 
 use function Syscodes\Components\Support\enum_value;
-use Syscodes\Components\Support\Collection;
 
 /**
  * Allows the authorize for specify models and handle incomming request.

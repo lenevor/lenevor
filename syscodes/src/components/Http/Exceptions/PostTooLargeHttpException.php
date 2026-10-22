@@ -22,7 +22,7 @@
 
 namespace Syscodes\Components\Http\Exceptions;
 
-use Syscodes\Components\Core\Http\Exceptions\HttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
 /**
@@ -32,33 +32,16 @@ use Throwable;
 class PostTooLargeHttpException extends HttpException
 {
 	/**
-	 * Get the HTTP status code.
-	 * 
-	 * @var int
-	 */
-	protected $code = 413;
-
-	/**
 	 * Initialize constructor. 
 	 * 
-	 * @param  string|null  $message   
+	 * @param  string  $message   
 	 * @param  \Throwable|null  $previous  
 	 * @param  int  $code 
 	 * @param  array  $headers
 	 * @return void
 	 */
-	public function __construct(
-		?string $message = null, 
-		?Throwable $previous = null, 
-		int $code = 0, 
-		array $headers = []
-	) {
-        parent::__construct(
-			$this->code, 
-			$message, 
-			$previous, 
-			$headers, 
-			$code
-		);
-	}
+	public function __construct($message = '', ?Throwable $previous = null, array $headers = [], $code = 0)
+    {
+        parent::__construct(413, $message, $previous, $headers, $code);
+    }
 }

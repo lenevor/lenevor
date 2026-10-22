@@ -24,7 +24,6 @@ namespace Syscodes\Components\Cache\Store;
 
 use Syscodes\Components\Cache\concerns\CacheMultipleKeys;
 use Syscodes\Components\Contracts\Cache\Store;
-use Syscodes\Components\Support\Chronos;
 use Syscodes\Components\Support\InteractsWithTime;
 
 /**

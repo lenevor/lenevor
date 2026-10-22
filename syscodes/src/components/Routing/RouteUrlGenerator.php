@@ -23,12 +23,12 @@
 namespace Syscodes\Components\Routing;
 
 use Stringable;
+use Syscodes\Components\Contracts\Routing\UrlRoutable;
 use Syscodes\Components\Routing\Exceptions\UrlGeneratorException;
 use Syscodes\Components\Support\Arr;
+use Syscodes\Components\Support\Collection;
 
 use function Syscodes\Components\Support\enum_value;
-use Syscodes\Components\Support\Collection;
-use Syscodes\Components\Contracts\Routing\UrlRoutable;
 
 /**
  * Allows generate a URL for the given route.

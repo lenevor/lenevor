@@ -22,7 +22,7 @@
 
 namespace Syscodes\Components\Http\Exceptions;
 
-use Syscodes\Components\Core\Http\Exceptions\TooManyRequestsHttpException;
+use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Throwable;
 
 /**

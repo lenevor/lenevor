@@ -22,8 +22,6 @@
 
 namespace Syscodes\Components\Contracts\Events;
 
-use Closure;
-
 /**
  * For register events and can calls all your listeners.
  */

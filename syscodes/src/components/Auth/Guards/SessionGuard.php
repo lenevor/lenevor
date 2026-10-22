@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Auth\Guards;
 
 use RuntimeException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Syscodes\Components\Auth\Concerns\GuardAuthenticationUser;
 use Syscodes\Components\Auth\Events\Attempting;
 use Syscodes\Components\Auth\Events\Authenticated;
@@ -40,7 +41,6 @@ use Syscodes\Components\Contracts\Auth\UserProvider;
 use Syscodes\Components\Contracts\Events\Dispatcher;
 use Syscodes\Components\Contracts\Auth\Authenticatable;
 use Syscodes\Components\Contracts\Auth\SupportedBasicAuth;
-use Syscodes\Components\Core\Http\Exceptions\UnauthorizedHttpException;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Support\Str;
 use Syscodes\Components\Support\Traits\Macroable;

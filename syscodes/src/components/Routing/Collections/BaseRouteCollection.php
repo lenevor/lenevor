@@ -26,7 +26,7 @@ use ArrayIterator;
 use Countable;
 use IteratorAggregate;
 use InvalidArgumentException;
-use Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Routing\Concerns\RequestMatchesGiven;
 use Syscodes\Components\Routing\Route;
@@ -47,7 +47,7 @@ abstract class BaseRouteCollection implements Countable, IteratorAggregate
      * @param  \Syscodes\Components\Routing\Route|array|null  $route 
      * @return \Syscodes\Components\Routing\Route
      * 
-     * @throws \Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
     protected function handleMatchedRoute(Request $request, $route): Route
     {
