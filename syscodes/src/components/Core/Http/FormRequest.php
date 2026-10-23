@@ -156,30 +156,32 @@ class FormRequest extends Request implements ValidatesResolved
      *
      * @return void
      */
-    protected function configureFromAttributes(): void
+    protected function configureFromAttributes()
     {
-        $reflection = new ReflectionClass($this);
-
-        if ($reflection->getAttributes(StopOnFirstFailure::class) !== []) {
+        if ($this->nearestClassWithAttribute([StopOnFirstFailure::class], ['stopOnFirstFailure'])) {
             $this->stopOnFirstFailure = true;
         }
 
-        $redirectTo = $reflection->getAttributes(RedirectTo::class);
+        $reflection = $this->nearestClassWithAttribute(
+            [RedirectTo::class, RedirectToRoute::class], ['redirect', 'redirectRoute', 'redirectAction']
+        );
 
-        if ($redirectTo !== []) {
-            $this->redirect = $redirectTo[0]->newInstance()->url;
+        if ($reflection) {
+            $redirectTo = $reflection->getAttributes(RedirectTo::class);
+
+            if ($redirectTo !== []) {
+                $this->redirect = $redirectTo[0]->newInstance()->url;
+            }
+
+            $redirectToRoute = $reflection->getAttributes(RedirectToRoute::class);
+
+            if ($redirectToRoute !== []) {
+                $this->redirectRoute = $redirectToRoute[0]->newInstance()->route;
+            }
         }
 
-        $redirectToRoute = $reflection->getAttributes(RedirectToRoute::class);
-
-        if ($redirectToRoute !== []) {
-            $this->redirectRoute = $redirectToRoute[0]->newInstance()->route;
-        }
-
-        $errorBag = $reflection->getAttributes(ErrorBag::class);
-
-        if ($errorBag !== []) {
-            $this->errorBag = $errorBag[0]->newInstance()->name;
+        if ($reflection = $this->nearestClassWithAttribute([ErrorBag::class], ['errorBag'])) {
+            $this->errorBag = $reflection->getAttributes(ErrorBag::class)[0]->newInstance()->name;
         }
     }
 
@@ -214,7 +216,7 @@ class FormRequest extends Request implements ValidatesResolved
      *
      * @return array
      */
-    public function validationData(): array
+    public function validationData()
     {
         return $this->all();
     }
@@ -440,7 +442,36 @@ class FormRequest extends Request implements ValidatesResolved
         return [];
     }
 
-     /**
+    /**
+     * Get the nearest class in the request's hierarchy that applies any of the given attributes.
+     *
+     * @param  array<int, class-string>  $attributes
+     * @param  array<int, string>  $properties
+     * @return \ReflectionClass<\Syscodes\Components\Core\Http\FormRequest>|null
+     */
+    protected function nearestClassWithAttribute(array $attributes, array $properties = [])
+    {
+        $reflection = new ReflectionClass($this);
+
+        do {
+            foreach ($attributes as $attribute) {
+                if ($reflection->getAttributes($attribute) !== []) {
+                    return $reflection;
+                }
+            }
+
+            foreach ($properties as $property) {
+                if ($reflection->hasProperty($property) &&
+                    $reflection->getProperty($property)->class === $reflection->name) {
+                    return null;
+                }
+            }
+        } while (($reflection = $reflection->getParentClass()) && $reflection->name !== self::class);
+
+        return null;
+    }
+
+    /**
      * Set the Validator instance.
      *
      * @param  \Syscodes\Components\Contracts\Validation\Validator  $validator
