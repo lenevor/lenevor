@@ -42,7 +42,7 @@ trait DependencyResolver
      * @param  string  $method 
      * @return array
      */
-    protected function resolveObjectMethodDependencies(array $parameters, $instance, $method): array
+    protected function resolveObjectMethodDependencies(array $parameters, $instance, $method)
     {
         if ( ! method_exists($instance, $method)) {
             return $parameters;
@@ -60,7 +60,7 @@ trait DependencyResolver
      * @param  \ReflectionFunctionAbstract  $reflector 
      * @return array
      */
-    public function resolveMethodDependencies(array $parameters, ReflectionFunctionAbstract $reflector): array
+    public function resolveMethodDependencies(array $parameters, ReflectionFunctionAbstract $reflector)
     {
         $count = 0;
 
@@ -128,7 +128,7 @@ trait DependencyResolver
      * @param  mixed  $value
      * @return void
      */
-    protected function spliceOnParameters(array &$parameters, $key, $value): void
+    protected function spliceOnParameters(array &$parameters, $key, $value)
     {
         array_splice(
             $parameters, $key, 0, [$value]

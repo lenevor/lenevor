@@ -62,7 +62,7 @@ class ControllerDispatcher implements ControllerDispatcherContract
      * @param  string  $method 
      * @return mixed
      */
-    public function dispatch(Route $route, mixed $controller, string $method): mixed
+    public function dispatch(Route $route, mixed $controller, string $method)
     {
         $parameters = $this->resolveParameters($route, $controller, $method);
         
