@@ -65,13 +65,6 @@ class Password implements DataAwareRule, ImplicitRule, IteratorAggregate, Rule, 
     protected $data;
 
     /**
-     * The callback that will generate the "default" version of the password rule.
-     *
-     * @var string|array|callable|null
-     */
-    public static $defaultCallback;   
-
-    /**
      * If the password requires at least one letter.
      *
      * @var bool
@@ -147,6 +140,13 @@ class Password implements DataAwareRule, ImplicitRule, IteratorAggregate, Rule, 
      * @var \Syscodes\Components\Contracts\Validation\Validator
      */
     protected $validator;
+
+    /**
+     * The callback that will generate the "default" version of the password rule.
+     *
+     * @var string|array|callable|null
+     */
+    public static $defaultCallback;   
 
     /**
      * Constructor. Create a new rule instance.
