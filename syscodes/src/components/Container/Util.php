@@ -38,7 +38,7 @@ class Util
      * @param  mixed  ...$args 
      * @return mixed
      */
-    public static function unwrapExistOfClosure(mixed $value, mixed ...$args): mixed
+    public static function unwrapIfClosure($value, ...$args)
     {
         return $value instanceof Closure ? $value(...$args) : $value;
     }
