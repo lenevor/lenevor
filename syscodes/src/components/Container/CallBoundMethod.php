@@ -25,9 +25,8 @@ namespace Syscodes\Components\Container;
 use Closure;
 use InvalidArgumentException;
 use ReflectionFunction;
-use ReflectionFunctionAbstract;
 use ReflectionMethod;
-use Syscodes\Components\Support\Str;
+use Syscodes\Components\Contracts\Container\BindingResolutionException;
 
 /**
  * Allows get a closure / class@method with dependencies.
@@ -45,75 +44,188 @@ class CallBoundMethod
      * 
      * @throws \InvalidArgumentException
      */
-    public static function call(
-        Container $container, 
-        $callback, 
-        array $parameters = [], 
-        ?string $defaultMethod = null
-    ): mixed {
-        if (is_string($callback)) {
-            $callback = static::resolveStringCallback($container, $callback, $defaultMethod);
+    public static function call($container, $callback, array $parameters = [], $defaultMethod = null)
+    {
+        if (is_string($callback) && ! $defaultMethod && method_exists($callback, '__invoke')) {
+            $defaultMethod = '__invoke';
         }
 
-        if ($callback instanceof Closure) {
-            $reflector = new ReflectionFunction($callback);
-        } elseif (is_array($callback)) {
-            $reflector = new ReflectionMethod($callback[0], $callback[1]);
-        } else {
-            throw new InvalidArgumentException('Invalid callback provided');
+       if (static::isCallableWithAtSign($callback) || $defaultMethod) {
+            return static::callClass($container, $callback, $parameters, $defaultMethod);
         }
 
-        return call_user_func_array(
-            $callback, array_values(static::getMethodDependencies($container, $parameters, $reflector))
+        return static::callBoundMethod($container, $callback, function () use ($container, $callback, $parameters) {
+            return $callback(...array_values(static::getMethodDependencies($container, $callback, $parameters)));
+        });
+    }
+
+    /**
+     * Call a string reference to a class using Class@method syntax.
+     *
+     * @param  \Syscodes\Components\Container\Container  $container
+     * @param  string  $target
+     * @param  array  $parameters
+     * @param  string|null  $defaultMethod
+     * @return mixed
+     *
+     * @throws \InvalidArgumentException
+     */
+    protected static function callClass($container, $target, array $parameters = [], $defaultMethod = null)
+    {
+        $segments =  explode('@', $target);
+
+        // We will assume an @ sign is used to delimit the class name from the method
+        // name.
+        $method = count($segments) === 2
+            ? $segments[1]
+            : $defaultMethod;
+
+        if (is_null($method)) {
+            throw new InvalidArgumentException('Method not provided.');
+        }
+
+        return static::call(
+            $container,
+            [$container->make($segments[0]), $method],
+            $parameters
         );
     }
 
     /**
-     * Resolve a string callback.
-     * 
+     * Call a method that has been bound to the container.
+     *
      * @param  \Syscodes\Components\Container\Container  $container
-     * @param  string  $callback
-     * @param  string|null  $defaultMethod
-     * @return array
+     * @param  callable  $callback
+     * @param  mixed  $default
+     * @return mixed
      */
-    protected static function resolveStringCallback($container, $callback, ?string $defaultMethod = null): array
+    protected static function callBoundMethod($container, $callback, $default)
     {
-        [$class, $method] = Str::parseCallback($callback, $defaultMethod);
-
-        if (empty($method) || ! class_exists($class)) {
-            throw new InvalidArgumentException('Invalid callback provided.');
+        if ( ! is_array($callback)) {
+            return Util::unwrapIfClosure($default);
         }
 
-        return [$container->make($class), $method];
+        // Here we need to turn the array callable into a Class@method string we can use to
+        // examine the container and see if there are any method bindings for this given
+        // method. If there are, we can call this method binding callback immediately.
+        $method = static::normalizeMethod($callback);
+
+        if ($container->hasMethodBinding($method)) {
+            return $container->callMethodBinding($method, $callback[0]);
+        }
+
+        return Util::unwrapIfClosure($default);
+    }
+
+    /**
+     * Normalize the given callback into a Class@method string.
+     *
+     * @param  callable  $callback
+     * @return string
+     */
+    protected static function normalizeMethod($callback): string
+    {
+        $class = is_string($callback[0]) ? $callback[0] : get_class($callback[0]);
+
+        return "{$class}@{$callback[1]}";
     }
 
     /**
      * Get all dependencies for a given method.
      * 
      * @param  \Syscodes\Components\Container\Container  $container
+     * @param  callable|string  $callback
      * @param  array  $parameters
-     * @param  \ReflectionFunctionAbstract  $reflector
      * @return array
      */
-    protected static function getMethodDependencies(Container $container, array $parameters, ReflectionFunctionAbstract $reflector): array
+    protected static function getMethodDependencies($container, $callback, array $parameters = [])
     {
         $dependencies = [];
         
-        foreach ($reflector->getParameters() as $parameter) {
-            if (array_key_exists($name = $parameter->getName(), $parameters)) {
-                $dependencies[] = $parameters[$name];
-                
-                unset($parameters[$name]);
-            // The dependency does not exists in parameters.
-            } else if ( ! is_null($class = $parameter->getType())) {
-                $className = $class->getName();
-                
-                $dependencies[] = $container->make($className);
-            } else if ($parameter->isDefaultValueAvailable()) {
-                $dependencies[] = $parameter->getDefaultValue();
-            }
+        foreach (static::getCallReflector($callback)->getParameters() as $parameter) {
+            static::addDependencyForCallParameter($container, $parameter, $parameters, $dependencies);
         }
         
-        return array_merge($dependencies, $parameters);
+        return array_merge($dependencies, array_values($parameters));
+    }
+
+    /**
+     * Get the proper reflection instance for the given callback.
+     *
+     * @param  callable|string  $callback
+     * @return \ReflectionFunctionAbstract
+     *
+     * @throws \ReflectionException
+     */
+    protected static function getCallReflector($callback)
+    {
+        if (is_string($callback) && str_contains($callback, '::')) {
+            $callback = explode('::', $callback);
+        } elseif (is_object($callback) && ! $callback instanceof Closure) {
+            $callback = [$callback, '__invoke'];
+        }
+
+        return is_array($callback)
+            ? new ReflectionMethod($callback[0], $callback[1])
+            : new ReflectionFunction($callback);
+    }
+
+    /**
+     * Get the dependency for the given call parameter.
+     *
+     * @param  \Syscodes\Components\Container\Container  $container
+     * @param  \ReflectionParameter  $parameter
+     * @param  array  $parameters
+     * @param  array  $dependencies
+     * @return void
+     */
+    protected static function addDependencyForCallParameter($container, $parameter, array &$parameters, &$dependencies)
+    {
+         $pendingDependencies = [];
+
+        if (array_key_exists($paramName = $parameter->getName(), $parameters)) {
+            $pendingDependencies[] = $parameters[$paramName];
+
+            unset($parameters[$paramName]);
+        } elseif ( ! is_null($className = Util::getParameterClassName($parameter))) {
+            if (array_key_exists($className, $parameters)) {
+                $pendingDependencies[] = $parameters[$className];
+
+                unset($parameters[$className]);
+            } elseif ($parameter->isVariadic()) {
+                $variadicDependencies = $container->make($className);
+
+                $pendingDependencies = array_merge($pendingDependencies, is_array($variadicDependencies)
+                    ? $variadicDependencies
+                    : [$variadicDependencies]);
+            } elseif ($parameter->isDefaultValueAvailable() && ! $container->bound($className)) {
+                $pendingDependencies[] = $parameter->getDefaultValue();
+            } else {
+                $pendingDependencies[] = $container->make($className);
+            }
+        } elseif ($parameter->isDefaultValueAvailable()) {
+            $pendingDependencies[] = $parameter->getDefaultValue();
+        } elseif ( ! $parameter->isOptional() && ! array_key_exists($paramName, $parameters)) {
+            $message = "Unable to resolve dependency [{$parameter}] in class {$parameter->getDeclaringClass()->getName()}";
+
+            throw new BindingResolutionException($message);
+        }
+
+        foreach ($pendingDependencies as $dependency) {
+            $container->fireAfterResolvingAttributeCallbacks($parameter->getAttributes(), $dependency);
+        }
+
+        $dependencies = array_merge($dependencies, $pendingDependencies);
+    }
+
+    /**
+     * Determine if the given string is in Class@method syntax.
+     *
+     * @param  mixed  $callback
+     * @return bool
+     */
+    protected static function isCallableWithAtSign($callback): bool
+    {
+        return is_string($callback) && str_contains($callback, '@');
     }
 }
