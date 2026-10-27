@@ -32,6 +32,11 @@ class CurrentPassword implements ParameterizedRule
 {
     use FormatsParameters;
 
+    /**
+     * Get the string of available "drivers".
+     * 
+     * @var string|null
+     */
     protected ?string $guard = null;
 
     /**
