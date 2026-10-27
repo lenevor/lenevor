@@ -25,16 +25,16 @@ namespace Syscodes\Components\Validation\Rules;
 use ArrayIterator;
 use InvalidArgumentException;
 use IteratorAggregate;
-use Traversable;
 use Syscodes\Components\Container\Container;
-use Syscodes\Components\Contracts\Validation\Rule;
 use Syscodes\Components\Contracts\Validation\DataAwareRule;
 use Syscodes\Components\Contracts\Validation\ImplicitRule;
+use Syscodes\Components\Contracts\Validation\Rule;
 use Syscodes\Components\Contracts\Validation\ValidatorAwareRule;
 use Syscodes\Components\Contracts\Validation\UncompromisedCheck;
 use Syscodes\Components\Support\Arr;
 use Syscodes\Components\Support\Traits\Conditionable;
 use Syscodes\Components\Support\Facades\Validator;
+use Traversable;
 
 /**
  * Gets the attribute must be password.
