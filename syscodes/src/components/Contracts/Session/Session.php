@@ -55,15 +55,6 @@ interface Session
      * @return array
      */
     public function all();
-    
-    /**
-     * Get a subset of the session data.
-     * 
-     * @param  array  $keys
-     * 
-     * @return array
-     */
-    public function only(array $keys);
 
     /**
      * Get the current session ID.
@@ -81,26 +72,11 @@ interface Session
     public function setId($id);
 
     /**
-     * Determine if this is a valid session ID.
-     * 
-     * @param  string  $id 
-     * @return bool
-     */
-    public function isValidId($id): bool;
-
-    /**
      * Save the session data to storage.
      * 
      * @return void
      */
     public function save();
-    
-    /**
-     * Age the flash data for the session.
-     * 
-     * @return void
-     */
-    public function ageFlashData();
 
     /**
      * Remove one or many items from the session.
@@ -182,11 +158,11 @@ interface Session
     /**
      * Flash a key / value pair to the session.
      * 
-     * @param  \UnitEnum|string  $key
+     * @param  string  $key
      * @param  mixed  $value 
      * @return void
      */
-    public function flash(\BackedEnum|\UnitEnum|string $key, $value = true);
+    public function flash(string $key, $value = true);
 
     /**
      * Remove all of the keys from the session.
@@ -214,7 +190,7 @@ interface Session
      * 
      * @return void
      */
-    public function regenerateToken(): void;
+    public function regenerateToken();
 
     /**
      * Generate a new session identifier.
