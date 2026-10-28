@@ -1172,7 +1172,7 @@ input[type=submit]:hover {
 	}
 
 	header .container .menu a {
-		font-size: 1.1em;
+		font-size: 0.7em;
 	}
 
 	.status h2 {
@@ -1229,7 +1229,7 @@ input[type=submit]:hover {
 	}
 
 	header .container .menu a {
-		font-size: 1.5em;
+		font-size: 0.95em;
 	}
 
 	.status h2 {
@@ -1330,7 +1330,7 @@ ul.pagination {
 	justify-content: flex-end;
 	list-style: none;
 	margin-bottom: 10px;
-	margin-right: 40px;
+	margin-right: 10px;
 	margin-top: 12px;
 }
 
@@ -1343,8 +1343,7 @@ ul.pagination li a,
 ul.pagination li.disabled span {
 	border: 1px solid var(--color-gray-6);
 	font-size: 1rem;
-	font-weight: 500;
-		
+	font-weight: 500;		
 }
 
 ul.pagination li.disabled span {
