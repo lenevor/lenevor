@@ -31,7 +31,6 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Syscodes\Components\Container\Container;
 use Syscodes\Components\Contracts\Http\Kernel as KernelContract;
-use Syscodes\Components\Core\PackageManifest;
 use Syscodes\Components\Contracts\Console\Kernel as KernelCommandContract;
 use Syscodes\Components\Contracts\Core\Application as ApplicationContract;
 use Syscodes\Components\Events\EventServiceProvider;
@@ -1172,7 +1171,7 @@ class Application extends Container implements ApplicationContract
      */
     public function getCachedConfigPath()
     {
-        return $this->normalizeCachePath('APP_CONFIG_CACHE', 'cache/config.php');
+        return $this->normalizeCachePath('APP_CONFIG_CACHE', 'cache'.DIRECTORY_SEPARATOR.'config.php');
     }
     
     /**
@@ -1192,7 +1191,7 @@ class Application extends Container implements ApplicationContract
      */
     public function getCachedRoutesPath()
     {
-        return $this->normalizeCachePath('APP_ROUTES_CACHE', 'cache/routes.php');
+        return $this->normalizeCachePath('APP_ROUTES_CACHE', 'cache'.DIRECTORY_SEPARATOR.'routes.php');
     }
 
     /**
@@ -1202,7 +1201,7 @@ class Application extends Container implements ApplicationContract
      */
     public function getCachedServicesPath()
     {
-        return $this->normalizeCachePath('APP_SERVICES_CACHE', 'cache/services.php');
+        return $this->normalizeCachePath('APP_SERVICES_CACHE', 'cache'.DIRECTORY_SEPARATOR.'services.php');
     }
     
     /**
@@ -1212,7 +1211,7 @@ class Application extends Container implements ApplicationContract
      */
     public function getCachedPackagesPath()
     {
-        return $this->normalizeCachePath('APP_PACKAGES_CACHE', 'cache/packages.php');
+        return $this->normalizeCachePath('APP_PACKAGES_CACHE', 'cache'.DIRECTORY_SEPARATOR.'packages.php');
     }
     
     /**
@@ -1238,7 +1237,7 @@ class Application extends Container implements ApplicationContract
      */
     public function getCachedEventsPath()
     {
-        return $this->normalizeCachePath('APP_EVENTS_CACHE', 'cache/events.php');
+        return $this->normalizeCachePath('APP_EVENTS_CACHE', 'cache'.DIRECTORY_SEPARATOR.'events.php');
     }
 
     /**
@@ -1382,8 +1381,8 @@ class Application extends Container implements ApplicationContract
      * @param  array  $headers 
      * @return never
      *
-     * @throws \Syscodes\Components\Core\Http\Exceptions\NotFoundHttpException
-     * @throws \Syscodes\Components\Core\Http\Exceptions\HttpException
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
      */
     public function abort($code, $message = '', array $headers = [])
     {
