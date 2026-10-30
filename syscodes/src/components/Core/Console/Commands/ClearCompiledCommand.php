@@ -56,6 +56,10 @@ class ClearCompiledCommand extends Command
             @unlink($servicesPath);
         }
 
+        if (is_file($packagesPath = $this->lenevor->getCachedPackagesPath())) {
+            @unlink($packagesPath);
+        }
+
         $this->components->info('Compiled services files removed successfully.');
     }
 }
