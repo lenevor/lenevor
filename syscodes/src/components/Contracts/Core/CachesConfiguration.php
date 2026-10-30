@@ -47,4 +47,11 @@ interface CachesConfiguration
      * @return string
      */
     public function getCachedServicesPath();
+
+    /**
+     * Get the path to the cached packages.php file.
+     * 
+     * @return string
+     */
+    public function getCachedPackagesPath();
 }
