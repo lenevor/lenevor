@@ -122,7 +122,7 @@ class PackageManifest
      *
      * @return array
      */
-    protected function getManifest(): array
+    protected function getManifest()
     {
         if ( ! is_null($this->manifest)) {
             return $this->manifest;
@@ -141,7 +141,7 @@ class PackageManifest
      *
      * @return void
      */
-    public function build(): void
+    public function build()
     {
         $packages = [];
 
@@ -178,7 +178,7 @@ class PackageManifest
      *
      * @return array
      */
-    protected function packagesToIgnore(): array
+    protected function packagesToIgnore()
     {
         if ( ! is_file($this->basePath.'/composer.json')) {
             return [];
@@ -197,7 +197,7 @@ class PackageManifest
      *
      * @throws \Exception
      */
-    protected function write(array $manifest): void
+    protected function write(array $manifest)
     {
         if ( ! is_writable($dirname = dirname($this->manifestPath))) {
             throw new Exception("The {$dirname} directory must be present and writable.");

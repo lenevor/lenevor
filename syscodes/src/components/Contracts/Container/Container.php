@@ -39,7 +39,7 @@ interface Container extends ContainerInterface
      * @param  string  $alias 
      * @return void
      */
-    public function alias($id, string $alias): void;
+    public function alias($id, string $alias);
 
     /**
      * Register a binding with container.
@@ -49,7 +49,7 @@ interface Container extends ContainerInterface
      * @param  bool  $shared 
      * @return void
      */
-    public function bind($id, $value = null, bool $shared = false): void;
+    public function bind($id, $value = null, bool $shared = false);
 
     /**
      * Register a binding if it hasn't already been registered.
@@ -59,7 +59,7 @@ interface Container extends ContainerInterface
      * @param  bool  $shared 
      * @return void
      */
-    public function bindIf($id, $value = null, $shared = false): void;
+    public function bindIf($id, $value = null, $shared = false);
 
     /**
      * Determine if the given id type has been resolved.
@@ -85,7 +85,7 @@ interface Container extends ContainerInterface
      * @param  \Closure|string|null  $value 
      * @return void
      */
-    public function singleton($id, $value = null): void;
+    public function singleton($id, $value = null);
 
     /**
      * Register a singleton if it hasn't already been registered.
@@ -94,7 +94,7 @@ interface Container extends ContainerInterface
      * @param  \Closure|string|null  $value 
      * @return void
      */
-    public function singletonIf($id, $value = null): void;
+    public function singletonIf($id, $value = null);
 
     /**
      * Register a scoped binding in the container.
@@ -103,7 +103,7 @@ interface Container extends ContainerInterface
      * @param  \Closure|string|null  $value 
      * @return void
      */
-    public function scoped($id, $value = null): void;
+    public function scoped($id, $value = null);
 
     /**
      * Register a scoped binding if it hasn't already been registered.
@@ -112,7 +112,7 @@ interface Container extends ContainerInterface
      * @param  \Closure|string|null  $value 
      * @return void
      */
-    public function scopedIf($id, $value = null): void;
+    public function scopedIf($id, $value = null);
 
     /**
      * Instantiate a class instance of the given type.
@@ -157,7 +157,7 @@ interface Container extends ContainerInterface
      * @param  string  $method 
      * @return mixed
      */
-    public function refresh($id, mixed $target, string $method): mixed;
+    public function refresh($id, mixed $target, string $method);
 
     /**
      * Return and array containing all bindings.
@@ -189,7 +189,7 @@ interface Container extends ContainerInterface
      * @param  array  $parameters 
      * @return mixed
      */
-    public function makeAssign($id, array $parameters = []): mixed;
+    public function makeAssign($id, array $parameters = []);
 
     /**
      * Resolve the given type from the container.
@@ -198,7 +198,7 @@ interface Container extends ContainerInterface
      * @param  array  $parameters 
      * @return mixed
      */
-    public function make($id, array $parameters = []): mixed;
+    public function make($id, array $parameters = []);
 
     /**
      * Determine if the given id type has been bound.
@@ -232,7 +232,7 @@ interface Container extends ContainerInterface
      * @param  string  $id 
      * @return void
      */
-    public function remove($id): void;
+    public function remove($id);
 
     /**
      * Set the binding with given key / value.

@@ -285,7 +285,7 @@ class Container implements ArrayAccess, ContainerContract
      * @param  string  $method
      * @return mixed
      */
-    public function refresh($id, $target, $method): mixed
+    public function refresh($id, $target, $method)
     {
         return $this->rebinding($id, fn($app, $instance) => $target->{$method}($instance));
     }
@@ -312,7 +312,7 @@ class Container implements ArrayAccess, ContainerContract
      * @param  bool  $shared
      * @return void
      */
-    public function bind($id, $value = null, bool $shared = false): void
+    public function bind($id, $value = null, bool $shared = false)
     {   
         $this->dropInstances($id);
 
@@ -344,7 +344,7 @@ class Container implements ArrayAccess, ContainerContract
      * @param  string  $id 
      * @return void
      */
-    protected function dropInstances($id): void
+    protected function dropInstances($id)
     {
         unset($this->instances[$id], $this->aliases[$id]);
     }
@@ -356,7 +356,7 @@ class Container implements ArrayAccess, ContainerContract
      * @param  string  $value 
      * @return mixed
      */
-    protected function getClosure($id, string $value): mixed
+    protected function getClosure($id, string $value)
     {
         return function ($container, $parameters = []) use ($id, $value) {
             if ($id == $value) {
@@ -415,7 +415,7 @@ class Container implements ArrayAccess, ContainerContract
      * @param  string  $id 
      * @return void
      */
-    protected function reBound($id): void
+    protected function reBound($id)
     {
         $instance = $this->make($id);
 
@@ -493,7 +493,7 @@ class Container implements ArrayAccess, ContainerContract
      * @param  bool  $shared 
      * @return void
      */
-    public function bindIf($id, $value = null, $shared = false): void
+    public function bindIf($id, $value = null, $shared = false)
     {
         if ( ! $this->bound($id)) {
             $this->bind($id, $value, $shared);
@@ -507,7 +507,7 @@ class Container implements ArrayAccess, ContainerContract
      * @param  \Closure|string|null  $value
      * @return void
      */
-    public function singleton($id, $value = null): void
+    public function singleton($id, $value = null)
     {
         $this->bind($id, $value, true);
     }
@@ -519,7 +519,7 @@ class Container implements ArrayAccess, ContainerContract
      * @param  \Closure|string|null  $value
      * @return void
      */
-    public function singletonIf($id, $value = null): void
+    public function singletonIf($id, $value = null)
     {
         if ( ! $this->bound($id)) {
             $this->singleton($id, $value);
@@ -533,7 +533,7 @@ class Container implements ArrayAccess, ContainerContract
      * @param  \Closure|string|null  $value 
      * @return void
      */
-    public function scoped($id, $value = null): void
+    public function scoped($id, $value = null)
     {
         $this->scopedInstances[] = $id;
 
@@ -547,7 +547,7 @@ class Container implements ArrayAccess, ContainerContract
      * @param  \Closure|string|null  $value 
      * @return void
      */
-    public function scopedIf($id, $value = null): void
+    public function scopedIf($id, $value = null)
     {
         if ( ! $this->bound($id)) {
             $this->scoped($id, $value);
@@ -560,7 +560,7 @@ class Container implements ArrayAccess, ContainerContract
      * @param  string  $id 
      * @return void
      */
-    protected function destroyBinding($id): void
+    protected function destroyBinding($id)
     {
         if ($this->has($id)) {
             unset($this->bindings[$id], $this->instances[$id], $this->resolved[$id]);
@@ -650,7 +650,7 @@ class Container implements ArrayAccess, ContainerContract
      * @param  array  $parameters 
      * @return mixed
      */
-    public function makeAssign($id, array $parameters = []): mixed
+    public function makeAssign($id, array $parameters = [])
     {
         return $this->make($id, $parameters);
     }
@@ -662,7 +662,7 @@ class Container implements ArrayAccess, ContainerContract
      * @param  array  $parameters 
      * @return object
      */
-    public function make($id, array $parameters = []): mixed 
+    public function make($id, array $parameters = []) 
     {
         return $this->resolve($id, $parameters);
     }
@@ -1015,7 +1015,7 @@ class Container implements ArrayAccess, ContainerContract
     protected function getResolveNonClass(ReflectionParameter $parameter)
     {
         if ( ! is_null($class = $this->getContextualValue('$'.$parameter->getName()))) {
-            return Util::unwrapExistOfClosure($class, $this);
+            return Util::unwrapIfClosure($class, $this);
         }
 
         if ($parameter->isDefaultValueAvailable()) {
@@ -1056,7 +1056,7 @@ class Container implements ArrayAccess, ContainerContract
      *
      * @throws \Syscodes\Components\Contracts\Container\BindingResolutionException
      */
-    protected function getResolveClass(ReflectionParameter $parameter): mixed
+    protected function getResolveClass(ReflectionParameter $parameter)
     {
         $className = Util::getParameterClassName($parameter);
 
@@ -1087,7 +1087,7 @@ class Container implements ArrayAccess, ContainerContract
      * @param  \ReflectionParameter  $parameter 
      * @return mixed
      */
-    protected function resolveVariadicClass(ReflectionParameter $parameter): mixed
+    protected function resolveVariadicClass(ReflectionParameter $parameter)
     {
         $className = Util::getParameterClassName($parameter);
         
@@ -1327,7 +1327,7 @@ class Container implements ArrayAccess, ContainerContract
      * @param  ReflectionClass|string  $reflection 
      * @return "singleton"|"scoped"|null
      */
-    protected function getScopedTyped(ReflectionClass|string $reflection): ?string
+    protected function getScopedTyped(ReflectionClass|string $reflection)
     {
         $className = $reflection instanceof ReflectionClass
             ? $reflection->getName()
@@ -1443,7 +1443,7 @@ class Container implements ArrayAccess, ContainerContract
      * @param  string  $id 
      * @return void
      */
-    public function eraseExtenders(string $id): void
+    public function eraseExtenders(string $id)
     {
         unset($this->extenders[$this->getAlias($id)]);
     }
@@ -1454,7 +1454,7 @@ class Container implements ArrayAccess, ContainerContract
      * @param  string  $id 
      * @return void
      */
-    public function eraseInstance($id): void
+    public function eraseInstance($id)
     {
         unset($this->instances[$id]);
     }
