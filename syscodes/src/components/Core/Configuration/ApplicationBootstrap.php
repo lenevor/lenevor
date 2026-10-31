@@ -24,7 +24,7 @@ namespace Syscodes\Components\Core\Configuration;
 
 use Closure;
 use Syscodes\Components\Contracts\Console\Kernel as ConsoleKernel;
-use Syscodes\Components\Contracts\Http\Kernel;
+use Syscodes\Components\Contracts\Http\Kernel as HttpKernel;
 use Syscodes\Components\Core\Application;
 use Syscodes\Components\Core\Bootstrap\BootRegisterProviders;
 use Syscodes\Components\Core\Support\Providers\EventServiceProvider as AppEventServiceProvider;
@@ -37,6 +37,13 @@ use Syscodes\Components\Support\Facades\Route;
  */
 class ApplicationBootstrap
 {
+    /**
+     * Page middleware that have been defined by the user.
+     *
+     * @var array
+     */
+    protected array $pageMiddleware = [];
+
     /**
      * The service provider that are marked for registration.
      * 
@@ -78,7 +85,7 @@ class ApplicationBootstrap
      * Register and configure the application's exception handler.
      * 
      * @param  callable|null  $using 
-     * @return static
+     * @return $this
      */
     public function assignExceptions(?callable $using = null): static
     {
@@ -104,7 +111,7 @@ class ApplicationBootstrap
      * @param  string|null  $api
      * @param  string  $apiPrefix
      * @param  callable|null  $then 
-     * @return static
+     * @return $this
      */
     public function assignRouting(
         ?Closure $using = null,
@@ -181,7 +188,7 @@ class ApplicationBootstrap
      * Register the core event service provider for the application.
      * 
      * @param  array|bool  $discover 
-     * @return static
+     * @return $this
      */
     public function assignEvents(array|bool $discover = []): static
     {
@@ -201,7 +208,7 @@ class ApplicationBootstrap
      * 
      * @param  array  $providers
      * @param  bool  $assignBootstrapProviders 
-     * @return static
+     * @return $this
      */
     public function assignProviders(array $providers = [], bool $assignBootstrapProviders = true): static
     {
@@ -219,11 +226,11 @@ class ApplicationBootstrap
      * Register the global middleware, middleware groups, and middleware aliases for the application.
      * 
      * @param  callable|null  $callback 
-     * @return static
+     * @return $this
      */
     public function assignMiddleware(?callable $callback = null): static
     {
-        $this->app->afterResolving(Kernel::class, function ($kernel) use ($callback) {
+        $this->app->afterResolving(HttpKernel::class, function ($kernel) use ($callback) {
             $middleware = (new MiddlewareBootstrap)
                 ->redirectGuestsTo(fn () => route('login'));
             
@@ -231,12 +238,19 @@ class ApplicationBootstrap
                 $callback($middleware);
             }
             
+            // $this->pageMiddleware = $middleware->getPageMiddleware();
             $kernel->setGlobalMiddleware($middleware->getGlobalMiddleware());
             $kernel->setMiddlewareGroups($middleware->getMiddlewareGroups());
             $kernel->setMiddlewareAliases($middleware->getMiddlewareAliases());
             
             if ($priorities = $middleware->getMiddlewareAliases()) {
                 $kernel->setMiddlewarePriority($priorities);
+            }
+        });
+
+         $this->app->afterResolving(ConsoleKernel::class, function () use ($callback) {
+            if ( ! is_null($callback)) {
+                $callback(new MiddlewareBootstrap);
             }
         });
         
@@ -247,7 +261,7 @@ class ApplicationBootstrap
      * Register additional Prime commands with the application.
      * 
      * @param  array  $commands 
-     * @return static
+     * @return $this
      */
     public function assignCommands(array $commands = []): static 
     {
@@ -273,7 +287,7 @@ class ApplicationBootstrap
      * Register additional Prime route paths.
      * 
      * @param  array  $paths 
-     * @return static
+     * @return $this
      */
     protected function assingCommandRouting(array $paths): static
     {
@@ -322,7 +336,7 @@ class ApplicationBootstrap
      * Register a callback to be invoked when the application's service providers are registered.
      *
      * @param  callable  $callback 
-     * @return static
+     * @return $this
      */
     public function registered(callable $callback): static
     {
@@ -335,7 +349,7 @@ class ApplicationBootstrap
      * Register a callback to be invoked when the application is "booting".
      * 
      * @param  callable  $callback 
-     * @return static
+     * @return $this
      */
     public function booting(callable $callback): static
     {
@@ -348,7 +362,7 @@ class ApplicationBootstrap
      * Register a callback to be invoked when the application is "booted".
      * 
      * @param  callable  $callback 
-     * @return static
+     * @return $this
      */
     public function booted(callable $callback): static
     {

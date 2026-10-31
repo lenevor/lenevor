@@ -35,7 +35,7 @@ class User extends Authentication
     /**
      * The attributes that are mass assignable.
      * 
-     * @var string[] $fillable
+     * @var array<int, string> $fillable
      */
     protected $fillable = [
         'name',
@@ -46,7 +46,7 @@ class User extends Authentication
     /**
      * The attributes that should be hidden for arrays.
      * 
-     * @var array $hidden
+     * @var array<int, string> $hidden
      */
     protected $hidden = [
         'password',
