@@ -3,6 +3,7 @@
 use Syscodes\Components\Core\Application;
 use Syscodes\Components\Core\Configuration\ExceptionBootstrap;
 use Syscodes\Components\Core\Configuration\MiddlewareBootstrap;
+use Syscodes\Components\Http\Request;
 
 return Application::configure(basePath: dirname(__DIR__))
     /*
@@ -20,9 +21,11 @@ return Application::configure(basePath: dirname(__DIR__))
         web: __DIR__.'/../routes/web.php',
         commands: __DIR__.'/../routes/console.php',
     )
-    ->assignMiddlewares(function (MiddlewareBootstrap $middleware) {
+    ->assignMiddleware(function (MiddlewareBootstrap $middleware): void {
         //
     })
-    ->assignExceptions(function (ExceptionBootstrap $exceptions) {
-        //
+    ->assignExceptions(function (ExceptionBootstrap $exceptions): void {
+        $exceptions->shouldRenderJsonWhen(
+            fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
+        );
     })->create(); // Return the application
