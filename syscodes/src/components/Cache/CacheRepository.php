@@ -418,10 +418,12 @@ class CacheRepository implements ArrayAccess, Repository
      * Remove a specific item from the cache store.
      * 
      * @param  \UnitEnum|string  $key 
-     * @return mixed
+     * @return bool
      */
     public function delete($key): bool
     {
+        $key = enum_value($key);
+        
         return $this->store->delete($this->itemKey($key));
     }
 
