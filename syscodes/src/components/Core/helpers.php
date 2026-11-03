@@ -57,7 +57,7 @@ if ( ! function_exists('abort')) {
      * @param  array  $headers 
      * @return void
      *
-     * @throws \Syscodes\Components\Core\Http\Exceptions\HttpException
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
      * @throws \Syscodes\Components\Core\Http\Exceptions\LenevorException
      */
     function abort(int $code, string $message = '', array $headers = [])
@@ -79,7 +79,7 @@ if ( ! function_exists('about_if')) {
      * @param  array  $headers 
      * @return void
      * 
-     * @throws \Syscodes\Components\Core\Http\Exceptions\HttpException
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
      * @throws \Syscodes\Components\Core\Http\Exceptions\LenevorException
      */
     function about_if($boolean, int $code, string $message = '', array $headers = []): void
@@ -100,7 +100,7 @@ if ( ! function_exists('abort_unless')) {
      * @param  array  $headers 
      * @return void
      * 
-     * @throws \Syscodes\Components\Core\Http\Exceptions\HttpException
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
      * @throws \Syscodes\Components\Core\Http\Exceptions\LenevorException
      */
     function abort_unless($boolean, int $code, string $message = '', array $headers = []): void
@@ -248,31 +248,30 @@ if ( ! function_exists('cache')) {
      *
      * If an array is passed, we'll assume you want to put to the cache.
      * 
-     * @return mixed|\Syscodes\Components\Cache\CacheManager
+     * @return ($key is null ? \Syscodes\Components\Cache\CacheManager : ($key is string ? mixed : bool))
      *
-     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
-    function cache()
+    function cache($key = null, $default = null)
     {
-        $arguments = func_get_args();
-        
-        if (empty($arguments)) {
-            return app('cache');
+        /** @var \Syscodes\Components\Cache\CacheRepository */
+        $cache = app('cache');
+
+        if (is_null($key)) {
+            return $cache;
+        }
+
+        if (is_string($key)) {
+            return $cache->get($key, $default);
+        }
+
+        if (! is_array($key)) {
+            throw new InvalidArgumentException(
+                'When setting a value in the cache, you must pass an array of key / value pairs.'
+            );
         }
         
-        if (is_string($arguments[0])) {
-            return app('cache')->get(...$arguments);
-        }
-        
-        if ( ! is_array($arguments[0])) {
-            throw new Exception('When setting a value in the cache, you must pass an array of key / value pairs.');
-        }
-        
-        if ( ! isset($arguments[1])) {
-            throw new Exception('You must specify an expiration time when setting a value in the cache.');
-        }
-        
-        return app('cache')->put(key($arguments[0]), reset($arguments[0]), $arguments[1]);
+        return $cache->put(key($key), array_first($key), ttl: $default);
     }
 }
 
@@ -284,7 +283,7 @@ if ( ! function_exists('config')) {
      *
      * @param  array|string  $key  
      * @param  mixed  $value
-     * @return \Syscodes\Components\Config\Configure
+     * @return ($key is null ? \Syscodes\Components\Config\Configure : ($key is string ? mixed : null))
      */
     function config($key = null, $value = null)
     {
@@ -505,62 +504,6 @@ if ( ! function_exists('is_cli')) {
     function is_cli(): bool
     {
         return (\PHP_SAPI === 'cli' || defined('STDIN') || \PHP_SAPI === 'phpdbg');
-    }
-}
-
-if ( ! function_exists('isGetCommonPath')) {
-    /**
-     * Find the common "root" path of two given paths or FQFN's.
-     * 
-     * @param  array  $paths  Array with the paths to compare 
-     * @return string  The determined common path section
-     */
-    function isGetCommonPath($paths): string
-    {
-        $lastOffset = 1;
-        $common = '/';
-        
-        while (($index = strpos($paths[0], '/', $lastOffset)) !== false) {
-            $dirLen = $index - $lastOffset + 1; // include
-            $dir = substr($paths[0], $lastOffset, $dirLen);
-            
-            foreach ($paths as $path) {
-                if (substr($path, $lastOffset, $dirLen) != $dir) {
-                    return $common;
-                }
-            }
-            
-            $common .= $dir;
-            $lastOffset = $index + 1;
-        }
-        
-        return $common;
-    }
-}
-
-if ( ! function_exists('isImport')) {
-    /**
-     * Loads in a core class and optionally an app class override if it exists.
-     * 
-     * @param  string  $path
-     * @param  string  $folder 
-     * @return void
-     */
-    function isImport($path, $folder = 'classes'): void
-    {
-        $path = str_replace('/', DIRECTORY_SEPARATOR, $path);
-        
-        // load it ffrom the core if it exists
-        if (is_file(SYS_PATH.$folder.DIRECTORY_SEPARATOR.$path.'.php')) {
-            require_once SYS_PATH.$folder.DIRECTORY_SEPARATOR.$path.'.php';
-        }
-        
-        // if the app has an override (or a non-core file), load that too
-        if (is_file(APP_PATH.$folder.DIRECTORY_SEPARATOR.$path.'.php')) {
-            require_once APP_PATH.$folder.DIRECTORY_SEPARATOR.$path.'.php';
-        }
-
-        require_once __DIR__.DIRECTORY_SEPARATOR.$folder.'/'.$path.'.php';
     }
 }
 
