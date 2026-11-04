@@ -335,6 +335,20 @@ interface Application extends Container, CacheEvents, CacheRoutes, CachesConfigu
     public function booted($callback): void;
 
     /**
+     * Get an instance of the maintenance mode manager implementation.
+     *
+     * @return \Syscodes\Components\Contracts\Core\MaintenanceMode
+     */
+    public function maintenanceMode();
+
+    /**
+     * Determine if the application is currently down for maintenance.
+     *
+     * @return bool
+     */
+    public function isDownForMaintenance();
+
+    /**
      * Get the current application locale.
      * 
      * @return string
