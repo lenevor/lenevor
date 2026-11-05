@@ -28,16 +28,20 @@ use Syscodes\Components\Cookie\CookieValue;
 use Syscodes\Components\Contracts\Core\Application;
 use Syscodes\Components\Contracts\Encryption\Encrypter;
 use Syscodes\Components\Cookie\Middleware\EncryptCookies;
+use Syscodes\Components\Core\Http\Middleware\Concerns\ExcludesPaths;
 use Syscodes\Components\Encryption\Exceptions\DecryptException;
+use Syscodes\Components\Http\Exceptions\OriginMismatchException;
 use Syscodes\Components\Session\Exceptions\TokenMismatchException;
 use Syscodes\Components\Support\InteractsWithTime;
+use Syscodes\Components\Support\Arr;
 
 /**
  * Checks if exists a the CSRF token in the cookie.
  */
 class PreventRequestForgery
 {
-    use InteractsWithTime;
+    use ExcludesPaths,
+        InteractsWithTime;
 
     /**
      * Indicates whether the XSRF-TOKEN cookie should be set on the response.
@@ -63,9 +67,30 @@ class PreventRequestForgery
     /**
      * The URIs that should be excluded from CSRF verification.
      * 
-     * @var array
+     * @var array<int, string>
      */
     protected $except = [];
+
+    /**
+     * Indicates whether requests from the same site should be allowed.
+     *
+     * @var bool
+     */
+    protected static $allowSameSite = false;
+
+    /**
+     * The globally ignored URIs that should be excluded from CSRF verification.
+     *
+     * @var array
+     */
+    protected static $neverVerify = [];
+
+    /**
+     * Indicates whether only origin verification should be used.
+     *
+     * @var bool
+     */
+    protected static $originOnly = false;
 
     /**
      * Constructor. Create a new PreventRequestForgery class instance.
@@ -92,6 +117,7 @@ class PreventRequestForgery
         if ($this->isReading($request) ||
             $this->runningUnitTests() ||
             $this->inExceptArray($request) ||
+            $this->hasValidOrigin($request) ||
             $this->tokensMatch($request)) {
             return take($next($request), function ($response) use ($request) {
                 if ($this->addXsrfTokenCookie()) {
@@ -123,27 +149,33 @@ class PreventRequestForgery
     {
         return $this->app->runningInConsole() && $this->app->isUnitTests();
     }
-    
+
     /**
-     * Determine if the request has a URI that should pass through CSRF verification.
-     * 
-     * @param  \Syscodes\Components\Http\Request  $request 
+     * Determine if the request has a valid origin based on the Sec-Fetch-Site header.
+     *
+     * @param  \Syscodes\Components\Http\Request  $request
      * @return bool
+     *
+     * @throws \Syscodes\Components\Http\Exceptions\OriginMismatchException
      */
-    protected function inExceptArray($request): bool
+    protected function hasValidOrigin($request)
     {
-        foreach ($this->except as $except) {
-            if ($except !== '/') {
-                $except = trim($except, '/');
-            }
-            
-            if ($request->is($except)) {
-                return true;
-            }
+        $secFetchSite = $request->header('Sec-Fetch-Site');
+
+        if ($secFetchSite === 'same-origin') {
+            return true;
         }
-        
+
+        if ($secFetchSite === 'same-site' && static::$allowSameSite) {
+            return true;
+        }
+
+        if (static::$originOnly) {
+            throw new OriginMismatchException('Origin mismatch.');
+        }
+
         return false;
-    }
+    }    
     
     /**
      * Determine if the session and input CSRF tokens match.
@@ -156,8 +188,8 @@ class PreventRequestForgery
         $token = $this->getTokenFromRequest($request);
         
         return is_string($request->session()->token()) &&
-               is_string($token) &&
-               hash_equals($request->session()->token(), $token);
+            is_string($token) &&
+            hash_equals($request->session()->token(), $token);
     }
     
     /**
@@ -188,6 +220,10 @@ class PreventRequestForgery
      */
     public function addXsrfTokenCookie(): bool
     {
+        if (static::$originOnly) {
+            return false;
+        }
+
         return $this->addHttpCookie;
     }
     
@@ -230,6 +266,51 @@ class PreventRequestForgery
         );
     }
 
+     /**
+     * Indicate that the given URIs should be excluded from CSRF verification.
+     *
+     * @param  array|string  $uris
+     * @return void
+     */
+    public static function except($uris)
+    {
+        static::$neverVerify = array_values(array_unique(
+            array_merge(static::$neverVerify, Arr::wrap($uris))
+        ));
+    }
+
+    /**
+     * Indicate that requests from the same site should be allowed.
+     *
+     * @param  bool  $allow
+     * @return void
+     */
+    public static function allowSameSite($allow = true): void
+    {
+        static::$allowSameSite = $allow;
+    }
+
+    /**
+     * Indicate that only origin verification should be used.
+     *
+     * @param  bool  $originOnly
+     * @return void
+     */
+    public static function useOriginOnly($originOnly = true): void
+    {
+        static::$originOnly = $originOnly;
+    }
+
+    /**
+     * Get the URIs that should be excluded.
+     *
+     * @return array
+     */
+    public function getExcludedPaths(): array
+    {
+        return array_merge($this->except, static::$neverVerify);
+    }
+
     /**
      * Determine if the cookie contents should be serialized.
      *
@@ -238,5 +319,17 @@ class PreventRequestForgery
     public static function serialized(): bool
     {
         return EncryptCookies::serialized('XSRF-TOKEN');
+    }
+
+    /**
+     * Flush the state of the middleware.
+     *
+     * @return void
+     */
+    public static function flushState(): void
+    {
+        static::$neverVerify = [];
+        static::$allowSameSite = false;
+        static::$originOnly = false;
     }
 }
