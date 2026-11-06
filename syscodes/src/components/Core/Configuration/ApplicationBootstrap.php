@@ -27,6 +27,8 @@ use Syscodes\Components\Contracts\Console\Kernel as ConsoleKernel;
 use Syscodes\Components\Contracts\Http\Kernel as HttpKernel;
 use Syscodes\Components\Core\Application;
 use Syscodes\Components\Core\Bootstrap\BootRegisterProviders;
+use Syscodes\Components\Core\Http\HealthCheck;
+use Syscodes\Components\Core\Http\Middleware\PreventRequestsMaintenance;
 use Syscodes\Components\Core\Support\Providers\EventServiceProvider as AppEventServiceProvider;
 use Syscodes\Components\Core\Support\Providers\RouteServiceProvider as AppRouteServiceProvider;
 use Syscodes\Components\Support\Collection;
@@ -118,22 +120,27 @@ class ApplicationBootstrap
         ?string $web = null,
         ?string $api = null,
         ?string $commands = null,
+        ?string $health = null,
         string $apiPrefix = 'api',
         ?callable $then = null
     ): static {
-        if (is_null($using) && (is_string($web) || is_string($api) || is_callable($then))) {
-            $using = $this->makeRoutingCallback($web, $api, $apiPrefix, $then);
+        if (is_null($using) && (is_string($web) || is_string($api) || is_string($health) || is_callable($then))) {
+            $using = $this->makeRoutingCallback($web, $api, $health, $apiPrefix, $then);
+        }
+        
+        if (is_string($health)) {
+            PreventRequestsMaintenance::except($health);
         }
         
         AppRouteServiceProvider::loadRoutesUsing($using);
+
+        $this->app->booting(function () {
+            $this->app->register(AppRouteServiceProvider::class, force: true);
+        });
         
         if (is_string($commands) && realpath($commands) !== false) {
             $this->assignCommands([$commands]);
         }
-        
-        $this->app->booting(function () {
-            $this->app->register(AppRouteServiceProvider::class, force: true);
-        });
         
         return $this;
     }
@@ -150,10 +157,11 @@ class ApplicationBootstrap
     protected function makeRoutingCallback(
         array|string|null $web,
         array|string|null $api,
+        ?string $health,
         string $apiPrefix,
         ?callable $then
     ) {
-        return function () use ($web, $api, $apiPrefix, $then) {
+        return function () use ($web, $api, $health, $apiPrefix, $then) {
             if (is_string($api) || is_array($api)) {
                 if (is_array($api)) {
                     foreach ($api as $apiRoute) {
@@ -164,6 +172,10 @@ class ApplicationBootstrap
                 } else {
                     Route::middleware('api')->prefix($apiPrefix)->group($api);
                 }
+            }
+
+            if (is_string($health)) {
+                Route::get($health, HealthCheck::class);
             }
             
             if (is_string($web) || is_array($web)) {
@@ -238,7 +250,7 @@ class ApplicationBootstrap
                 $callback($middleware);
             }
             
-            // $this->pageMiddleware = $middleware->getPageMiddleware();
+            $this->pageMiddleware = $middleware->getPageMiddleware();
             $kernel->setGlobalMiddleware($middleware->getGlobalMiddleware());
             $kernel->setMiddlewareGroups($middleware->getMiddlewareGroups());
             $kernel->setMiddlewareAliases($middleware->getMiddlewareAliases());
