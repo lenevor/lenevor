@@ -22,11 +22,13 @@
 
 namespace Syscodes\Components\Core\Providers;
 
+use Syscodes\Components\Contracts\Core\MaintenanceMode as MaintenanceModeContract;
 use Syscodes\Components\Core\Precognition;
 use Syscodes\Components\Http\Request;
 use Syscodes\Components\Support\AggregateServiceProvider;
 use Syscodes\Components\Support\Facades\URL;
 use Syscodes\Components\Validation\Exceptions\ValidationException;
+use Syscodes\Components\Core\Maintenance\MaintenanceModeManager;
 
 /**
  * Allows is register aggregate service providers use to core system.
@@ -53,6 +55,7 @@ class CoreServiceProvider extends AggregateServiceProvider
         
         $this->registerRequestValidation();
         $this->registerRequestSignatureValidation();
+        $this->registerMaintenanceModeManager();
     }
 
      /**
@@ -108,5 +111,20 @@ class CoreServiceProvider extends AggregateServiceProvider
         Request::macro('hasValidRelativeSignatureWhileIgnoring', function ($ignoreQuery = []) {
             return URL::hasValidSignature($this, $absolute = false, $ignoreQuery);
         });
+    }
+
+    /**
+     * Register the maintenance mode manager service.
+     *
+     * @return void
+     */
+    public function registerMaintenanceModeManager()
+    {
+        $this->app->singleton(MaintenanceModeManager::class);
+
+        $this->app->bind(
+            MaintenanceModeContract::class,
+            fn () => $this->app->make(MaintenanceModeManager::class)->driver()
+        );
     }
 }
