@@ -26,6 +26,8 @@ use Syscodes\Components\Auth\Exceptions\AuthenticationException;
 use Syscodes\Components\Auth\Middleware\Authenticate;
 use Syscodes\Components\Auth\Middleware\RedirectIfAuthenticated;
 use Syscodes\Components\Cookie\Middleware\EncryptCookies;
+use Syscodes\Components\Core\Http\Middleware\PreventRequestForgery;
+use Syscodes\Components\Core\Http\Middleware\PreventRequestsMaintenance;
 use Syscodes\Components\Session\Middleware\AuthenticateSession;
 use Syscodes\Components\Support\Arr;
 
@@ -68,6 +70,13 @@ class MiddlewareBootstrap
      * @var array
      */
     protected $global = [];
+
+    /**
+     * Page middleware for the application.
+     *
+     * @var array
+     */
+    protected $pageMiddleware = [];
     
     /**
      * The middleware that should be prepended to the global middleware stack.
@@ -178,6 +187,19 @@ class MiddlewareBootstrap
         
         return $this;
     }
+
+    /**
+     * Register the page middleware for the application.
+     *
+     * @param  array  $middleware
+     * @return $this
+     */
+    public function pages(array $middleware): static
+    {
+        $this->pageMiddleware = $middleware;
+
+        return $this;
+    }
     
     /**
      * Register additional middleware aliases.
@@ -214,13 +236,12 @@ class MiddlewareBootstrap
     {
         $middleware =  $this->global ?: array_values(array_filter([
             \Syscodes\Components\Http\Middleware\ValidatePathEncoding::class,
+            \Syscodes\Components\Core\Http\Middleware\PreventRequestsMaintenance::class,
             \Syscodes\Components\Core\Http\Middleware\ValidatePostSize::class,
         ]));
         
         $middleware = array_map(function ($middleware) {
-            return isset($this->replacements[$middleware])
-                ? $this->replacements[$middleware]
-                : $middleware;
+            return $this->replacements[$middleware] ?? $middleware;
         }, $middleware);
         
         return array_values(array_filter(
@@ -337,6 +358,26 @@ class MiddlewareBootstrap
         
         return $this;
     }
+
+    /**
+     * Configure the request forgery prevention middleware.
+     *
+     * @param  array  $except
+     * @param  bool  $originOnly
+     * @param  bool  $allowSameSite
+     * @return $this
+     */
+    public function preventRequestForgery(array $except = [], bool $originOnly = false, bool $allowSameSite = false): static
+    {
+        if ( ! empty($except)) {
+            PreventRequestForgery::except($except);
+        }
+
+        PreventRequestForgery::useOriginOnly($originOnly);
+        PreventRequestForgery::allowSameSite($allowSameSite);
+
+        return $this;
+    }
     
     /**
      * Indicate that the API middleware group's throttling middleware should be enabled.
@@ -349,6 +390,29 @@ class MiddlewareBootstrap
         $this->apiLimiter = $limiter;
         
         return $this;
+    }
+
+    /**
+     * Configure the middleware that prevents requests maintenance mode.
+     *
+     * @param  array<int, string>  $except
+     * @return $this
+     */
+    public function preventRequestsMaintenance(array $except = []): static
+    {
+        PreventRequestsMaintenance::except($except);
+
+        return $this;
+    }
+
+    /**
+     * Get the Folio / page middleware for the application.
+     *
+     * @return array
+     */
+    public function getPageMiddleware()
+    {
+        return $this->pageMiddleware;
     }
     
     /**
@@ -365,6 +429,7 @@ class MiddlewareBootstrap
             'can' => \Syscodes\Components\Auth\Middleware\Authorize::class,
             'guest' => \Syscodes\Components\Auth\Middleware\RedirectIfAuthenticated::class,
             'password.confirm' => \Syscodes\Components\Auth\Middleware\RequirePassword::class,
+            'precognitive' => \Syscodes\Components\Core\Http\Middleware\HandlePrecognitiveRequests::class,
             'signed' => \Syscodes\Components\Routing\Middleware\ValidateSignature::class,
             'throttle' => \Syscodes\Components\Routing\Middleware\ThrottleRequests::class,
         ];
