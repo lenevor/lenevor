@@ -30,9 +30,10 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Syscodes\Components\Container\Container;
-use Syscodes\Components\Contracts\Http\Kernel as KernelContract;
 use Syscodes\Components\Contracts\Console\Kernel as KernelCommandContract;
 use Syscodes\Components\Contracts\Core\Application as ApplicationContract;
+use Syscodes\Components\Contracts\Core\MaintenanceMode as MaintenanceModeContract;
+use Syscodes\Components\Contracts\Http\Kernel as KernelContract;
 use Syscodes\Components\Events\EventServiceProvider;
 use Syscodes\Components\Filesystem\Filesystem;
 use Syscodes\Components\Http\Request;
@@ -1371,6 +1372,26 @@ class Application extends Container implements ApplicationContract
         $Kernel->finalize($input, $status); // Finalize application
         
         return $status;
+    }
+
+    /**
+     * Get an instance of the maintenance mode manager implementation.
+     *
+     * @return \Syscodes\Components\Contracts\Core\MaintenanceMode
+     */
+    public function maintenanceMode()
+    {
+        return $this->make(MaintenanceModeContract::class);
+    }
+
+    /**
+     * Determine if the application is currently down for maintenance.
+     *
+     * @return bool
+     */
+    public function isDownForMaintenance()
+    {
+        return $this->maintenanceMode()->active();
     }
 
     /**
