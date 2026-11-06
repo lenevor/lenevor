@@ -86,6 +86,7 @@ class Kernel implements KernelContract
 	 * @var string[]
 	 */
 	protected $middlewarePriority = [
+		\Syscodes\Components\Core\Http\Middleware\HandlePrecognitiveRequests::class,
 		\Syscodes\Components\Cookie\Middleware\EncryptCookies::class,
 		\Syscodes\Components\Cookie\Middleware\AddQueuedCookiesResponse::class,
 		\Syscodes\Components\Session\Middleware\StartSession::class,
