@@ -29,7 +29,7 @@ use Syscodes\Components\Support\Chronos\Traits\Date;
  * A simple API extension for DateTime.
  * 
  * @method object|void now(string $timezone = null)
- * @method parse(string $time, string $timezone = null)
+ * @method object|void parse(string $time, string $timezone = null)
  * @method today(string $timezone = null)
  * @method yesterday(string $timezone = null)
  * @method tomorrow(string $timezone = null)
