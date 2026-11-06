@@ -31,6 +31,7 @@ use Syscodes\Components\Core\Console\Commands\ConfigMakeCommand;
 use Syscodes\Components\Core\Console\Commands\ConfigCacheCommand;
 use Syscodes\Components\Core\Console\Commands\ConfigClearCommand;
 use Syscodes\Components\Core\Console\Commands\ConsoleMakeCommand;
+use Syscodes\Components\Core\Console\Commands\DownCommand;
 use Syscodes\Components\Core\Console\Commands\EnvironmentCommand;
 use Syscodes\Components\Core\Console\Commands\EventMakeCommand;
 use Syscodes\Components\Core\Console\Commands\ExceptionMakeCommand;
@@ -42,6 +43,7 @@ use Syscodes\Components\Core\Console\Commands\ResourceMakeCommand;
 use Syscodes\Components\Core\Console\Commands\ServeCommand;
 use Syscodes\Components\Core\Console\Commands\ServiceMakeCommand;
 use Syscodes\Components\Core\Console\Commands\TraitMakeCommand;
+use Syscodes\Components\Core\Console\Commands\UpCommand;
 use Syscodes\Components\Core\Console\Commands\VendorPublishCommand;
 use Syscodes\Components\Core\Console\Commands\ViewClearCommand;
 use Syscodes\Components\Core\Console\Commands\ViewMakeCommand;
@@ -69,9 +71,11 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
         'ConfigCache' => ConfigCacheCommand::class,
         'ConfigClear' => ConfigClearCommand::class,
         'DbWipe' => WipeCommand::class,
+        'Down' => DownCommand::class,
         'Environment' => EnvironmentCommand::class,
         'KeyGenerate' => KeyGenerateCommand::class,
         'Seed' => SeedCommand::class,
+        'Up' => UpCommand::class,
         'ViewClear' => ViewClearCommand::class,
     ];
 
@@ -241,6 +245,18 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
             return new ExceptionMakeCommand($app['files']);
         });
     }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerDownCommand()
+    {
+        $this->app->singleton(DownCommand::class, function () {
+            return new DownCommand;
+        });
+    }
     
     /**
      * Register the command.
@@ -357,6 +373,18 @@ class PrimeServiceProvider extends ServiceProvider implements Deferrable
     {
         $this->app->singleton(TraitMakeCommand::class, function ($app) {
             return new TraitMakeCommand($app['files']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerUpCommand()
+    {
+        $this->app->singleton(UpCommand::class, function () {
+            return new UpCommand;
         });
     }
     
