@@ -33,6 +33,23 @@ Release Date: Nov 08, 2026
 - [0.9.x] Added new methods for specify a middleware the given route
 - Added new variables: $incrementing and $guarded in `Erostrine/Relations/Pivot` class
 - [0.9.x] Added new file of language reference to auth
+- [0.9.x] Added new method for get the name of the password attribute in `Auth\Concerns\Autenticatable` trait
+- [0.9.x] Added new method for get the value and route key in a model
+- [0.9.x] Added new interface for allows the parametrized rule name
+- [0.9.x] Added new class for get format a given number
+- [0.9.x] Added new class for allows specify a synthetic DNS record
+- [0.9.x] Added new trait for allows the formats parameters for validation
+- [0.9.x] Added new method for get the name of password attribute
+- [0.9.x] Added new trait for get the class names / types of the parameters
+- [0.9.x] Added new methods for register the callable that determines exception in `Configuration\ExceptionBootstrap` class
+- [0.9.x] Added methods for the container bindings
+- [0.9.x] Added new methods for get Closure/class@method with dependencies in `Container\CallBoundMethod` class
+- Added new method for get the path to cached packages.php file
+- [0.9.x] Added conditional for deleted $packcagesPath file in `ClearCompiledCommand` class
+- [0.9.x] Added new parameter for health check
+- [0.9.x] Added new methods for maintenance mode in `Application` class
+- [0.9.x] Added method for register the maintenance mode manager
+- [0.9.x] Added the commands: UpCommand and DownCommand in `PrimeServiceProvider` class
 
 ### Changed
 - [0.9.x] Changed the method logout() by logoutCurrentDevice() in `Middleware\AuthenticationSession` class
@@ -45,10 +62,7 @@ Release Date: Nov 08, 2026
 - Update release 0.9.1 to 0.9.2
 
 ### Removed
-
-### Fixed
-
-
+- Removed the variable $dontFlash in `FormRequest` class
 
 
 ## [Version 0.9.1-alpha.9]
