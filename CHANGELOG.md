@@ -1,5 +1,56 @@
 # Release Notes
 
+## [Version 0.9.2-alpha.9]
+
+Release Date: Nov 08, 2026
+
+**Next alpha release of Lenevor**
+
+### Added
+- [0.9.x] Added methods for get a specified number of random and shuffle the given array in `Arr` class
+- Added the Macroable trait in the `RateLimiter` class
+- [0.9.x] Added methods for get the binding fields for the route
+- [0.9.x] Added new method for register the callable dispatcher in `Router` class
+- [0.9.x] Added new methods for get the value of the action a missing model
+- [0.9.x] Added new method for substitute the route bindings in `Routable` interface
+- [0.9.x] Added new methods for get the binding in `Router` class
+- [0.9.x] Added new class for allows create a route model binding
+- Added new key for options SubstituteBinding middleware in te groups web and api
+- [0.9.x] Created a new service class from the console
+- Added new method for register a service make command
+- Added new alias that calls the Filesystem interface
+- [0.9.x] Added new class for awaiting singleton resource registration
+- [0.9.x] Added new methods route of singleton and API singleton
+- [0.9.x] Added new class of use policy attribute
+- [0.9.x] Added new methods of deny with a HTTP status code
+- Added new method for register a new callback based request guard
+- [0.9.x] Added new class of the authorize attribute
+- [0.9.x] Added new class of the without middleware attribute
+- Added new static method for create a collection with the given range
+- Added new static method for create a new collection with a given amount of times
+- [0.9.x] Added methods for return a timestamp in `Erostrine\Concerns\HasAttributes` trait
+- [0.9.x] Added new methods for indicates: where, shallow, missing and scoped in `Routing/Resources/AwaitingResourceRegistration` class
+- [0.9.x] Added new methods for specify a middleware the given route
+- Added new variables: $incrementing and $guarded in `Erostrine/Relations/Pivot` class
+- [0.9.x] Added new file of language reference to auth
+
+### Changed
+- [0.9.x] Changed the method logout() by logoutCurrentDevice() in `Middleware\AuthenticationSession` class
+
+### Created
+- [0.9.x] Created new class for the encoded parameter
+- [0.9.x] Created the template of service class
+
+### Updated
+- Update release 0.9.1 to 0.9.2
+
+### Removed
+
+### Fixed
+
+
+
+
 ## [Version 0.9.1-alpha.9]
 
 Release Date: Sep 18, 2026
