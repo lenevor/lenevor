@@ -55,6 +55,7 @@ trait Enumerates
      */
     protected static $proxies = [
         'contains',
+        'every',
         'filter',
         'first',
         'flatMap',
@@ -199,6 +200,32 @@ trait Enumerates
         
         return $this;
     }
+
+    /**
+     * Determine if all items pass the given truth test.
+     *
+     * @param  callable|string  $key
+     * @param  mixed  $operator
+     * @param  mixed  $value
+     * @return bool
+     */
+    public function every($key, $operator = null, $value = null): bool
+    {
+        if (func_num_args() === 1) {
+            $callback = $this->valueRetriever($key);
+
+            foreach ($this as $k => $v) {
+                if ( ! $callback($v, $k)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        return $this->every($this->operatorCallback(...func_get_args()));
+    }
+
     
     /**
      * Map a collection and flatten the result by a single level.
