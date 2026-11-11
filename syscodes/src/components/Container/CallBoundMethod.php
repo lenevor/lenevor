@@ -123,7 +123,7 @@ class CallBoundMethod
      * @param  callable  $callback
      * @return string
      */
-    protected static function normalizeMethod($callback): string
+    protected static function normalizeMethod($callback)
     {
         $class = is_string($callback[0]) ? $callback[0] : get_class($callback[0]);
 

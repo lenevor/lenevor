@@ -472,7 +472,7 @@ class Connection implements ConnectionInterface
      * @param  array  $bindings 
      * @return bool
      */
-    public function statement($query, $bindings = []): bool
+    public function statement($query, $bindings = [])
     {
         return $this->run($query, $bindings, function ($query, $bindings) {
             if ($this->pretending()) {
@@ -485,7 +485,7 @@ class Connection implements ConnectionInterface
 
             $this->recordsHaveBeenModified();
 
-            return $statement->execute($bindings);
+            return $statement->execute();
         });
     }
 
@@ -596,7 +596,7 @@ class Connection implements ConnectionInterface
      * 
      * @throws \Syscodes\Components\Database\Exceptions\QueryException
      */
-    protected function run($query, $bindings, Closure $callback): mixed
+    protected function run($query, $bindings, Closure $callback)
     {
         $this->reconnectIfMissingConnection();
 
@@ -627,7 +627,7 @@ class Connection implements ConnectionInterface
      * 
      * @throws \Syscodes\Components\Database\Exceptions\QueryException
      */
-    protected function runQueryCallback($query, $bindings, Closure $callback): mixed
+    protected function runQueryCallback($query, $bindings, Closure $callback)
     {
         try {
             return $callback($query, $bindings);

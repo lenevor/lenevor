@@ -106,7 +106,7 @@ interface ConnectionInterface
      * @param  array  $bindings 
      * @return bool
      */
-    public function statement(string $query, array $bindings = []): bool;
+    public function statement(string $query, array $bindings = []);
 
     /**
      * Prepare the query bindings for execution.
