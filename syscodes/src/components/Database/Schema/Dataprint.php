@@ -272,7 +272,8 @@ class Dataprint
      */
     public function creating(): bool
     {
-        return collect($this->commands)->contains(fn ($command) => $command->name === 'create');
+        return (new collection($this->commands))
+            ->contains(fn ($command) => ! $command instanceof ColumnDefinition &&  $command->name === 'create');
     }
     
     /**
@@ -1278,7 +1279,7 @@ class Dataprint
      */
     protected function addColumn($type, $name, array $parameters = [])
     {
-        $attributes = array_merge(compact('type', 'name'), $parameters);
+        $attributes = array_merge(['type' => $type, 'name' => $name], $parameters);
         
         return $this->addColumnDefinition(new ColumnDefinition($attributes));
     }
@@ -1292,6 +1293,10 @@ class Dataprint
     protected function addColumnDefinition($definition)
     {
         $this->columns[] = $definition;
+
+        if ( ! $this->creating()) {
+            $this->commands[] = $definition;
+        }
         
         if ($this->after) {
             $definition->after($this->after);
@@ -1300,6 +1305,22 @@ class Dataprint
         }
         
         return $definition;
+    }
+
+    /**
+     * Add the columns from the callback after the given column.
+     *
+     * @param  string  $column
+     * @param  (\Closure(self): void)  $callback
+     * @return void
+     */
+    public function after($column, Closure $callback)
+    {
+        $this->after = $column;
+
+        $callback($this);
+
+        $this->after = null;
     }
     
     /**
