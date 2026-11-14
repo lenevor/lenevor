@@ -154,7 +154,9 @@ class SessionManager extends Manager
      */
     protected function createRedisDriver()
     {
-        $store = $this->createCacheHandler('redis');
+        $handler = $this->createCacheHandler('redis');
+
+        $store = $handler->getCache()->getStore();
 
         $store->getCache()->getStore()->setConnection(
             $this->config->get('session.connection')
@@ -201,11 +203,11 @@ class SessionManager extends Manager
         return $this->config->get('session.encrypt')
             ? $this->buildEncryptedSession($handler)
             : new Store(
-            $this->config->get('session.cookie'),
-            $handler,
-            $id = null,
-            $this->config->get('session.serialization', 'php')
-        );
+                $this->config->get('session.cookie'),
+                $handler,
+                $id = null,
+                $this->config->get('session.serialization', 'php')
+            );
     }
 
     /**
