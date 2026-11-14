@@ -675,7 +675,7 @@ class Container implements ArrayAccess, ContainerContract
      * @param  bool $raiseEvents 
      * @return mixed
      */
-    protected function resolve($id, array $parameters = [], bool $raiseEvents = true)
+    protected function resolve($id, $parameters = [], $raiseEvents = true)
     {
         $id = $this->getAlias($id);
         
