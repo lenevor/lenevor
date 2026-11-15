@@ -846,7 +846,7 @@ class Application extends Container implements ApplicationContract
      * @param  array   $parameters 
      * @return mixed
      */
-    public function make($id, array $parameters = []): mixed
+    public function make($id, array $parameters = [])
     {
         $this->loadDeferredProviderInstance($id = $this->getAlias($id));
 
