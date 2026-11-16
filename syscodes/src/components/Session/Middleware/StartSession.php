@@ -38,6 +38,13 @@ use Syscodes\Components\Support\Facades\Date;
 class StartSession
 {
     /**
+     * The callback that can resolve an instance of the cache factory.
+     *
+     * @var callable|null
+     */
+    protected $cacheFactoryResolver;
+
+    /**
      * The session manager.
      * 
      * @var \Syscodes\Components\Session\SessionManager
@@ -47,12 +54,14 @@ class StartSession
     /**
      * Constrcutor. Create a new StartSession class instance.
      * 
-     * @param  \Syscodes\Components\Session\SessionManager  $manager 
+     * @param  \Syscodes\Components\Session\SessionManager  $manager
+     * @param  callable|null  $cacheFactoryResolver
      * @return void
      */
-    public function __construct(SessionManager $manager)
+    public function __construct(SessionManager $manager, ?callable $cacheFactoryResolver = null)
     {
-        $this->manager = $manager;        
+        $this->manager = $manager;
+        $this->cacheFactoryResolver = $cacheFactoryResolver;      
     }
 
     /**
@@ -94,8 +103,10 @@ class StartSession
      * @param  \Closure  $next 
      * @return mixed
      */
-    protected function handleStatefulRequest(Request $request, Session $session, Closure $next)
+    protected function handleStatefulRequest(Request $request, $session, Closure $next)
     {
+        // If a session driver has been configured, we will need to start the session here
+        // so that the data is ready for an application.
         $request->setLenevorSession(
             $this->startSession($request, $session)
         );
@@ -108,6 +119,8 @@ class StartSession
         
         $this->addCookieToResponse($response, $session);
         
+        // Again, if the session has been configured we will need to close out the session
+        // so that the attributes may be persisted to some storage medium.
         $this->saveSession($request);
         
         return $response;
@@ -149,6 +162,8 @@ class StartSession
     {
         $config = $this->manager->getSessionConfig();
 
+        // Here we will see if this request hits the garbage collection lottery by hitting
+        // the odds needed to perform garbage collection on any given request.
         if ($this->configHitsLottery($config)) {
             $session->getHandler()->gc($this->getSessionLifetimeInSeconds());
         }
@@ -197,20 +212,18 @@ class StartSession
     protected function addCookieToResponse(Response $response, Session $session): void
     {
         if ($this->sessionIsPersistent($config = $this->manager->getSessionConfig())) {
-            $response->headers->setCookie(
-                new Cookie(
-                    $session->getName(), 
-                    $session->getId(), 
-                    $this->getCookieExpirationDate(),
-                    $config['path'], 
-                    $config['domain'], 
-                    $config['secure'],
-                    $config['httpOnly'] ?? true, 
-                    false, 
-                    $config['sameSite'] ?? null,
-                    $config['partitioned'] ?? false
-                )
-            );
+            $response->headers->setCookie(new Cookie(
+                $session->getName(), 
+                $session->getId(), 
+                $this->getCookieExpirationDate(),
+                $config['path'], 
+                $config['domain'], 
+                $config['secure'],
+                $config['httpOnly'] ?? true, 
+                false, 
+                $config['sameSite'] ?? null,
+                $config['partitioned'] ?? false
+            ));
         }
     }
     
@@ -262,5 +275,16 @@ class StartSession
         $config = $config ?: $this->manager->getSessionConfig();
         
         return ! is_null($config['driver'] ?? null);
+    }
+
+    /**
+     * Resolve the given cache driver.
+     *
+     * @param  string|null  $driver
+     * @return \Syscodes\Components\Contracts\Cache\Repository
+     */
+    protected function cache($driver)
+    {
+        return call_user_func($this->cacheFactoryResolver)->driver($driver);
     }
 }
