@@ -23,6 +23,7 @@
 namespace Syscodes\Components\Session\Handlers;
 
 use SessionHandlerInterface;
+use Syscodes\Components\Contracts\Auth\Guard;
 use Syscodes\Components\Contracts\Container\Container;
 use Syscodes\Components\Contracts\Session\ExistenceAwareOfSession;
 use Syscodes\Components\Database\Connections\ConnectionInterface;
@@ -225,13 +226,52 @@ class DatabaseSessionHandler implements ExistenceAwareOfSession, SessionHandlerI
         return take($payload, function (&$payload) {
             // Pending calling the user ID using the auth system
 
-            if ($this->container->bound('request')) {
-                $payload = array_merge($payload, [
-                    'ip_address' => $this->ipAddress(),
-                    'user_agent' => $this->userAgent(),
-                ]);
-            }
+            $this->addUserInformation($payload)
+                ->addRequestInformation($payload);
         });
+    }
+
+    /**
+     * Add the user information to the session payload.
+     *
+     * @param  array  $payload
+     * @return $this
+     */
+    protected function addUserInformation(&$payload): static
+    {
+        if ($this->container->bound(Guard::class)) {
+            $payload['user_id'] = $this->userId();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get the currently authenticated user's ID.
+     *
+     * @return mixed
+     */
+    protected function userId()
+    {
+        return $this->container->make(Guard::class)->id();
+    }
+
+    /**
+     * Add the request information to the session payload.
+     *
+     * @param  array  $payload
+     * @return $this
+     */
+    protected function addRequestInformation(&$payload): static
+    {
+        if ($this->container->bound('request')) {
+            $payload = array_merge($payload, [
+                'ip_address' => $this->ipAddress(),
+                'user_agent' => $this->userAgent(),
+            ]);
+        }
+
+        return $this;
     }
 
     /**
@@ -285,7 +325,7 @@ class DatabaseSessionHandler implements ExistenceAwareOfSession, SessionHandlerI
      */
     protected function getQuery()
     {
-        return $this->connection->table($this->table);
+        return $this->connection->table($this->table)->useWritePdo();
     }
 
     /**
