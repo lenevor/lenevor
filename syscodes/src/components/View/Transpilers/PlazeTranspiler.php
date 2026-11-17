@@ -31,7 +31,8 @@ use Syscodes\Components\Support\Str;
  */
 class PlazeTranspiler extends Transpiler implements TranspilerInterface
 {
-    use Concerns\TranspilesConditionals,
+    use Concerns\TranspilesAuthorizations,
+        Concerns\TranspilesConditionals,
         Concerns\TranspilesComments,
         Concerns\TranspilesComponents,
         Concerns\TranspilesEchos,
